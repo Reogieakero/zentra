@@ -1,0 +1,1 @@
+export const NAV_LINKS = ["Discover", "Feature", "Resources", "Integration"];

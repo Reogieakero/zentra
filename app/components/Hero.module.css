@@ -1,0 +1,60 @@
+.section {
+  position: relative;
+  z-index: 10;
+}
+
+.dashboardWrapper {
+  position: relative;
+  margin-top: 2.5rem;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.dashboardInner {
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow:
+    0 30px 80px -10px rgba(124, 58, 237, 0.18),
+    0 8px 24px -4px rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.12);
+  position: relative;
+}
+
+.dashboardFade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 55%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(245, 243, 255, 0.55) 40%,
+    rgba(240, 237, 255, 0.85) 65%,
+    #f0edff 80%,
+    #f5f3ff 90%,
+    #ffffff 100%
+  );
+  pointer-events: none;
+}
+
+.zentraWord {
+  position: relative;
+  display: inline-block;
+}
+
+.zentraArc {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110%;
+  height: 28px;
+  pointer-events: none;
+  animation: arcShimmer 3s ease-in-out infinite;
+}
+
+@keyframes arcShimmer {
+  0%, 100% { opacity: 0.85; }
+  50%       { opacity: 1; }
+}
