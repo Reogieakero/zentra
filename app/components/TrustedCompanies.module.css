@@ -6,7 +6,7 @@
 .marqueeTrack {
   display: flex;
   width: max-content;
-  animation: scroll 25s linear infinite;
+  animation: scroll 30s linear infinite;
 }
 
 .marqueeTrack:hover {
@@ -29,6 +29,7 @@
   width: 8rem;
   background: linear-gradient(to right, #f5f3ff, transparent);
   z-index: 10;
+  pointer-events: none;
 }
 
 .fadeRight {
@@ -38,4 +39,5 @@
   width: 8rem;
   background: linear-gradient(to left, #ffffff, transparent);
   z-index: 10;
+  pointer-events: none;
 }
