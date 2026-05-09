@@ -66,24 +66,6 @@ export function Hero() {
         efficiency and organization.
       </p>
 
-      <div className="mt-8 flex w-full max-w-md items-center overflow-hidden rounded-xl border border-gray-200 bg-white/70 backdrop-blur-md shadow-sm">
-        <input
-          type="email"
-          placeholder="Your email@gmail.com"
-          className="flex-1 bg-transparent px-4 py-3 text-sm text-gray-700 placeholder-gray-400 outline-none"
-        />
-        <button
-          className="m-1 rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90"
-          style={{ background: "linear-gradient(135deg, #7c3aed, #8b5cf6)" }}
-        >
-          Join Newsletter
-        </button>
-      </div>
-
-      <p className="mt-3 text-xs text-gray-400">
-        Join the newsletter now &nbsp;◇&nbsp; No charge required
-      </p>
-
       <div className={styles.dashboardWrapper}>
         <div className={styles.dashboardInner}>
           <Image

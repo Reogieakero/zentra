@@ -264,7 +264,7 @@ export function FeatureSection() {
       {/* ── Work faster banner ── */}
       <section className={styles.bannerSection}>
         <div className={styles.dotBg} />
-        <p className={styles.bannerEyebrow}>Built for Philippine Schools</p>
+        <p className={styles.bannerEyebrow}>Built for Education Institution</p>
         <h2 className={styles.bannerHeading}>
           Work 5× faster.<br /> Save your time.
         </h2>
@@ -287,9 +287,9 @@ export function FeatureSection() {
         {/* Section header */}
         <div className={styles.sectionHeader}>
           <div>
-            <span className={styles.sectionEyebrow}>Why Choose Zentra</span>
+            <span className={styles.sectionEyebrow}>Zentra?</span>
             <h2 className={styles.sectionHeading}>
-              Everything your school<br /> registrar needs
+              Everything your school<br /> school needs
             </h2>
           </div>
           <p className={styles.sectionSubtext}>
