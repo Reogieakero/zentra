@@ -1,4 +1,4 @@
-import styles from "./TrustedCompanies.module.css";
+import styles from "./CoreModules.module.css";
 
 const FEATURES = [
   {
@@ -40,7 +40,7 @@ const FEATURES = [
   },
 ];
 
-export function TrustedCompanies() {
+export function CoreModules() {
   const repeated = [...FEATURES, ...FEATURES, ...FEATURES, ...FEATURES];
 
   return (

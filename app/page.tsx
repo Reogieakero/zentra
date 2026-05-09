@@ -2,7 +2,7 @@
 
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
-import { TrustedCompanies } from "./components/TrustedCompanies";
+import { CoreModules } from "./components/CoreModules";
 import { FeatureSection } from "./components/FeatureSection";
 
 export default function Home() {
@@ -22,7 +22,7 @@ export default function Home() {
           position: "absolute",
           inset: 0,
           zIndex: 0,
-          overflow: "hidden",
+          overflow: "hidden", 
           pointerEvents: "none",
         }}
       >
@@ -67,7 +67,7 @@ export default function Home() {
 
       <Navbar />
       <Hero />
-      <TrustedCompanies />
+      <CoreModules />
       <FeatureSection />
     </div>
   );

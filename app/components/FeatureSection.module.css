@@ -1,37 +1,379 @@
+/* ── Geist Font ── */
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+
+/* ─────────────────────────────────────────
+   Section wrappers
+───────────────────────────────────────── */
 .section {
   position: relative;
-  z-index: 10;
+  overflow: hidden;
+  font-family: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
+/* ── Dot backgrounds ── */
 .dotBg {
   position: absolute;
   inset: 0;
-  z-index: -10;
-  opacity: 0.2;
-  background-image: radial-gradient(#7c3aed 0.5px, transparent 0.5px);
-  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.35;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
 }
 
 .dotBgDense {
   position: absolute;
   inset: 0;
-  z-index: -10;
-  background-image: radial-gradient(#c4b5fd 1px, transparent 1px);
-  background-size: 28px 28px;
-  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(circle, #e5e7eb 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.5;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
 }
 
-.card {
+.section > *:not(.dotBg):not(.dotBgDense) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ─────────────────────────────────────────
+   Banner section
+───────────────────────────────────────── */
+.bannerSection {
+  composes: section;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+
+.bannerEyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #a78bfa;
+  margin-bottom: 1rem;
+}
+
+.bannerHeading {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #111827;
+  line-height: 1.2;
+  margin-bottom: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .bannerHeading { font-size: 3rem; }
+}
+
+.bannerDesc {
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.125rem;
+  color: #9ca3af;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+}
+
+.bannerLink {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #7c3aed;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.bannerLink:hover { color: #4c1d95; }
+
+.bannerLinkIcon {
+  margin-left: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.15s ease;
+}
+
+.bannerLink:hover .bannerLinkIcon { transform: translateX(4px); }
+
+/* ─────────────────────────────────────────
+   Features section
+───────────────────────────────────────── */
+.featuresSection {
+  composes: section;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1.5rem 6rem;
+}
+
+/* ── Section header ── */
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+@media (min-width: 768px) {
+  .sectionHeader {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+.sectionEyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #7c3aed;
+  margin-bottom: 0.75rem;
+}
+
+.sectionHeading {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #111827;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .sectionHeading { font-size: 3rem; }
+}
+
+.sectionSubtext {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  max-width: 18rem;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .sectionSubtext { text-align: right; }
+}
+
+/* ─────────────────────────────────────────
+   4-column cards grid
+───────────────────────────────────────── */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .cardsGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .cardsGrid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ─────────────────────────────────────────
+   Individual grid card
+───────────────────────────────────────── */
+.gridCard {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
   background: #ffffff;
-  border: 1px solid rgba(139, 92, 246, 0.13);
-  box-shadow: 0 4px 32px rgba(124, 58, 237, 0.07);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.trackCard {
-  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
-  border: 1.5px dashed rgba(139, 92, 246, 0.35);
+.gridCard:hover {
+  transform: translateY(-4px);
 }
 
-.badge {
-  background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+/* ─────────────────────────────────────────
+   Chrome header (shared)
+───────────────────────────────────────── */
+.chromeHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.625rem 0.875rem;
+}
+
+.chromeDot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.chromeDotRed    { background-color: #f87171; }
+.chromeDotYellow { background-color: #fbbf24; }
+.chromeDotGreen  { background-color: #4ade80; }
+
+.chromeAddressBar {
+  margin-left: 0.5rem;
+  flex: 1;
+  height: 1.125rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  overflow: hidden;
+}
+
+.chromeAddressText {
+  font-size: 0.5625rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────
+   Card body (shared)
+───────────────────────────────────────── */
+.cardBody {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardBodyHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  margin-bottom: 1rem;
+}
+
+.cardBodyIcon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cardBodyHeader:hover .cardBodyIcon {
+  transform: rotate(-6deg) scale(1.12);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.cardBodyTag {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 0.125rem;
+  line-height: 1;
+}
+
+.cardBodyTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.3;
+}
+
+.cardDivider {
+  height: 1px;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+/* Highlight rows */
+.highlightRows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.highlightRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.625rem;
+  cursor: default;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.highlightRow:hover {
+  transform: translateX(3px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.highlightRowDot {
+  width: 0.3125rem;
+  height: 0.3125rem;
+  border-radius: 9999px;
+  flex-shrink: 0;
+  transition: transform 0.18s ease;
+}
+
+.highlightRow:hover .highlightRowDot {
+  transform: scale(1.6);
+}
+
+.highlightRowText {
+  font-size: 0.6875rem;
+  color: #4b5563;
+  line-height: 1.4;
+  transition: color 0.18s ease;
+}
+
+.highlightRow:hover .highlightRowText {
+  color: #111827;
+}
+
+/* Bottom tag strip */
+.cardTagStrip {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top-width: 1px;
+  border-top-style: solid;
+  flex-wrap: wrap;
+}
+
+.cardTagPill {
+  font-size: 0.5625rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 0.2rem 0.5rem;
+  border-width: 1px;
+  border-style: solid;
+  cursor: default;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+
+.cardTagPill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  filter: brightness(1.05);
 }
