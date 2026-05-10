@@ -1,12 +1,12 @@
 .section {
   position: relative;
-  z-index: 10;
+  z-index: var(--z-dropdown);
 }
 
 .marqueeTrack {
   display: flex;
   width: max-content;
-  animation: scroll 30s linear infinite;
+  animation: scroll var(--marquee-duration) linear infinite;
 }
 
 .marqueeTrack:hover {
@@ -14,21 +14,17 @@
 }
 
 @keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .fadeLeft {
   position: absolute;
   inset-y: 0;
   left: 0;
-  width: 8rem;
-  background: linear-gradient(to right, #f5f3ff, transparent);
-  z-index: 10;
+  width: var(--marquee-fade-w);
+  background: linear-gradient(to right, var(--bg-purple-tint), transparent);
+  z-index: var(--z-dropdown);
   pointer-events: none;
 }
 
@@ -36,8 +32,8 @@
   position: absolute;
   inset-y: 0;
   right: 0;
-  width: 8rem;
-  background: linear-gradient(to left, #ffffff, transparent);
-  z-index: 10;
+  width: var(--marquee-fade-w);
+  background: linear-gradient(to left, var(--bg-base), transparent);
+  z-index: var(--z-dropdown);
   pointer-events: none;
 }

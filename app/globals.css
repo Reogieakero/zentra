@@ -1,26 +1,151 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+  /* ── Fonts ──────────────────────────────────────────────────
+     These CSS vars are injected by next/font via layout.tsx.
+     --font-geist-sans → GeistSans.variable
+     --font-geist-mono → GeistMono.variable
+  ────────────────────────────────────────────────────────── */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+
+  /* ── Core backgrounds ── */
+  --bg-base:          #ffffff;
+  --bg-subtle:        #f9fafb;
+  --bg-muted:         #f3f4f6;
+  --bg-purple-tint:   #f5f3ff;
+  --bg-purple-soft:   #f0edff;
+
+  /* ── Text ── */
+  --text-primary:     #111827;
+  --text-secondary:   #4b5563;
+  --text-muted:       #9ca3af;
+  --text-disabled:    #d1d5db;
+  --text-purple:      #7c3aed;
+  --text-purple-dark: #4c1d95;
+  --text-purple-light:#a78bfa;
+  --text-white:       #ffffff;
+
+  /* ── Brand / accent ── */
+  --brand-primary:    #7c3aed;
+  --brand-secondary:  #8b5cf6;
+  --brand-light:      #a78bfa;
+  --brand-gradient:   linear-gradient(135deg, #7c3aed, #8b5cf6);
+
+  /* ── Feature accent colors ── */
+  --accent-violet:    #7c3aed;
+  --accent-sky:       #0ea5e9;
+  --accent-emerald:   #10b981;
+  --accent-amber:     #f59e0b;
+  --accent-pink:      #ec4899;
+  --accent-indigo:    #6366f1;
+  --accent-teal:      #14b8a6;
+  --accent-orange:    #f97316;
+
+  /* ── Borders ── */
+  --border-base:      #f3f4f6;
+  --border-subtle:    #e5e7eb;
+  --border-muted:     #d1d5db;
+
+  /* ── Shadows ── */
+  --shadow-card:      0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover:0 8px 32px rgba(0, 0, 0, 0.10);
+  --shadow-purple:    0 30px 80px -10px rgba(124, 58, 237, 0.18),
+                      0 8px 24px -4px rgba(124, 58, 237, 0.10);
+  --shadow-dropdown:  0 10px 30px rgba(0, 0, 0, 0.12);
+
+  /* ── Border radius ── */
+  --radius-sm:        0.375rem;
+  --radius-md:        0.5rem;
+  --radius-lg:        0.75rem;
+  --radius-xl:        1rem;
+  --radius-2xl:       1.5rem;
+  --radius-full:      9999px;
+
+  /* ── Spacing ── */
+  --space-1:          0.25rem;
+  --space-2:          0.5rem;
+  --space-3:          0.75rem;
+  --space-4:          1rem;
+  --space-5:          1.25rem;
+  --space-6:          1.5rem;
+  --space-8:          2rem;
+  --space-10:         2.5rem;
+  --space-12:         3rem;
+  --space-16:         4rem;
+  --space-20:         5rem;
+  --space-24:         6rem;
+
+  /* ── Typography scale ── */
+  --text-xs:          0.75rem;
+  --text-sm:          0.875rem;
+  --text-base:        1rem;
+  --text-lg:          1.125rem;
+  --text-xl:          1.25rem;
+  --text-2xl:         1.5rem;
+  --text-3xl:         1.875rem;
+  --text-4xl:         2.25rem;
+  --text-5xl:         3rem;
+  --text-6xl:         3.75rem;
+
+  --leading-tight:    1.2;
+  --leading-snug:     1.4;
+  --leading-normal:   1.5;
+  --leading-relaxed:  1.7;
+
+  --tracking-tight:   -0.025em;
+  --tracking-wide:    0.1em;
+  --tracking-wider:   0.2em;
+  --tracking-widest:  0.25em;
+
+  /* ── Transitions ── */
+  --transition-fast:  0.15s ease;
+  --transition-base:  0.18s ease;
+  --transition-slow:  0.2s ease;
+
+  /* ── Z-index layers ── */
+  --z-base:           0;
+  --z-above:          1;
+  --z-dropdown:       10;
+  --z-overlay:        50;
+  --z-modal:          100;
+
+  /* ── Max widths ── */
+  --max-w-content:    80rem;
+  --max-w-prose:      36rem;
+  --max-w-narrow:     28rem;
+  --max-w-tight:      18rem;
+
+  /* ── Chrome card dots ── */
+  --chrome-dot-red:   #f87171;
+  --chrome-dot-yellow:#fbbf24;
+  --chrome-dot-green: #4ade80;
+
+  /* ── Dashboard hero ── */
+  --hero-fade-start:  rgba(245, 243, 255, 0.55);
+  --hero-fade-mid:    rgba(240, 237, 255, 0.85);
+  --hero-fade-end:    #f5f3ff;
+
+  /* ── Marquee ── */
+  --marquee-duration: 30s;
+  --marquee-fade-w:   8rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─────────────────────────────────────────────────────────────
+   BASE STYLES
+───────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
 }

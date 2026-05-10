@@ -16,7 +16,6 @@ export default function Home() {
         position: "relative",
       }}
     >
-      {/* Background blobs & grid */}
       <div
         style={{
           position: "absolute",
