@@ -1,6 +1,3 @@
-/* ─────────────────────────────────────────
-   Section wrappers
-───────────────────────────────────────── */
 .section {
   position: relative;
   overflow: hidden;
@@ -36,9 +33,6 @@
   z-index: var(--z-above);
 }
 
-/* ─────────────────────────────────────────
-   Banner section
-───────────────────────────────────────── */
 .bannerSection {
   composes: section;
   max-width: var(--max-w-content);
@@ -101,9 +95,6 @@
 
 .bannerLink:hover .bannerLinkIcon { transform: translateX(4px); }
 
-/* ─────────────────────────────────────────
-   Features section
-───────────────────────────────────────── */
 .featuresSection {
   composes: section;
   max-width: var(--max-w-content);
@@ -162,9 +153,6 @@
   .sectionSubtext { text-align: right; }
 }
 
-/* ─────────────────────────────────────────
-   4-column cards grid
-───────────────────────────────────────── */
 .cardsGrid {
   display: grid;
   grid-template-columns: 1fr;
@@ -179,9 +167,6 @@
   .cardsGrid { grid-template-columns: repeat(4, 1fr); }
 }
 
-/* ─────────────────────────────────────────
-   Individual grid card
-───────────────────────────────────────── */
 .gridCard {
   position: relative;
   border-radius: var(--radius-xl);
@@ -196,9 +181,6 @@
   transform: translateY(-4px);
 }
 
-/* ─────────────────────────────────────────
-   Chrome header
-───────────────────────────────────────── */
 .chromeHeader {
   display: flex;
   align-items: center;
@@ -236,9 +218,6 @@
   white-space: nowrap;
 }
 
-/* ─────────────────────────────────────────
-   Card body
-───────────────────────────────────────── */
 .cardBody {
   padding: var(--space-4);
   flex: 1;

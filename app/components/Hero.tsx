@@ -34,7 +34,6 @@ export function Hero() {
           <feGaussianBlur stdDeviation="2" />
         </filter>
       </defs>
-      {/* Wide soft bloom */}
       <path
         d="M4 22 Q110 6 216 22"
         stroke="url(#glowGrad)"
@@ -42,7 +41,6 @@ export function Hero() {
         filter="url(#glow-blur-lg)"
         opacity="0.7"
       />
-      {/* Medium glow */}
       <path
         d="M8 21 Q110 8 212 21"
         stroke="url(#arcGrad)"
@@ -50,7 +48,6 @@ export function Hero() {
         filter="url(#glow-blur-sm)"
         opacity="0.85"
       />
-      {/* Crisp line */}
       <path
         d="M12 20 Q110 9 208 20"
         stroke="url(#arcGrad)"

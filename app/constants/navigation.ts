@@ -28,6 +28,3 @@ export const NAV_LINKS: NavLink[] = [
   },
   { label: "Blog", href: "/blog" },
 ];
-
-export const GITHUB_STARS = "48.2K";
-export const GITHUB_URL = "https://github.com/expo/expo";
