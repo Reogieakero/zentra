@@ -22,40 +22,41 @@ export function ExtensionSelect() {
 
   return (
     <div className={styles.inputField} ref={containerRef} style={{ flex: 1 }}>
-      <div 
-        className={`${styles.input} ${styles.customSelect} ${isOpen ? styles.selectActive : ""}`}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <span className={selected ? styles.selectedValue : styles.placeholderHide}>
-          {selected}
-        </span>
-        
-        <div className={`${styles.selectArrow} ${isOpen ? styles.arrowRotate : ""}`}>
-          <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
-            <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
-      </div>
+      <input
+        readOnly
+        value={selected}
+        placeholder=" "
+        className={`${styles.input} ${isOpen ? styles.selectActive : ""}`}
+        style={{ cursor: "pointer", caretColor: "transparent" }}
+        onMouseDown={(e) => {
+          e.preventDefault();
+          setIsOpen((o) => !o);
+        }}
+      />
 
-      <label className={`${styles.floatingLabel} ${(selected || isOpen) ? styles.labelFloated : ""}`}>
-        Ext.
-      </label>
+      <label className={styles.floatingLabel}>Ext.</label>
+
+      <span className={`${styles.selectArrow} ${isOpen ? styles.arrowRotate : ""}`}>
+        <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+          <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
 
       {isOpen && (
         <ul className={styles.dropdownMenu}>
           {EXTENSIONS.map((ext) => (
-            <li 
-              key={ext} 
+            <li
+              key={ext}
               className={styles.dropdownOption}
-              onClick={() => {
+              onMouseDown={() => {
                 setSelected(ext === "None" ? "" : ext);
                 setIsOpen(false);
               }}
             >
               {ext}
-              {selected === ext && (
+              {selected === (ext === "None" ? "" : ext) && (
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--brand-primary)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
+                  <polyline points="20 6 9 17 4 12" />
                 </svg>
               )}
             </li>
