@@ -8,9 +8,31 @@ import styles from "./login.module.css";
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  
+  const emailInput = (document.getElementById("email") as HTMLInputElement).value;
+  const passwordInput = (document.getElementById("password") as HTMLInputElement).value;
+
+  try {
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: emailInput, password: passwordInput }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      // Direct the Principal to their dashboard
+      window.location.href = data.redirectTo;
+    } else {
+      alert(data.message);
+    }
+  } catch (err) {
+    console.error("Login error:", err);
+  }
+};
 
   return (
     <div className={styles.pageWrapper}>

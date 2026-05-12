@@ -14,8 +14,8 @@
   position: absolute;
   top: -10%;
   right: -5%;
-  width: 600px;
-  height: 600px;
+  width: min(600px, 80vw);
+  height: min(600px, 80vw);
   border-radius: 50%;
   background: rgba(124, 58, 237, 0.15);
   filter: blur(120px);
@@ -25,14 +25,20 @@
 .gridLines {
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(-52deg, transparent, transparent 48px, rgba(139,92,246,0.02) 48px, rgba(139,92,246,0.02) 50px);
+  background: repeating-linear-gradient(
+    -52deg,
+    transparent,
+    transparent 48px,
+    rgba(139, 92, 246, 0.03) 48px,
+    rgba(139, 92, 246, 0.03) 50px
+  );
   pointer-events: none;
 }
 
 .logoWrapper {
   position: absolute;
-  top: var(--space-8);
-  left: var(--space-8);
+  top: var(--space-6);
+  left: var(--space-6);
   z-index: var(--z-overlay);
 }
 
@@ -40,7 +46,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: var(--space-20);
+  padding: 80px var(--space-4) var(--space-8);
   z-index: var(--z-above);
 }
 
@@ -50,7 +56,7 @@
 }
 
 .header h1 {
-  font-size: var(--text-3xl);
+  font-size: clamp(1.5rem, 5vw, var(--text-3xl));
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: var(--space-1);
@@ -68,17 +74,15 @@
   gap: var(--space-3);
 }
 
-.nameGrid, .nameGridAlt {
+.nameGrid {
   display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: var(--space-4);
 }
 
-.nameGrid { grid-template-columns: 1fr 1fr; }
-.nameGridAlt { display: flex; }
-
-@media (max-width: 480px) {
-  .nameGrid { grid-template-columns: 1fr; }
-  .nameGridAlt { flex-direction: column; }
+.nameGridAlt {
+  display: flex;
+  gap: var(--space-4);
 }
 
 .inputField {
@@ -86,7 +90,7 @@
   width: 100%;
 }
 
-.input, .select {
+.input {
   width: 100%;
   padding: 12px 14px;
   border-radius: var(--radius-sm);
@@ -100,6 +104,13 @@
 
 .input::placeholder {
   color: transparent;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.08);
 }
 
 .floatingLabel {
@@ -125,13 +136,6 @@
   transform: translateY(-50%);
 }
 
-.input:focus {
-  outline: none;
-  border-color: var(--brand-primary);
-  background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.08);
-}
-
 .passwordWrapper {
   position: relative;
   width: 100%;
@@ -148,6 +152,11 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  padding: 4px;
+}
+
+.eyeToggle:hover {
+  color: var(--text-purple);
 }
 
 .loginBtn {
@@ -160,6 +169,12 @@
   font-size: var(--text-sm);
   cursor: pointer;
   margin-top: var(--space-2);
+  width: 100%;
+  transition: opacity 0.2s ease;
+}
+
+.loginBtn:hover {
+  opacity: 0.9;
 }
 
 .divider {
@@ -168,17 +183,25 @@
   text-align: center;
   color: var(--text-muted);
   font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   margin: var(--space-2) 0;
 }
 
-.divider::before, .divider::after {
+.divider::before,
+.divider::after {
   content: '';
   flex: 1;
   border-bottom: 1px solid var(--border-subtle);
 }
 
-.divider:not(:empty)::before { margin-right: var(--space-4); }
-.divider:not(:empty)::after { margin-left: var(--space-4); }
+.divider:not(:empty)::before {
+  margin-right: var(--space-4);
+}
+
+.divider:not(:empty)::after {
+  margin-left: var(--space-4);
+}
 
 .googleBtn {
   display: flex;
@@ -193,6 +216,8 @@
   font-weight: 600;
   font-size: var(--text-xs);
   cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease;
 }
 
 .googleBtn:hover {
@@ -217,6 +242,8 @@
 .link:hover {
   text-decoration: underline;
 }
+
+/* ── Custom select ── */
 
 .customSelect {
   cursor: pointer;
@@ -269,11 +296,92 @@
   transform: translateY(-50%);
   pointer-events: none;
   transition: transform 0.2s;
+  color: var(--text-muted);
 }
 
-.arrowRotate { transform: translateY(-50%) rotate(180deg); }
+.arrowRotate {
+  transform: translateY(-50%) rotate(180deg);
+}
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@media (max-width: 600px) {
+  .mainContent {
+    padding: 72px var(--space-5) var(--space-10);
+    align-items: flex-start;
+  }
+
+  .formContainer {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoWrapper {
+    top: var(--space-4);
+    left: var(--space-4);
+  }
+
+  .mainContent {
+    padding: 64px var(--space-4) var(--space-8);
+  }
+
+  .header h1 {
+    font-size: 1.6rem;
+  }
+
+  .header p {
+    margin-bottom: var(--space-6);
+  }
+
+  .nameGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .nameGridAlt {
+    flex-direction: column;
+  }
+
+  .inputField[style] {
+    flex: unset !important;
+    width: 100%;
+  }
+
+  .loginBtn,
+  .googleBtn {
+    padding: 13px;
+  }
+
+  .footerText {
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-4);
+  }
+}
+
+@media (max-width: 360px) {
+  .mainContent {
+    padding: 60px var(--space-3) var(--space-6);
+  }
+
+  .header h1 {
+    font-size: 1.4rem;
+  }
+
+  .input {
+    padding: 11px 12px;
+  }
+
+  .floatingLabel {
+    left: 12px;
+  }
 }
