@@ -1,14 +1,25 @@
 .dashboardWrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   background: var(--bg-subtle);
+  overflow: hidden;
+}
+
+.bodyArea {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
 }
 
 .mainArea {
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  min-width: 0;
+  background: var(--bg-base);
 }
 
 .pageContent {
@@ -19,6 +30,9 @@
 }
 
 @media (max-width: 768px) {
+  .bodyArea {
+    flex-direction: column;
+  }
   .pageContent {
     padding: var(--space-5);
   }
