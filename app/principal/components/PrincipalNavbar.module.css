@@ -1,0 +1,237 @@
+.navbar {
+  height: 48px;
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-4);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-overlay);
+  gap: var(--space-4);
+}
+
+/* ── Left ── */
+.navLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.navDivider {
+  color: var(--border-muted);
+  font-size: var(--text-lg);
+  font-weight: 300;
+  user-select: none;
+}
+
+.orgLabel {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.pageLabel {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* ── Center ── */
+.navCenter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.navItem,
+.navItemActive {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.navItem {
+  color: var(--text-secondary);
+}
+
+.navItem:hover {
+  background: var(--bg-muted);
+  color: var(--text-primary);
+}
+
+.navItemActive {
+  background: var(--bg-purple-tint);
+  color: var(--brand-primary);
+}
+
+/* ── Right ── */
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.feedbackBtn {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.feedbackBtn:hover {
+  color: var(--text-primary);
+}
+
+.searchBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 5px var(--space-3);
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+.searchBtn:hover {
+  border-color: var(--border-muted);
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-card);
+}
+
+.searchPlaceholder {
+  flex: 1;
+  text-align: left;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px var(--space-1);
+  background: var(--bg-muted);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.navSeparator {
+  width: 1px;
+  height: 20px;
+  background: var(--border-subtle);
+  margin: 0 var(--space-1);
+}
+
+.circleBtn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.circleBtn:hover {
+  background: var(--bg-muted);
+  border-color: var(--border-muted);
+  color: var(--text-primary);
+}
+
+.avatarBtn {
+  width: 30px;
+  height: 30px;
+  background: var(--text-primary);
+  color: var(--text-white);
+  border: none;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.avatarBtn:hover {
+  opacity: 0.85;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .navCenter {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .pageLabel {
+    display: none;
+  }
+
+  .searchBtn {
+    min-width: unset;
+  }
+
+  .searchPlaceholder,
+  .kbd {
+    display: none;
+  }
+
+  .feedbackBtn {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .orgLabel {
+    display: none;
+  }
+
+  .navDivider {
+    display: none;
+  }
+
+  .navSeparator {
+    display: none;
+  }
+}
