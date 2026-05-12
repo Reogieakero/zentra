@@ -1,0 +1,38 @@
+.cardContainer {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-sm);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-base);
+}
+
+.cardContainer:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--brand-light);
+}
+
+.metricHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metricLabel {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.metricValue {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  margin: var(--space-2) 0 var(--space-1);
+}
+
+.metricSub {
+  font-size: 10px;
+  color: var(--text-muted);
+}
