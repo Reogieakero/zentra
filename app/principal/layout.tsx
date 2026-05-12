@@ -21,7 +21,7 @@ export default function PrincipalLayout({
           <Link href="/principal/records" className={styles.navLink}>Academic Records</Link>
         </nav>
         <div className={styles.sidebarFooter}>
-          <Link href="/login" className={styles.logoutBtn}>Logout</Link>
+          <Link href="/principal-login" className={styles.logoutBtn}>Logout</Link>
         </div>
       </aside>
 
