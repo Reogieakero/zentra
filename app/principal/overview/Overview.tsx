@@ -1,21 +1,37 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import styles from "./Overview.module.css";
 import { MetricCard } from "./components/MetricCard";
 import { ActivityItem } from "./components/ActivityItem";
+import { DatePicker } from "./components/DatePicker";
 import * as Icons from "./components/Icons";
 
 export function Overview() {
-  const currentDate = new Date().toLocaleDateString('en-US', { 
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
-  });
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+
+  const displayDate = selectedDate
+    ? selectedDate.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
 
   return (
     <div className={styles.dashboardContainer}>
       <header className={styles.headerArea}>
         <div>
           <h1 className={styles.pageTitle}>Good Morning, Principal</h1>
-          <p className={styles.pageSubtitle}>{currentDate} </p>
+          <p className={styles.pageSubtitle}>{displayDate}</p>
         </div>
+        <DatePicker selectedDate={selectedDate} onChange={setSelectedDate} />
       </header>
 
       <div className={styles.metricsGrid}>
@@ -23,7 +39,7 @@ export function Overview() {
         <MetricCard label="Present Today" value="92%" color="var(--accent-emerald)" icon={<Icons.CheckCircleIcon />} />
         <MetricCard label="Absent Today" value="8%" color="var(--accent-amber)" icon={<Icons.AlertCircleIcon />} />
         <MetricCard label="Pending ADM" value="14" color="var(--accent-sky)" icon={<Icons.ClipboardIcon />} />
-        
+
         <MetricCard label="SF10 Records" value="892" color="var(--accent-indigo)" icon={<Icons.FileTextIcon />} />
         <MetricCard label="Applications" value="45" color="var(--accent-teal)" icon={<Icons.BriefcaseIcon />} />
         <MetricCard label="Anecdotal" value="12" color="var(--accent-pink)" icon={<Icons.ShieldIcon />} />
@@ -56,7 +72,7 @@ export function Overview() {
 
         <aside className={styles.noticeColumn}>
           <section className={`${styles.glassCard} ${styles.heroCard}`}>
-            <h2 className={styles.sectionTitle} style={{color: 'var(--text-white)'}}>Notice Board</h2>
+            <h2 className={styles.sectionTitle} style={{ color: "var(--text-white)" }}>Notice Board</h2>
             <div className={styles.notice}>
               <strong>Faculty Convocation</strong>
               <p>Main Hall • 3:00 PM Today</p>
