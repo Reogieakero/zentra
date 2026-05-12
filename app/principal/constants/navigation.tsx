@@ -1,10 +1,26 @@
 import React from "react";
 
-export const NAV_LINKS = [
+export interface SubItem {
+  label: string;
+  href: string;
+}
+
+export interface NavItem {
+  label: string;
+  href: string;
+  icon: React.ReactNode;
+  subItems?: SubItem[];
+}
+
+export interface NavGroup {
+  items: NavItem[];
+}
+
+export const NAV_LINKS: NavGroup[] = [
   {
     items: [
       {
-        label: "Dashboard",
+        label: "School Overview",
         href: "/principal",
         icon: (
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -16,75 +32,22 @@ export const NAV_LINKS = [
         ),
       },
       {
-        label: "Announcements",
-        href: "/principal/announcements",
-        icon: (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-          </svg>
-        ),
-      },
-    ],
-  },
-  {
-    items: [
-      {
         label: "Students",
         href: "/principal/students",
         icon: (
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
             <circle cx="9" cy="7" r="4" />
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
           </svg>
         ),
       },
       {
-        label: "Teachers",
-        href: "/principal/teachers",
+        label: "Attendance",
+        href: "/principal/attendance",
         icon: (
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
-            <path d="M12 12v5" />
-            <path d="M8 12v5" />
-            <path d="M16 12v5" />
-            <path d="M2 17h20" />
-          </svg>
-        ),
-      },
-      {
-        label: "Classes",
-        href: "/principal/classes",
-        icon: (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-          </svg>
-        ),
-      },
-      {
-        label: "Subjects",
-        href: "/principal/subjects",
-        icon: (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-            <polyline points="14 2 14 8 20 8" />
-            <line x1="16" y1="13" x2="8" y2="13" />
-            <line x1="16" y1="17" x2="8" y2="17" />
-            <polyline points="10 9 9 9 8 9" />
-          </svg>
-        ),
-      },
-      {
-        label: "Schedule",
-        href: "/principal/schedule",
-        icon: (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-            <line x1="3" y1="10" x2="21" y2="10" />
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+            <polyline points="22 4 12 14.01 9 11.01" />
           </svg>
         ),
       },
@@ -93,18 +56,66 @@ export const NAV_LINKS = [
   {
     items: [
       {
-        label: "Attendance",
-        href: "/principal/attendance",
+        label: "SF10",
+        href: "/principal/sf10",
         icon: (
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="9 11 12 14 22 4" />
-            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
           </svg>
         ),
+        subItems: [
+          { label: "Dashboard", href: "/principal/sf10" },
+          { label: "Student Records", href: "/principal/sf10/records" },
+          { label: "Upload SF10", href: "/principal/sf10/upload" },
+          { label: "Transfer Requests", href: "/principal/sf10/transfers" },
+          { label: "Verification", href: "/principal/sf10/verification" },
+          { label: "Archives", href: "/principal/sf10/archives" },
+        ],
       },
       {
-        label: "Grades",
-        href: "/principal/grades",
+        label: "ADM",
+        href: "/principal/adm",
+        icon: (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+          </svg>
+        ),
+        subItems: [
+          { label: "Dashboard", href: "/principal/adm" },
+          { label: "Enrollment Forms", href: "/principal/adm/forms" },
+          { label: "Student Requirements", href: "/principal/adm/requirements" },
+          { label: "Admission Status", href: "/principal/adm/status" },
+          { label: "Admissions Monitoring", href: "/principal/adm/monitoring" },
+          { label: "Archives", href: "/principal/adm/archives" },
+        ],
+      },
+      {
+        label: "Anecdotal",
+        href: "/principal/anecdotal",
+        icon: (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 20h9" />
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+          </svg>
+        ),
+        subItems: [
+          { label: "Dashboard", href: "/principal/anecdotal" },
+          { label: "Behavior Reports", href: "/principal/anecdotal/behavior" },
+          { label: "Guidance Notes", href: "/principal/anecdotal/guidance" },
+          { label: "Incident Reports", href: "/principal/anecdotal/incidents" },
+          { label: "Student Observations", href: "/principal/anecdotal/observations" },
+          { label: "Archives", href: "/principal/anecdotal/archives" },
+        ],
+      },
+    ],
+  },
+  {
+    items: [
+      {
+        label: "Reports",
+        href: "/principal/reports",
         icon: (
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="18" y1="20" x2="18" y2="10" />
@@ -114,39 +125,31 @@ export const NAV_LINKS = [
         ),
       },
       {
-        label: "Reports",
-        href: "/principal/reports",
+        label: "Announcements",
+        href: "/principal/announcements",
         icon: (
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-            <polyline points="14 2 14 8 20 8" />
-            <line x1="8" y1="13" x2="16" y2="13" />
-            <line x1="8" y1="17" x2="16" y2="17" />
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
           </svg>
         ),
       },
-    ],
-  },
-  {
-    items: [
       {
-        label: "Enrollment",
-        href: "/principal/enrollment",
+        label: "Users",
+        href: "/principal/users",
         icon: (
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
             <circle cx="9" cy="7" r="4" />
-            <line x1="19" y1="8" x2="19" y2="14" />
-            <line x1="22" y1="11" x2="16" y2="11" />
           </svg>
         ),
       },
       {
-        label: "Events",
-        href: "/principal/events",
+        label: "Activity Logs",
+        href: "/principal/activity-logs",
         icon: (
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
           </svg>
         ),
       },
@@ -156,7 +159,7 @@ export const NAV_LINKS = [
         icon: (
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="3" />
-            <path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41M12 2v2M12 20v2M2 12h2M20 12h2" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82" />
           </svg>
         ),
       },
