@@ -1,0 +1,122 @@
+.wrapper {
+  position: relative;
+}
+
+.avatarTrigger {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--text-primary);
+  color: var(--text-white);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.avatarTrigger:hover {
+  opacity: 0.85;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 220px;
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-dropdown);
+  z-index: var(--z-dropdown);
+  overflow: hidden;
+  animation: fadeIn 0.15s ease;
+}
+
+.header {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.userName {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.emailText {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.section {
+  padding: var(--space-1);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-size: var(--text-xs);
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: var(--tracking-wide);
+  padding: var(--space-2) var(--space-3) var(--space-1);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: left;
+}
+
+.item:hover {
+  background: var(--bg-muted);
+  color: var(--text-primary);
+}
+
+.itemActive {
+  color: var(--brand-primary);
+  font-weight: 500;
+}
+
+.itemDanger {
+  color: #ef4444;
+}
+
+.itemDanger:hover {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.dot {
+  color: var(--brand-primary);
+  font-size: var(--text-base);
+  line-height: 1;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
