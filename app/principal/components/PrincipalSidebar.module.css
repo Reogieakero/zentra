@@ -97,40 +97,45 @@
   opacity: 1;
 }
 
-/* Chevron — hidden until sidebar expands */
 .chevron {
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-left: auto;
   opacity: 0;
-  transition: opacity 200ms ease, transform 250ms ease;
+  transition: opacity 200ms ease, transform 250ms ease, background 200ms ease;
   flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.chevron:hover {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .sidebar:hover .chevron {
   opacity: 0.5;
 }
 
-/* Rotate chevron when sub-items are open (hover or active) */
 .chevronOpen {
   transform: rotate(180deg);
   opacity: 0.8 !important;
 }
 
-/* Sub-link list — hidden when collapsed, shown via JS state */
 .subLinkList {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: none;          /* collapsed by default */
+  display: none;
   flex-direction: column;
   gap: 2px;
-  animation: slideDown 180ms ease forwards;
 }
 
-/* Only show sub-links when sidebar is wide enough to read them */
-.sidebar:hover .subLinkList {
+.sidebar:hover .subLinkList.show {
   display: flex;
+  animation: slideDown 180ms ease forwards;
 }
 
 @keyframes slideDown {
