@@ -1,12 +1,6 @@
 @import "tailwindcss";
 
 :root {
-
-  /* ── Fonts ──────────────────────────────────────────────────
-     These CSS vars are injected by next/font via layout.tsx.
-     --font-geist-sans → GeistSans.variable
-     --font-geist-mono → GeistMono.variable
-  ────────────────────────────────────────────────────────── */
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
 
