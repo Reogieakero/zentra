@@ -382,3 +382,13 @@
   border-radius: 999px;
   transition: width 0.6s ease;
 }
+
+.sessionText {
+  font-size: var(--text-xs);
+  color: #7c3aed;
+  background: rgba(124, 58, 237, 0.06);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  text-align: center;
+}

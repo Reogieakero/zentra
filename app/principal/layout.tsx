@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "./principal.module.css";
 import Link from "next/link";
 import { BrandLogo } from "../components/icons/Brand";
@@ -7,9 +9,13 @@ export default function PrincipalLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const handleLogout = async () => {
+    await fetch("/api/principal-logout", { method: "POST" });
+    window.location.href = "/principal-login";
+  };
+
   return (
     <div className={styles.dashboardWrapper}>
-      {/* Sidebar */}
       <aside className={styles.sidebar}>
         <div className={styles.sidebarHeader}>
           <BrandLogo />
@@ -21,11 +27,12 @@ export default function PrincipalLayout({
           <Link href="/principal/records" className={styles.navLink}>Academic Records</Link>
         </nav>
         <div className={styles.sidebarFooter}>
-          <Link href="/principal-login" className={styles.logoutBtn}>Logout</Link>
+          <button onClick={handleLogout} className={styles.logoutBtn}>
+            Logout
+          </button>
         </div>
       </aside>
 
-      {/* Main Content Area */}
       <main className={styles.mainArea}>
         <header className={styles.topBar}>
           <div className={styles.userProfile}>

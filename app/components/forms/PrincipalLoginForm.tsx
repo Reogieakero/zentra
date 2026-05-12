@@ -1,11 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { usePrincipalLogin } from "@/app/hooks/usePrincipalLogin";
 import styles from "@/app/principal-login/principal-login.module.css";
 
 export function PrincipalLoginForm() {
   const { showPassword, setShowPassword, isLoading, error, handleSubmit } = usePrincipalLogin();
+  const searchParams = useSearchParams();
+  const reason = searchParams.get("reason");
+
+  const sessionMessage =
+    reason === "session_required"
+      ? "Please sign in to access the Principal Portal."
+      : null;
 
   return (
     <div className={styles.loginCard}>
@@ -15,6 +23,10 @@ export function PrincipalLoginForm() {
       </header>
 
       <form className={styles.form} onSubmit={handleSubmit}>
+        {sessionMessage && (
+          <p className={styles.sessionText}>{sessionMessage}</p>
+        )}
+
         <div className={styles.inputField}>
           <input
             type="email"

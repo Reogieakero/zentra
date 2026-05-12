@@ -5,32 +5,48 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
 
-    const adminEmail = process.env.PRINCIPAL_EMAIL;
-    const adminHash = process.env.PRINCIPAL_PASSWORD_HASH;
+    const principalEmail = process.env.PRINCIPAL_EMAIL;
+    const principalHash = process.env.PRINCIPAL_PASSWORD_HASH;
 
-    if (!adminEmail || !adminHash) {
+    if (!principalEmail || !principalHash) {
       return NextResponse.json(
         { success: false, message: "Server misconfiguration: env vars missing." },
         { status: 500 }
       );
     }
 
-    if (email === adminEmail) {
-      const isMatch = await bcrypt.compare(password, adminHash);
-
-      if (isMatch) {
-        return NextResponse.json({
-          success: true,
-          role: "principal",
-          redirectTo: "/principal",
-        });
-      }
+    if (email !== principalEmail) {
+      return NextResponse.json(
+        { success: false, message: "Invalid credentials." },
+        { status: 401 }
+      );
     }
 
-    return NextResponse.json(
-      { success: false, message: "Invalid credentials." },
-      { status: 401 }
-    );
+    const isMatch = await bcrypt.compare(password, principalHash);
+
+    if (!isMatch) {
+      return NextResponse.json(
+        { success: false, message: "Invalid credentials." },
+        { status: 401 }
+      );
+    }
+
+    const response = NextResponse.json({
+      success: true,
+      role: "principal",
+      redirectTo: "/principal",
+    });
+
+    response.cookies.set("principal_session", "authenticated", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 8,
+      path: "/",
+    });
+
+    return response;
+
   } catch (error) {
     console.error("Principal login error:", error);
     return NextResponse.json(
