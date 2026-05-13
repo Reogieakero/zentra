@@ -1,28 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import styles from "./Overview.module.css";
 import { MetricCard } from "./components/MetricCard";
-import { ActivityItem } from "./components/ActivityItem";
 import { DatePicker } from "./components/DatePicker";
+import { AttendanceOverview } from "./components/AttendanceOverview";
+import { ActivityFeed } from "./components/ActivityFeed";
+import { useDashboardDate } from "../../hooks/useDashboardDate";
 import * as Icons from "./components/Icons";
 
 export function Overview() {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-
-  const displayDate = selectedDate
-    ? selectedDate.toLocaleDateString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : new Date().toLocaleDateString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
+  const { selectedDate, setSelectedDate, displayDate } = useDashboardDate();
 
   return (
     <div className={styles.dashboardContainer}>
@@ -48,26 +36,10 @@ export function Overview() {
 
       <div className={styles.mainGrid}>
         <div className={styles.statsColumn}>
-          <section className={styles.glassCard}>
-            <div className={styles.cardHeader}>
-              <h2 className={styles.sectionTitle}>Attendance Overview</h2>
-              <span className={styles.badge}>Live</span>
-            </div>
-            <div className={styles.chartPlaceholder}>
-              <svg width="100%" height="80" viewBox="0 0 400 80" preserveAspectRatio="none">
-                <path d="M0,60 Q50,10 100,40 T200,20 T300,50 T400,10" fill="none" stroke="var(--brand-primary)" strokeWidth="3" />
-              </svg>
-            </div>
-          </section>
-
-          <section className={`${styles.glassCard} ${styles.mt6}`}>
-            <h2 className={styles.sectionTitle}>Recent Activities</h2>
-            <div className={styles.activityFeed}>
-              <ActivityItem icon={<Icons.PlusIcon />} title="Enrollment" detail="Maria Santos • Grade 10" time="2m ago" />
-              <ActivityItem icon={<Icons.EditIcon />} title="SF10 Updated" detail="Academic records • Section A" time="15m ago" />
-              <ActivityItem icon={<Icons.CheckIcon />} title="ADM Approved" detail="ID #2024-001 Verified" time="1h ago" />
-            </div>
-          </section>
+          <AttendanceOverview />
+          <div className={styles.mt6}>
+            <ActivityFeed />
+          </div>
         </div>
 
         <aside className={styles.noticeColumn}>
