@@ -21,6 +21,7 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
   const [sortKey, setSortKey] = useState<keyof Student>("name");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [showStats, setShowStats] = useState(true);
+  const [riskFilter, setRiskFilter] = useState<boolean>(false);
 
   const handleSort = (key: keyof Student) => {
     if (sortKey === key) setSortDir(d => d === "asc" ? "desc" : "asc");
@@ -30,53 +31,89 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
   const filtered = useMemo(() => students
     .filter(s => {
       const q = search.toLowerCase();
-      return (
-        (s.name.toLowerCase().includes(q) || s.lrn.includes(q)) &&
-        (grade === "All Grades" || s.grade === grade) &&
-        (statusFilter === "All Status" || s.status === statusFilter) &&
-        (sectionFilter === null || s.section === sectionFilter)
-      );
+      const matchesSearch = (s.name.toLowerCase().includes(q) || s.lrn.includes(q));
+      const matchesGrade = (grade === "All Grades" || s.grade === grade);
+      const matchesStatus = (statusFilter === "All Status" || s.status === statusFilter);
+      const matchesSection = (sectionFilter === null || s.section === sectionFilter);
+      const matchesRisk = !riskFilter || (s.risk === "High" || s.risk === "Medium");
+
+      return matchesSearch && matchesGrade && matchesStatus && matchesSection && matchesRisk;
     })
     .sort((a, b) => {
       const cmp = String(a[sortKey] ?? "").localeCompare(String(b[sortKey] ?? ""), undefined, { numeric: true });
       return sortDir === "asc" ? cmp : -cmp;
     }),
-  [search, grade, statusFilter, sortKey, sortDir, sectionFilter, students]);
+  [search, grade, statusFilter, sortKey, sortDir, sectionFilter, students, riskFilter]);
+
+  const stats = useMemo(() => {
+    const base = students.filter(s => sectionFilter === null || s.section === sectionFilter);
+    return {
+      total: base.length,
+      enrolled: base.filter(s => s.status === "Enrolled").length,
+      atRisk: base.filter(s => s.risk === "High" || s.risk === "Medium").length,
+      avgGpa: base.length > 0 ? (base.reduce((sum, s) => sum + s.gpa, 0) / base.length).toFixed(1) : "—"
+    };
+  }, [students, sectionFilter]);
 
   const SortBtn = ({ col }: { col: keyof Student }) => (
     <span className={styles.sortBtn} onClick={() => handleSort(col)}>
       {sortKey === col
         ? <ChevronIcon dir={sortDir === "asc" ? "up" : "down"} />
-        : <span className={styles.sortIdle}>↕</span>}
+        : <span style={{ fontSize: "10px", opacity: 0.4 }}>↕</span>}
     </span>
   );
-
-  const total = filtered.length;
-  const enrolled = filtered.filter(s => s.status === "Enrolled").length;
-  const atRisk = filtered.filter(s => s.risk === "High" || s.risk === "Medium").length;
-  const avgGpa = total > 0
-    ? (filtered.reduce((sum, s) => sum + s.gpa, 0) / total).toFixed(1)
-    : "—";
 
   return (
     <div className={styles.viewPane}>
       <div className={`${styles.statsWrapper} ${showStats ? styles.statsWrapperVisible : ""}`}>
         <div className={styles.statsGrid}>
-          <div className={styles.statCard}>
+          <div 
+            className={`${styles.statCard} ${statusFilter === "All Status" && !riskFilter ? styles.statCardActive : ""}`}
+            onClick={() => { setStatus("All Status"); setRiskFilter(false); }}
+          >
+            <div className={styles.chromeDots}>
+              <div className={`${styles.dot} ${styles.dotRed}`} />
+              <div className={`${styles.dot} ${styles.dotYellow}`} />
+              <div className={`${styles.dot} ${styles.dotGreen}`} />
+            </div>
             <span className={styles.statLbl}>Total Students</span>
-            <span className={styles.statVal}>{total}</span>
+            <span className={styles.statVal}>{stats.total}</span>
           </div>
-          <div className={styles.statCard}>
+
+          <div 
+            className={`${styles.statCard} ${statusFilter === "Enrolled" ? styles.statCardActive : ""}`}
+            onClick={() => { setStatus("Enrolled"); setRiskFilter(false); }}
+          >
+            <div className={styles.chromeDots}>
+              <div className={`${styles.dot} ${styles.dotRed}`} />
+              <div className={`${styles.dot} ${styles.dotYellow}`} />
+              <div className={`${styles.dot} ${styles.dotGreen}`} />
+            </div>
             <span className={styles.statLbl}>Enrolled</span>
-            <span className={styles.statVal} style={{ color: "#059669" }}>{enrolled}</span>
+            <span className={styles.statVal} style={{ color: "#10b981" }}>{stats.enrolled}</span>
           </div>
-          <div className={styles.statCard}>
+
+          <div 
+            className={`${styles.statCard} ${riskFilter ? styles.statCardActive : ""}`}
+            onClick={() => { setRiskFilter(true); setStatus("All Status"); }}
+          >
+            <div className={styles.chromeDots}>
+              <div className={`${styles.dot} ${styles.dotRed}`} />
+              <div className={`${styles.dot} ${styles.dotYellow}`} />
+              <div className={`${styles.dot} ${styles.dotGreen}`} />
+            </div>
             <span className={styles.statLbl}>Students At Risk</span>
-            <span className={styles.statVal} style={{ color: "#dc2626" }}>{atRisk}</span>
+            <span className={styles.statVal} style={{ color: "#ef4444" }}>{stats.atRisk}</span>
           </div>
-          <div className={styles.statCard}>
+
+          <div className={styles.statCard} style={{ cursor: "default" }}>
+            <div className={styles.chromeDots}>
+              <div className={styles.dot} />
+              <div className={styles.dot} />
+              <div className={styles.dot} />
+            </div>
             <span className={styles.statLbl}>Average GPA</span>
-            <span className={styles.statVal} style={{ color: "var(--color-primary, #6d28d9)" }}>{avgGpa}</span>
+            <span className={styles.statVal} style={{ color: "var(--brand-primary)" }}>{stats.avgGpa}</span>
           </div>
         </div>
       </div>
@@ -102,7 +139,6 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
           <button 
             className={`${styles.iconBtn} ${showStats ? styles.iconBtnActive : ""}`}
             onClick={() => setShowStats(!showStats)}
-            title={showStats ? "Hide Statistics" : "Show Statistics"}
           >
             <StatsIcon />
           </button>
@@ -125,18 +161,8 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
             </tr>
           </thead>
           <tbody>
-            {filtered.length === 0 ? (
-              <tr>
-                <td colSpan={sectionFilter === null ? 8 : 7} className={styles.empty}>
-                  No students match your filters.
-                </td>
-              </tr>
-            ) : filtered.map((s) => (
-              <tr
-                key={s.id}
-                className={styles.row}
-                onClick={() => onSelectStudent(s)}
-              >
+            {filtered.map((s) => (
+              <tr key={s.id} className={styles.row} onClick={() => onSelectStudent(s)}>
                 <td className={styles.td}>
                   <div className={styles.studentCell}>
                     <div className={`${styles.avatar} ${
@@ -154,22 +180,17 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
                 {sectionFilter === null && <td className={styles.td}>{s.section}</td>}
                 <td className={styles.td}>
                   <span className={`${styles.gpa} ${
-                    s.gpa < 75 ? styles.gpaDanger :
-                    s.gpa < 80 ? styles.gpaWarn : styles.gpaGood
+                    s.gpa < 75 ? styles.gpaDanger : s.gpa < 80 ? styles.gpaWarn : styles.gpaGood
                   }`}>{s.gpa}</span>
                 </td>
                 <td className={styles.td}>
                   <span className={`${styles.absences} ${
-                    s.absences >= 10 ? styles.absHigh :
-                    s.absences >= 5 ? styles.absMed : ""
+                    s.absences >= 10 ? styles.absHigh : s.absences >= 5 ? styles.absMed : ""
                   }`}>{s.absences}</span>
                 </td>
                 <td className={styles.td}>
                   <span className={`${styles.statusChip} ${
-                    s.status === "Enrolled" ? styles.statusEnrolled :
-                    s.status === "Pending" ? styles.statusPending :
-                    s.status === "Dropped" ? styles.statusDropped :
-                    styles.statusGraduated
+                    s.status === "Enrolled" ? styles.statusEnrolled : ""
                   }`}>{s.status}</span>
                 </td>
                 <td className={styles.td}>
@@ -177,18 +198,15 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
                     <span className={`${styles.riskChip} ${
                       s.risk === "High" ? styles.riskHigh : styles.riskMed
                     }`}>{s.risk}</span>
-                  ) : (
-                    <span className={styles.riskNone}>—</span>
-                  )}
+                  ) : <span>—</span>}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
       <div className={styles.resultCount}>
-        Showing <strong>{filtered.length}</strong> of <strong>{total}</strong> students
+        Showing <strong>{filtered.length}</strong> of <strong>{stats.total}</strong> students
       </div>
     </div>
   );
