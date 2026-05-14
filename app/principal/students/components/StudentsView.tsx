@@ -2,10 +2,10 @@
 
 import React, { useState, useMemo } from "react";
 import styles from "./StudentsView.module.css";
-import { SearchIcon, FilterIcon, DownloadIcon, ChevronIcon } from "./icons/Icons";
+import { SearchIcon, FilterIcon, DownloadIcon, ChevronIcon, StatsIcon } from "./icons/Icons";
 import { Student } from "../types/student";
 
-const GRADES   = ["All Grades", "8", "9", "10", "11", "12"];
+const GRADES = ["All Grades", "8", "9", "10", "11", "12"];
 const STATUSES = ["All Status", "Enrolled", "Pending", "Dropped", "Graduated"];
 
 interface StudentsViewProps {
@@ -15,11 +15,12 @@ interface StudentsViewProps {
 }
 
 export function StudentsView({ students, sectionFilter, onSelectStudent }: StudentsViewProps) {
-  const [search, setSearch]       = useState("");
-  const [grade, setGrade]         = useState("All Grades");
+  const [search, setSearch] = useState("");
+  const [grade, setGrade] = useState("All Grades");
   const [statusFilter, setStatus] = useState("All Status");
-  const [sortKey, setSortKey]     = useState<keyof Student>("name");
-  const [sortDir, setSortDir]     = useState<"asc" | "desc">("asc");
+  const [sortKey, setSortKey] = useState<keyof Student>("name");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+  const [showStats, setShowStats] = useState(true);
 
   const handleSort = (key: keyof Student) => {
     if (sortKey === key) setSortDir(d => d === "asc" ? "desc" : "asc");
@@ -50,31 +51,33 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
     </span>
   );
 
-  const total    = filtered.length;
+  const total = filtered.length;
   const enrolled = filtered.filter(s => s.status === "Enrolled").length;
-  const atRisk   = filtered.filter(s => s.risk === "High" || s.risk === "Medium").length;
-  const avgGpa   = total > 0
+  const atRisk = filtered.filter(s => s.risk === "High" || s.risk === "Medium").length;
+  const avgGpa = total > 0
     ? (filtered.reduce((sum, s) => sum + s.gpa, 0) / total).toFixed(1)
     : "—";
 
   return (
     <div className={styles.viewPane}>
-      <div className={styles.statsGrid}>
-        <div className={styles.statCard}>
-          <span className={styles.statLbl}>Total Students</span>
-          <span className={styles.statVal}>{total}</span>
-        </div>
-        <div className={styles.statCard}>
-          <span className={styles.statLbl}>Enrolled</span>
-          <span className={styles.statVal} style={{ color: "#059669" }}>{enrolled}</span>
-        </div>
-        <div className={styles.statCard}>
-          <span className={styles.statLbl}>Students At Risk</span>
-          <span className={styles.statVal} style={{ color: "#dc2626" }}>{atRisk}</span>
-        </div>
-        <div className={styles.statCard}>
-          <span className={styles.statLbl}>Average GPA</span>
-          <span className={styles.statVal} style={{ color: "var(--color-primary, #6d28d9)" }}>{avgGpa}</span>
+      <div className={`${styles.statsWrapper} ${showStats ? styles.statsWrapperVisible : ""}`}>
+        <div className={styles.statsGrid}>
+          <div className={styles.statCard}>
+            <span className={styles.statLbl}>Total Students</span>
+            <span className={styles.statVal}>{total}</span>
+          </div>
+          <div className={styles.statCard}>
+            <span className={styles.statLbl}>Enrolled</span>
+            <span className={styles.statVal} style={{ color: "#059669" }}>{enrolled}</span>
+          </div>
+          <div className={styles.statCard}>
+            <span className={styles.statLbl}>Students At Risk</span>
+            <span className={styles.statVal} style={{ color: "#dc2626" }}>{atRisk}</span>
+          </div>
+          <div className={styles.statCard}>
+            <span className={styles.statLbl}>Average GPA</span>
+            <span className={styles.statVal} style={{ color: "var(--color-primary, #6d28d9)" }}>{avgGpa}</span>
+          </div>
         </div>
       </div>
 
@@ -96,6 +99,13 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
           <select className={styles.select} value={statusFilter} onChange={e => setStatus(e.target.value)}>
             {STATUSES.map(s => <option key={s}>{s}</option>)}
           </select>
+          <button 
+            className={`${styles.iconBtn} ${showStats ? styles.iconBtnActive : ""}`}
+            onClick={() => setShowStats(!showStats)}
+            title={showStats ? "Hide Statistics" : "Show Statistics"}
+          >
+            <StatsIcon />
+          </button>
         </div>
         <button className={styles.btnOutline}><DownloadIcon /> Export</button>
       </div>
@@ -130,8 +140,8 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
                 <td className={styles.td}>
                   <div className={styles.studentCell}>
                     <div className={`${styles.avatar} ${
-                      s.risk === "High"   ? styles.avatarHigh :
-                      s.risk === "Medium" ? styles.avatarMed  : styles.avatarDefault
+                      s.risk === "High" ? styles.avatarHigh :
+                      s.risk === "Medium" ? styles.avatarMed : styles.avatarDefault
                     }`}>{s.avatar}</div>
                     <div>
                       <p className={styles.studentName}>{s.name}</p>
@@ -145,20 +155,20 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
                 <td className={styles.td}>
                   <span className={`${styles.gpa} ${
                     s.gpa < 75 ? styles.gpaDanger :
-                    s.gpa < 80 ? styles.gpaWarn   : styles.gpaGood
+                    s.gpa < 80 ? styles.gpaWarn : styles.gpaGood
                   }`}>{s.gpa}</span>
                 </td>
                 <td className={styles.td}>
                   <span className={`${styles.absences} ${
                     s.absences >= 10 ? styles.absHigh :
-                    s.absences >= 5  ? styles.absMed  : ""
+                    s.absences >= 5 ? styles.absMed : ""
                   }`}>{s.absences}</span>
                 </td>
                 <td className={styles.td}>
                   <span className={`${styles.statusChip} ${
-                    s.status === "Enrolled"  ? styles.statusEnrolled  :
-                    s.status === "Pending"   ? styles.statusPending   :
-                    s.status === "Dropped"   ? styles.statusDropped   :
+                    s.status === "Enrolled" ? styles.statusEnrolled :
+                    s.status === "Pending" ? styles.statusPending :
+                    s.status === "Dropped" ? styles.statusDropped :
                     styles.statusGraduated
                   }`}>{s.status}</span>
                 </td>

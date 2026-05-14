@@ -1,14 +1,31 @@
 .viewPane {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5, 20px);
   padding: var(--space-6, 24px) var(--space-8, 32px);
   animation: paneIn 180ms ease both;
 }
 
 @keyframes paneIn {
   from { opacity: 0; transform: translateY(3px); }
-  to   { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.statsWrapper {
+  overflow: hidden;
+  opacity: 0;
+  max-height: 0;
+  transform: translateY(-10px);
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.3s ease, 
+              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              margin-bottom 0.4s ease;
+}
+
+.statsWrapperVisible {
+  opacity: 1;
+  max-height: 400px;
+  transform: translateY(0);
+  margin-bottom: var(--space-5, 20px);
 }
 
 .statsGrid {
@@ -16,6 +33,7 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--space-4, 16px);
   width: 100%;
+  padding-top: 2px;
 }
 
 .statCard {
@@ -56,6 +74,7 @@
   align-items: center;
   gap: var(--space-4);
   flex-wrap: wrap;
+  margin-bottom: var(--space-5, 20px);
 }
 
 .searchWrap {
@@ -132,6 +151,32 @@
 .btnOutline:hover {
   background: var(--bg-subtle);
   color: var(--text-primary);
+}
+
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  color: var(--text-secondary, #555);
+  border: 1px solid var(--border-base, #e8e8ed);
+  border-radius: var(--radius-sm, 6px);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.iconBtn:hover {
+  background: var(--bg-subtle, #f8f8fb);
+  color: var(--text-primary, #111);
+  border-color: var(--border-strong, #ccc);
+}
+
+.iconBtnActive {
+  background: rgba(109, 40, 217, 0.08);
+  color: var(--color-primary, #6d28d9);
+  border-color: rgba(109, 40, 217, 0.3);
 }
 
 .tableWrap {
@@ -232,11 +277,11 @@
   letter-spacing: 0.3px;
 }
 
-.avatarHigh    { background: #fef2f2; color: #dc2626; border: 1.5px solid #fecaca; }
-.avatarMed     { background: #fffbeb; color: #d97706; border: 1.5px solid #fde68a; }
+.avatarHigh { background: #fef2f2; color: #dc2626; border: 1.5px solid #fecaca; }
+.avatarMed { background: #fffbeb; color: #d97706; border: 1.5px solid #fde68a; }
 .avatarDefault { background: var(--bg-subtle); color: var(--text-secondary); border: 1.5px solid var(--border-subtle); }
 
-.studentName   { font-weight: 600; font-size: var(--text-sm); color: var(--text-primary); }
+.studentName { font-weight: 600; font-size: var(--text-sm); color: var(--text-primary); }
 .studentGender { font-size: var(--text-xs); color: var(--text-muted); margin-top: 1px; }
 
 .lrn {
@@ -256,14 +301,14 @@
   border: 1px solid rgba(109, 40, 217, 0.15);
 }
 
-.gpa       { font-weight: 700; font-size: var(--text-sm); }
+.gpa { font-weight: 700; font-size: var(--text-sm); }
 .gpaDanger { color: #dc2626; }
-.gpaWarn   { color: #d97706; }
-.gpaGood   { color: #059669; }
+.gpaWarn { color: #d97706; }
+.gpaGood { color: #059669; }
 
 .absences { font-weight: 600; font-size: var(--text-sm); }
-.absHigh  { color: #dc2626; }
-.absMed   { color: #d97706; }
+.absHigh { color: #dc2626; }
+.absMed { color: #d97706; }
 
 .statusChip {
   font-size: 11px;
@@ -272,9 +317,9 @@
   border-radius: var(--radius-full);
 }
 
-.statusEnrolled  { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
-.statusPending   { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
-.statusDropped   { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+.statusEnrolled { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+.statusPending { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+.statusDropped { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
 .statusGraduated { background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; }
 
 .riskChip {
@@ -287,7 +332,7 @@
 }
 
 .riskHigh { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
-.riskMed  { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+.riskMed { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
 .riskNone { color: var(--text-muted); }
 
 .resultCount {

@@ -42,10 +42,8 @@
 }
 
 .groupLabel {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
+  font-size: var(--text-sm);
+  font-weight: 400;
   color: var(--text-muted, #8888a0);
   padding: var(--space-2, 8px) var(--space-3, 12px) 4px;
   display: block;
