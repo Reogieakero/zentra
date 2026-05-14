@@ -7,6 +7,7 @@ import { DatePicker } from "./components/DatePicker";
 import { AttendanceOverview } from "./components/AttendanceOverview";
 import { ActivityFeed } from "./components/ActivityFeed";
 import { QuickActions } from "./components/QuickActions";
+import { AtRiskStudents } from "./components/AtRiskStudents";
 import { useDashboardDate } from "../../hooks/useDashboardDate";
 import * as Icons from "./components/Icons";
 
@@ -36,16 +37,19 @@ export function Overview() {
       </div>
 
       <div className={styles.mainGrid}>
-        <div className={styles.statsColumn}>
+        {/* Left: Attendance chart */}
+        <div className={styles.leftColumn}>
           <AttendanceOverview />
           <div className={styles.mt6}>
             <ActivityFeed />
           </div>
         </div>
 
-        <aside className={styles.noticeColumn}>
+        {/* Right: At-Risk + Quick Actions side by side */}
+        <div className={styles.rightColumn}>
+          <AtRiskStudents />
           <QuickActions />
-        </aside>
+        </div>
       </div>
     </div>
   );

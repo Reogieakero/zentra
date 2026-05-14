@@ -29,30 +29,6 @@
   margin-top: var(--space-1);
 }
 
-.systemStatus {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  background: var(--bg-purple-tint);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-full);
-  border: 1px solid var(--border-subtle);
-}
-
-.statusDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent-emerald);
-  box-shadow: 0 0 8px var(--accent-emerald);
-}
-
-.statusText {
-  font-size: var(--text-xs);
-  font-weight: 600;
-  color: var(--text-purple);
-}
-
 .metricsGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -69,10 +45,25 @@
   transition: var(--transition-base);
 }
 
+/* Outer: left (charts) | right (at-risk + quick actions) */
 .mainGrid {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: var(--space-6);
+  align-items: start;
+}
+
+/* Left column: attendance + activity feed stacked */
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Right column: at-risk on top, quick actions below — stacked */
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .sectionTitle {
@@ -82,28 +73,6 @@
   margin-bottom: var(--space-4);
 }
 
-.chartPlaceholder {
-  background: var(--bg-subtle);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  border: 1px dashed var(--border-muted);
-}
-
-.activityFeed {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.heroCard {
-  background: var(--brand-gradient) !important;
-  color: var(--text-white);
-  box-shadow: var(--shadow-purple);
-  height: 100%;
-}
-
-.notice { font-size: var(--text-sm); margin-bottom: var(--space-3); }
-.cardDivider { height: 1px; background: rgba(255, 255, 255, 0.15); margin: var(--space-4) 0; }
 .mt6 { margin-top: var(--space-6); }
 
 @media (max-width: 1200px) { .metricsGrid { grid-template-columns: repeat(2, 1fr); } }

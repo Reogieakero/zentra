@@ -1,10 +1,9 @@
-.card {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-sm);
-  padding: var(--space-6);
-  box-shadow: var(--shadow-card);
+.container {
+  background: transparent;
+  width: 100%;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
 }
 
 .header {
@@ -12,10 +11,11 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--space-4);
+  padding: 0 var(--space-1);
 }
 
 .title {
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   font-weight: 700;
   color: var(--text-primary);
   margin: 0;
@@ -31,35 +31,57 @@
   padding: 2px 10px;
 }
 
-.logList {
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  font-family: var(--font-mono);
+/* Scroll container wrapping the table data matrix */
+.tableContainer {
+  width: 100%;
+  overflow-y: auto;
+  /* Exactly fits 5 rows of content (approx 41px per row) */
+  max-height: 205px; 
 }
 
-.logHeader {
-  display: grid;
-  grid-template-columns: 80px 120px 1fr;
-  padding: var(--space-2) var(--space-3);
-  background: var(--bg-muted);
-  border-bottom: 1px solid var(--border-subtle);
+/* Custom modern scrollbar styles */
+.tableContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tableContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tableContainer::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: var(--radius-full);
+}
+
+.tableContainer::-webkit-scrollbar-thumb:hover {
+  background: var(--border-muted);
+}
+
+.logTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+/* Set headers as sticky so they stay anchored when scrolling */
+.logHeaderCell {
+  position: sticky;
+  top: 0;
+  background: var(--bg-base);
+  padding: var(--space-2) var(--space-4);
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: var(--tracking-wide);
   color: var(--text-muted);
   text-transform: uppercase;
   font-family: var(--font-mono);
+  border-bottom: 2px solid var(--border-subtle);
+  z-index: var(--z-above);
 }
 
 .logRow {
-  display: grid;
-  grid-template-columns: 80px 120px 1fr;
-  padding: var(--space-2) var(--space-3);
   border-bottom: 1px solid var(--border-base);
-  align-items: center;
   transition: background var(--transition-fast);
-  cursor: default;
 }
 
 .logRow:last-child {
@@ -67,7 +89,12 @@
 }
 
 .logRowHovered {
-  background: var(--bg-purple-tint);
+  background: var(--bg-subtle);
+}
+
+.logCell {
+  padding: var(--space-3) var(--space-4);
+  vertical-align: middle;
 }
 
 .colTime {
@@ -75,11 +102,11 @@
   color: var(--text-muted);
   white-space: nowrap;
   font-family: var(--font-mono);
+  width: 90px;
 }
 
 .colTag {
-  display: flex;
-  align-items: center;
+  width: 130px;
 }
 
 .tag {
@@ -88,16 +115,14 @@
   letter-spacing: var(--tracking-wide);
   border: 1px solid;
   border-radius: var(--radius-full);
-  padding: 1px 8px;
+  padding: 2px 10px;
   white-space: nowrap;
   font-family: var(--font-mono);
+  display: inline-block;
 }
 
 .colMsg {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-secondary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   font-family: var(--font-mono);
 }
