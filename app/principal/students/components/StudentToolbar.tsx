@@ -7,10 +7,10 @@ import { SearchIcon, DownloadIcon, StatsIcon, EyeIcon, EyeOffIcon } from "./icon
 interface StudentToolbarProps {
   search: string;
   showStats: boolean;
-  showLrn: boolean; // New prop
+  showLrn: boolean;
   onSearchChange: (value: string) => void;
   onToggleStats: () => void;
-  onToggleLrn: () => void; // New callback prop
+  onToggleLrn: () => void;
   onExport: () => void;
 }
 
@@ -38,7 +38,7 @@ export function StudentToolbar({
       </div>
 
       <div className={styles.actions}>
-        {/* Toggle LRN Visibility Button */}
+        {/* Toggle LRN Visibility */}
         <button
           className={`${styles.iconBtn} ${!showLrn ? styles.iconBtnActive : ""}`}
           onClick={onToggleLrn}
@@ -47,7 +47,7 @@ export function StudentToolbar({
           {showLrn ? <EyeOffIcon /> : <EyeIcon />}
         </button>
 
-        {/* Toggle Stats Grid Button */}
+        {/* Toggle Stats Grid */}
         <button
           className={`${styles.iconBtn} ${showStats ? styles.iconBtnActive : ""}`}
           onClick={onToggleStats}

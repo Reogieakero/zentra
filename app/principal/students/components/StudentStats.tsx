@@ -29,52 +29,94 @@ export function StudentStats({
   onShowEnrolled,
   onShowAtRisk,
 }: StudentStatsProps) {
+  
+  const cardData = [
+    {
+      label: "Total Students",
+      value: stats.total,
+      path: "stats/all-students",
+      color: "#7c3aed", // Purple
+      active: statusFilter === "All Status" && !riskFilter,
+      onClick: onShowAll,
+    },
+    {
+      label: "Enrolled",
+      value: stats.enrolled,
+      path: "stats/enrolled",
+      color: "#10b981", // Green
+      active: statusFilter === "Enrolled",
+      onClick: onShowEnrolled,
+    },
+    {
+      label: "Students At Risk",
+      value: stats.atRisk,
+      path: "stats/at-risk",
+      color: "#ef4444", // Red
+      active: riskFilter,
+      onClick: onShowAtRisk,
+    },
+    {
+      label: "Average GPA",
+      value: stats.avgGpa,
+      path: "stats/academic-performance",
+      color: "#0ea5e9", // Blue
+      active: false,
+      isStatic: true,
+      onClick: () => {},
+    }
+  ];
+
   return (
     <div className={`${styles.statsWrapper} ${visible ? styles.statsWrapperVisible : ""}`}>
       <div className={styles.statsGrid}>
-        <div
-          className={`${styles.statCard} ${statusFilter === "All Status" && !riskFilter ? styles.statCardActive : ""}`}
-          onClick={onShowAll}
-        >
-          <ChromeDots active={statusFilter === "All Status" && !riskFilter} />
-          <span className={styles.statLbl}>Total Students</span>
-          <span className={styles.statVal}>{stats.total}</span>
-        </div>
+        {cardData.map((card) => (
+          <div
+            key={card.label}
+            className={`${styles.statCard} ${card.active ? styles.statCardActive : ""} ${card.isStatic ? styles.statCardStatic : ""}`}
+            onClick={card.onClick}
+            style={{
+              boxShadow: card.active 
+                ? `0 12px 48px ${card.color}25, 0 2px 12px rgba(0,0,0,0.08)`
+                : `0 8px 32px rgba(0,0,0,0.04)`,
+              border: `1px solid ${card.active ? `${card.color}44` : 'var(--border-subtle)'}`,
+            }}
+          >
+            {/* Browser Chrome Header */}
+            <div
+              className={styles.chromeHeader}
+              style={{
+                background: `${card.color}08`,
+                borderBottom: `1px solid ${card.color}15`,
+              }}
+            >
+              <span className={`${styles.chromeDot} ${styles.dotRed}`} />
+              <span className={`${styles.chromeDot} ${styles.dotYellow}`} />
+              <span className={`${styles.chromeDot} ${styles.dotGreen}`} />
+              <div
+                className={styles.chromeAddressBar}
+                style={{ background: `${card.color}10` }}
+              >
+                <span
+                  className={styles.chromeAddressText}
+                  style={{ color: `${card.color}99` }}
+                >
+                  zentra.app / {card.path}
+                </span>
+              </div>
+            </div>
 
-        <div
-          className={`${styles.statCard} ${statusFilter === "Enrolled" ? styles.statCardActive : ""}`}
-          onClick={onShowEnrolled}
-        >
-          <ChromeDots active={statusFilter === "Enrolled"} />
-          <span className={styles.statLbl}>Enrolled</span>
-          <span className={`${styles.statVal} ${styles.statValGreen}`}>{stats.enrolled}</span>
-        </div>
-
-        <div
-          className={`${styles.statCard} ${riskFilter ? styles.statCardActive : ""}`}
-          onClick={onShowAtRisk}
-        >
-          <ChromeDots active={riskFilter} />
-          <span className={styles.statLbl}>Students At Risk</span>
-          <span className={`${styles.statVal} ${styles.statValRed}`}>{stats.atRisk}</span>
-        </div>
-
-        <div className={`${styles.statCard} ${styles.statCardStatic}`}>
-          <ChromeDots active={false} />
-          <span className={styles.statLbl}>Average GPA</span>
-          <span className={`${styles.statVal} ${styles.statValBrand}`}>{stats.avgGpa}</span>
-        </div>
+            {/* Content Body */}
+            <div className={styles.cardBody}>
+              <span className={styles.statLbl} style={{ color: card.active ? card.color : 'var(--text-muted)' }}>
+                {card.label}
+              </span>
+              <span className={styles.statVal} style={{ color: card.active ? card.color : 'var(--text-primary)' }}>
+                {card.value}
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
-    </div>
-  );
-}
-
-function ChromeDots({ active }: { active: boolean }) {
-  return (
-    <div className={styles.chromeDots}>
-      <div className={`${styles.dot} ${active ? styles.dotRed : ""}`} />
-      <div className={`${styles.dot} ${active ? styles.dotYellow : ""}`} />
-      <div className={`${styles.dot} ${active ? styles.dotGreen : ""}`} />
     </div>
   );
 }

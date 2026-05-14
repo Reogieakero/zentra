@@ -15,7 +15,7 @@
   max-height: 500px;
   transform: translateY(0);
   margin-bottom: var(--space-5, 20px);
-  padding-top: 8px;
+  padding-top: 4px;
 }
 
 .statsGrid {
@@ -25,82 +25,90 @@
   width: 100%;
 }
 
-/* ── Stat Card ── */
+/* ── Compact Browser-like Stat Card ── */
 .statCard {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2, 8px);
-  padding: var(--space-8, 32px) var(--space-6, 24px) var(--space-6, 24px);
   background: var(--bg-base, #ffffff);
-  border: 1px solid var(--border-subtle, #e5e7eb);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-sm, 0 2px 4px rgba(0, 0, 0, 0.05));
-  transition: all 200ms ease;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform var(--transition-slow), box-shadow var(--transition-slow);
   cursor: pointer;
-  background-clip: padding-box;
 }
 
 .statCard:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md, 0 4px 12px rgba(0, 0, 0, 0.08));
-  border-color: var(--border-muted);
+}
+
+.statCardActive {
+  transform: translateY(-2px);
+  z-index: 2;
+}
+
+/* ── Reduced Chrome Header ── */
+.chromeHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px; /* Reduced from 10px 14px */
+}
+
+.chromeDot {
+  width: 8px; /* Reduced from 10px */
+  height: 8px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  background-color: var(--border-muted);
+}
+
+.statCard:hover .dotRed, .statCardActive .dotRed { background-color: var(--chrome-dot-red); }
+.statCard:hover .dotYellow, .statCardActive .dotYellow { background-color: var(--chrome-dot-yellow); }
+.statCard:hover .dotGreen, .statCardActive .dotGreen { background-color: var(--chrome-dot-green); }
+
+.chromeAddressBar {
+  margin-left: 6px;
+  flex: 1;
+  height: 14px; /* Reduced from 18px */
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  overflow: hidden;
+}
+
+.chromeAddressText {
+  font-size: 8px; /* Reduced for a micro-detail look */
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Compact Card Body ── */
+.cardBody {
+  padding: 12px 16px; /* Reduced padding */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statLbl {
+  font-size: 10px; /* Tighter label */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.statVal {
+  font-size: 28px; /* Reduced from 36px */
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-primary);
 }
 
 .statCardStatic {
   cursor: default;
-}
-
-.statCardActive {
-  border: 1.5px solid var(--brand-primary, #7c3aed);
-  background: var(--bg-base, #ffffff);
-  box-shadow: var(--shadow-card-hover);
-  transform: translateY(-4px);
-  z-index: 2;
-}
-
-.statCardActive .statLbl {
-  color: var(--brand-primary);
-}
-
-/* ── Chrome Dots ── */
-.chromeDots {
-  position: absolute;
-  top: 14px;
-  left: 16px;
-  display: flex;
-  gap: 6px;
-  z-index: 3;
-}
-
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--bg-muted, #f3f4f6);
-  transition: background 200ms ease;
-}
-
-.dotRed   { background: var(--chrome-dot-red,    #f87171); }
-.dotYellow { background: var(--chrome-dot-yellow, #fbbf24); }
-.dotGreen  { background: var(--chrome-dot-green,  #4ade80); }
-
-/* ── Stat Values ── */
-.statVal {
-  font-size: 32px;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--text-primary, #111);
-}
-
-.statValGreen { color: #10b981; }
-.statValRed   { color: #ef4444; }
-.statValBrand { color: var(--brand-primary, #7c3aed); }
-
-.statLbl {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-muted, #8888a0);
 }
