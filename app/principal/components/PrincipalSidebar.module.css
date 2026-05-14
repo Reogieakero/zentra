@@ -1,26 +1,38 @@
 .sidebar {
+  position: relative;
   width: 60px;
   min-width: 60px;
   height: 100%;
-  padding: var(--space-4) 0;
-  border-right: 1px solid var(--border-subtle);
-  background: var(--bg-base);
-  overflow-y: auto;
-  overflow-x: hidden;
-  transition: width 350ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 350ms ease;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  flex-shrink: 0;
   z-index: 10;
 }
 
-.sidebar:hover {
-  width: 200px;
-  min-width: 200px;
-  box-shadow: 10px 0 15px -3px rgba(0, 0, 0, 0.05);
+/* The floating inner panel — expands on its own hover */
+.sidebarInner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 100%;
+  background: var(--bg-base);
+  border-right: 1px solid var(--border-subtle);
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: width 350ms cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 350ms ease;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  z-index: 100;
+  padding: var(--space-4) 0;
 }
 
-.sidebar::-webkit-scrollbar {
+.sidebarInner::-webkit-scrollbar {
   display: none;
+}
+
+.sidebarInner:hover {
+  width: 200px;
+  box-shadow: 10px 0 30px -5px rgba(0, 0, 0, 0.12);
 }
 
 .nav {
@@ -28,6 +40,7 @@
   flex-direction: column;
   gap: var(--space-2);
   padding: 0 var(--space-2);
+  width: 200px;
 }
 
 .divider {
@@ -64,6 +77,8 @@
   text-decoration: none;
   transition: background 200ms ease, color 200ms ease;
   min-height: 32px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .link:hover {
@@ -90,10 +105,10 @@
   flex: 1;
   white-space: nowrap;
   opacity: 0;
-  transition: opacity 200ms ease 100ms;
+  transition: opacity 200ms ease 150ms;
 }
 
-.sidebar:hover .linkLabel {
+.sidebarInner:hover .linkLabel {
   opacity: 1;
 }
 
@@ -115,7 +130,7 @@
   background: rgba(0, 0, 0, 0.05);
 }
 
-.sidebar:hover .chevron {
+.sidebarInner:hover .chevron {
   opacity: 0.5;
 }
 
@@ -133,7 +148,7 @@
   gap: 2px;
 }
 
-.sidebar:hover .subLinkList.show {
+.sidebarInner:hover .subLinkList.show {
   display: flex;
   animation: slideDown 180ms ease forwards;
 }
@@ -182,7 +197,7 @@
   transition: opacity 200ms ease;
 }
 
-.sidebar:hover .activeIndicator {
+.sidebarInner:hover .activeIndicator {
   opacity: 1;
 }
 
