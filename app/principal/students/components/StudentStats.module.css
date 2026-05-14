@@ -1,0 +1,106 @@
+.statsWrapper {
+  overflow: visible;
+  opacity: 0;
+  max-height: 0;
+  transform: translateY(-10px);
+  transition:
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease,
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    margin-bottom 0.4s ease;
+}
+
+.statsWrapperVisible {
+  opacity: 1;
+  max-height: 500px;
+  transform: translateY(0);
+  margin-bottom: var(--space-5, 20px);
+  padding-top: 8px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4, 16px);
+  width: 100%;
+}
+
+/* ── Stat Card ── */
+.statCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 8px);
+  padding: var(--space-8, 32px) var(--space-6, 24px) var(--space-6, 24px);
+  background: var(--bg-base, #ffffff);
+  border: 1px solid var(--border-subtle, #e5e7eb);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm, 0 2px 4px rgba(0, 0, 0, 0.05));
+  transition: all 200ms ease;
+  cursor: pointer;
+  background-clip: padding-box;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md, 0 4px 12px rgba(0, 0, 0, 0.08));
+  border-color: var(--border-muted);
+}
+
+.statCardStatic {
+  cursor: default;
+}
+
+.statCardActive {
+  border: 1.5px solid var(--brand-primary, #7c3aed);
+  background: var(--bg-base, #ffffff);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-4px);
+  z-index: 2;
+}
+
+.statCardActive .statLbl {
+  color: var(--brand-primary);
+}
+
+/* ── Chrome Dots ── */
+.chromeDots {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  display: flex;
+  gap: 6px;
+  z-index: 3;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bg-muted, #f3f4f6);
+  transition: background 200ms ease;
+}
+
+.dotRed   { background: var(--chrome-dot-red,    #f87171); }
+.dotYellow { background: var(--chrome-dot-yellow, #fbbf24); }
+.dotGreen  { background: var(--chrome-dot-green,  #4ade80); }
+
+/* ── Stat Values ── */
+.statVal {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--text-primary, #111);
+}
+
+.statValGreen { color: #10b981; }
+.statValRed   { color: #ef4444; }
+.statValBrand { color: var(--brand-primary, #7c3aed); }
+
+.statLbl {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted, #8888a0);
+}

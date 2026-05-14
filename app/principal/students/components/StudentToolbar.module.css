@@ -1,0 +1,95 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-5, 20px);
+}
+
+/* ── Search ── */
+.searchWrap {
+  position: relative;
+  flex: 1;
+  min-width: 280px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  display: flex;
+}
+
+.searchInput {
+  width: 100%;
+  padding: var(--space-2) var(--space-4) var(--space-2) calc(var(--space-3) + 24px);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.searchInput:focus {
+  border-color: var(--color-primary, #6d28d9);
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.08);
+}
+
+/* ── Filters ── */
+.filters {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text-muted);
+}
+
+.select {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
+  outline: none;
+  cursor: pointer;
+}
+
+/* ── Buttons ── */
+.btnOutline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-5);
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.iconBtnActive {
+  background: rgba(124, 58, 237, 0.08);
+  color: var(--brand-primary);
+  border-color: rgba(124, 58, 237, 0.3);
+}
