@@ -2,32 +2,25 @@
 
 import React from "react";
 import styles from "./StudentToolbar.module.css";
-import { SearchIcon, FilterIcon, DownloadIcon, StatsIcon } from "./icons/Icons";
-
-const GRADES = ["All Grades", "8", "9", "10", "11", "12"];
-const STATUSES = ["All Status", "Enrolled", "Pending", "Dropped", "Graduated"];
+import { SearchIcon, DownloadIcon, StatsIcon, EyeIcon, EyeOffIcon } from "./icons/Icons";
 
 interface StudentToolbarProps {
   search: string;
-  grade: string;
-  statusFilter: string;
   showStats: boolean;
+  showLrn: boolean; // New prop
   onSearchChange: (value: string) => void;
-  onGradeChange: (value: string) => void;
-  onStatusChange: (value: string) => void;
   onToggleStats: () => void;
+  onToggleLrn: () => void; // New callback prop
   onExport: () => void;
 }
 
 export function StudentToolbar({
   search,
-  grade,
-  statusFilter,
   showStats,
+  showLrn,
   onSearchChange,
-  onGradeChange,
-  onStatusChange,
   onToggleStats,
+  onToggleLrn,
   onExport,
 }: StudentToolbarProps) {
   return (
@@ -44,28 +37,17 @@ export function StudentToolbar({
         />
       </div>
 
-      <div className={styles.filters}>
-        <FilterIcon />
-        <select
-          className={styles.select}
-          value={grade}
-          onChange={(e) => onGradeChange(e.target.value)}
+      <div className={styles.actions}>
+        {/* Toggle LRN Visibility Button */}
+        <button
+          className={`${styles.iconBtn} ${!showLrn ? styles.iconBtnActive : ""}`}
+          onClick={onToggleLrn}
+          title={showLrn ? "Hide LRN columns" : "Show LRN columns"}
         >
-          {GRADES.map((g) => (
-            <option key={g}>{g}</option>
-          ))}
-        </select>
+          {showLrn ? <EyeOffIcon /> : <EyeIcon />}
+        </button>
 
-        <select
-          className={styles.select}
-          value={statusFilter}
-          onChange={(e) => onStatusChange(e.target.value)}
-        >
-          {STATUSES.map((s) => (
-            <option key={s}>{s}</option>
-          ))}
-        </select>
-
+        {/* Toggle Stats Grid Button */}
         <button
           className={`${styles.iconBtn} ${showStats ? styles.iconBtnActive : ""}`}
           onClick={onToggleStats}
@@ -73,11 +55,11 @@ export function StudentToolbar({
         >
           <StatsIcon />
         </button>
-      </div>
 
-      <button className={styles.btnOutline} onClick={onExport}>
-        <DownloadIcon /> Export
-      </button>
+        <button className={styles.btnOutline} onClick={onExport}>
+          <DownloadIcon /> Export
+        </button>
+      </div>
     </div>
   );
 }

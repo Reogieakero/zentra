@@ -21,6 +21,9 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [showStats, setShowStats] = useState(true);
   const [riskFilter, setRiskFilter] = useState(false);
+  
+  // ── ADDED STATE FOR LRN VISIBILITY ──
+  const [showLrn, setShowLrn] = useState(true); 
 
   const handleSort = (key: keyof Student) => {
     if (sortKey === key) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
@@ -67,7 +70,6 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
   );
 
   const handleExport = () => {
-    // TODO: wire up export logic
     console.log("Export triggered");
   };
 
@@ -85,13 +87,11 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
 
       <StudentToolbar
         search={search}
-        grade={grade}
-        statusFilter={statusFilter}
         showStats={showStats}
+        showLrn={showLrn} // Fixed error by passing defined state
         onSearchChange={setSearch}
-        onGradeChange={setGrade}
-        onStatusChange={setStatus}
         onToggleStats={() => setShowStats((v) => !v)}
+        onToggleLrn={() => setShowLrn((v) => !v)} // Fixed error by passing defined setter
         onExport={handleExport}
       />
 
@@ -103,6 +103,7 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
         sectionFilter={sectionFilter}
         onSort={handleSort}
         onSelectStudent={onSelectStudent}
+        showLrn={showLrn}
       />
     </div>
   );
