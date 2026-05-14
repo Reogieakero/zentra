@@ -6,6 +6,7 @@ import { MetricCard } from "./components/MetricCard";
 import { DatePicker } from "./components/DatePicker";
 import { AttendanceOverview } from "./components/AttendanceOverview";
 import { ActivityFeed } from "./components/ActivityFeed";
+import { QuickActions } from "./components/QuickActions";
 import { useDashboardDate } from "../../hooks/useDashboardDate";
 import * as Icons from "./components/Icons";
 
@@ -43,23 +44,7 @@ export function Overview() {
         </div>
 
         <aside className={styles.noticeColumn}>
-          <section className={`${styles.glassCard} ${styles.heroCard}`}>
-            <h2 className={styles.sectionTitle} style={{ color: "var(--text-white)" }}>Notice Board</h2>
-            <div className={styles.notice}>
-              <strong>Faculty Convocation</strong>
-              <p>Main Hall • 3:00 PM Today</p>
-            </div>
-            <div className={styles.cardDivider} />
-            <div className={styles.notice}>
-              <strong>Term Finals</strong>
-              <p>Schedule released in SF10</p>
-            </div>
-            <div className={styles.cardDivider} />
-            <div className={styles.notice}>
-              <strong>Maintenance</strong>
-              <p>System backup at 12:00 AM</p>
-            </div>
-          </section>
+          <QuickActions />
         </aside>
       </div>
     </div>
