@@ -5,16 +5,13 @@ import styles from "./Sidebar.module.css";
 import { TableIcon } from "./icons/Icons";
 import { Student, SectionTab } from "../types/student";
 
-const ALL_SECTIONS = Array.from(new Set<string>([])); // passed via props to avoid coupling
-
 interface SidebarProps {
   students: Student[];
   sections: string[];
   openTabs: SectionTab[];
   activeTabId: string;
   onOpenSection: (id: string) => void;
-  width: number;
-  onMouseDown: (e: React.MouseEvent) => void;
+  // Removed width and onMouseDown props
 }
 
 export function Sidebar({
@@ -23,8 +20,6 @@ export function Sidebar({
   openTabs,
   activeTabId,
   onOpenSection,
-  width,
-  onMouseDown,
 }: SidebarProps) {
   const counts = useMemo(() => {
     const m: Record<string, number> = { all: students.length };
@@ -35,9 +30,9 @@ export function Sidebar({
   }, [students, sections]);
 
   return (
-    <nav className={styles.sidebar} style={{ width }}>
+    <nav className={styles.sidebar}> {/* Removed inline width style */}
       <div className={styles.header}>
-        <span className={styles.title}>Sections</span>
+        <span className={styles.title}></span>
       </div>
 
       <ul className={styles.list}>
@@ -73,8 +68,7 @@ export function Sidebar({
           );
         })}
       </ul>
-
-      <div className={styles.resizer} onMouseDown={onMouseDown} />
+      {/* Resizer div removed from here */}
     </nav>
   );
 }

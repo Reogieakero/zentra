@@ -1,6 +1,7 @@
 .sidebar {
   position: relative;
   flex-shrink: 0;
+  width: 180px;
   background: var(--bg-subtle, #f8f8fb);
   border-right: 1px solid var(--border-subtle, #e8e8ed);
   display: flex;
@@ -8,22 +9,6 @@
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--border-base, #ddd) transparent;
-}
-
-.resizer {
-  position: absolute;
-  top: 0;
-  right: -3px;
-  bottom: 0;
-  width: 6px;
-  cursor: col-resize;
-  z-index: 10;
-  transition: background 150ms ease;
-}
-
-.resizer:hover,
-.resizer:active {
-  background: rgba(109, 40, 217, 0.25);
 }
 
 .header {

@@ -59,31 +59,25 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
 
   return (
     <div className={styles.viewPane}>
-
-      {/* Mini stats */}
-      <div className={styles.miniStats}>
-        <div className={styles.miniStat}>
-          <span className={styles.miniStatVal}>{total}</span>
-          <span className={styles.miniStatLbl}>Students</span>
+      <div className={styles.statsGrid}>
+        <div className={styles.statCard}>
+          <span className={styles.statLbl}>Total Students</span>
+          <span className={styles.statVal}>{total}</span>
         </div>
-        <div className={styles.miniStatDiv} />
-        <div className={styles.miniStat}>
-          <span className={styles.miniStatVal} style={{ color: "#059669" }}>{enrolled}</span>
-          <span className={styles.miniStatLbl}>Enrolled</span>
+        <div className={styles.statCard}>
+          <span className={styles.statLbl}>Enrolled</span>
+          <span className={styles.statVal} style={{ color: "#059669" }}>{enrolled}</span>
         </div>
-        <div className={styles.miniStatDiv} />
-        <div className={styles.miniStat}>
-          <span className={styles.miniStatVal} style={{ color: "#dc2626" }}>{atRisk}</span>
-          <span className={styles.miniStatLbl}>At Risk</span>
+        <div className={styles.statCard}>
+          <span className={styles.statLbl}>Students At Risk</span>
+          <span className={styles.statVal} style={{ color: "#dc2626" }}>{atRisk}</span>
         </div>
-        <div className={styles.miniStatDiv} />
-        <div className={styles.miniStat}>
-          <span className={styles.miniStatVal} style={{ color: "var(--color-primary, #6d28d9)" }}>{avgGpa}</span>
-          <span className={styles.miniStatLbl}>Avg GPA</span>
+        <div className={styles.statCard}>
+          <span className={styles.statLbl}>Average GPA</span>
+          <span className={styles.statVal} style={{ color: "var(--color-primary, #6d28d9)" }}>{avgGpa}</span>
         </div>
       </div>
 
-      {/* Toolbar */}
       <div className={styles.toolbar}>
         <div className={styles.searchWrap}>
           <span className={styles.searchIcon}><SearchIcon /></span>
@@ -106,7 +100,6 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
         <button className={styles.btnOutline}><DownloadIcon /> Export</button>
       </div>
 
-      {/* Table */}
       <div className={styles.tableWrap}>
         <table className={styles.table}>
           <thead>
@@ -128,11 +121,10 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
                   No students match your filters.
                 </td>
               </tr>
-            ) : filtered.map((s, i) => (
+            ) : filtered.map((s) => (
               <tr
                 key={s.id}
                 className={styles.row}
-                style={{ animationDelay: `${i * 25}ms` }}
                 onClick={() => onSelectStudent(s)}
               >
                 <td className={styles.td}>
@@ -185,9 +177,9 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
         </table>
       </div>
 
-      <p className={styles.resultCount}>
+      <div className={styles.resultCount}>
         Showing <strong>{filtered.length}</strong> of <strong>{total}</strong> students
-      </p>
+      </div>
     </div>
   );
 }

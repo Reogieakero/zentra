@@ -92,8 +92,6 @@ export default function Students() {
         openTabs={tabs}
         activeTabId={activeTabId}
         onOpenSection={openSection}
-        width={sidebarWidth}
-        onMouseDown={startResize}
       />
 
       <div className={styles.main}>
