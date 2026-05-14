@@ -13,7 +13,7 @@ interface StudentTableProps {
   sectionFilter: string | null;
   onSort: (key: keyof Student) => void;
   onSelectStudent: (s: Student) => void;
-  showLrn: boolean; // Added prop to match parent visibility state
+  showLrn: boolean;
 }
 
 export function StudentTable({
@@ -24,7 +24,7 @@ export function StudentTable({
   sectionFilter,
   onSort,
   onSelectStudent,
-  showLrn, // Destructured prop
+  showLrn,
 }: StudentTableProps) {
   const SortBtn = ({ col }: { col: keyof Student }) => (
     <span className={styles.sortBtn} onClick={() => onSort(col)}>
@@ -94,12 +94,10 @@ export function StudentTable({
                     </div>
                     <div>
                       <p className={styles.studentName}>{s.name}</p>
-                      <p className={styles.studentGender}>{s.gender}</p>
                     </div>
                   </div>
                 </td>
                 <td className={styles.td}>
-                  {/* Conditionally mask or render the LRN value based on showLrn state */}
                   <span className={styles.lrn}>
                     {showLrn ? s.lrn : "••••••••••••"}
                   </span>
