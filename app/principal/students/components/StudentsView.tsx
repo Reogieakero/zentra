@@ -11,9 +11,17 @@ interface StudentsViewProps {
   students: Student[];
   sectionFilter: string | null;
   onSelectStudent: (s: Student) => void;
+  showLrn: boolean;
+  onToggleLrn: () => void;
 }
 
-export function StudentsView({ students, sectionFilter, onSelectStudent }: StudentsViewProps) {
+export function StudentsView({ 
+  students, 
+  sectionFilter, 
+  onSelectStudent, 
+  showLrn, 
+  onToggleLrn 
+}: StudentsViewProps) {
   const [search, setSearch] = useState("");
   const [grade, setGrade] = useState("All Grades");
   const [statusFilter, setStatus] = useState("All Status");
@@ -21,9 +29,6 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [showStats, setShowStats] = useState(true);
   const [riskFilter, setRiskFilter] = useState(false);
-  
-  // ── ADDED STATE FOR LRN VISIBILITY ──
-  const [showLrn, setShowLrn] = useState(true); 
 
   const handleSort = (key: keyof Student) => {
     if (sortKey === key) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
@@ -69,10 +74,6 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
     [search, grade, statusFilter, sortKey, sortDir, sectionFilter, students, riskFilter]
   );
 
-  const handleExport = () => {
-    console.log("Export triggered");
-  };
-
   return (
     <div className={styles.viewPane}>
       <StudentStats
@@ -88,11 +89,11 @@ export function StudentsView({ students, sectionFilter, onSelectStudent }: Stude
       <StudentToolbar
         search={search}
         showStats={showStats}
-        showLrn={showLrn} // Fixed error by passing defined state
+        showLrn={showLrn}
         onSearchChange={setSearch}
         onToggleStats={() => setShowStats((v) => !v)}
-        onToggleLrn={() => setShowLrn((v) => !v)} // Fixed error by passing defined setter
-        onExport={handleExport}
+        onToggleLrn={onToggleLrn}
+        onExport={() => console.log("Export triggered")}
       />
 
       <StudentTable

@@ -1,9 +1,10 @@
 .tabBar {
   background: var(--bg-subtle, #f8f8fb);
-  border-bottom: 1px solid var(--border-base, #ddd);
+  border-bottom: 1px solid var(--border-subtle, #e8e8ed);
   overflow-x: auto;
   scrollbar-width: none;
   flex-shrink: 0;
+  user-select: none;
 }
 
 .tabBar::-webkit-scrollbar {
@@ -19,19 +20,23 @@
 .tab {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 0 var(--space-4, 16px);
+  gap: 8px;
+  padding: 0 16px;
   font-size: 13px;
   font-weight: 500;
   color: var(--text-muted, #8888a0);
   border: none;
   background: transparent;
-  cursor: pointer;
   white-space: nowrap;
   border-right: 1px solid var(--border-subtle, #e8e8ed);
-  transition: background 120ms ease, color 120ms ease;
+  transition: background 150ms ease, opacity 150ms ease;
   min-height: 40px;
   position: relative;
+  cursor: default;
+}
+
+.tab:active {
+  cursor: default;
 }
 
 .tab:hover {
@@ -40,7 +45,7 @@
 }
 
 .tabActive {
-  background: #fff;
+  background: var(--bg-base, #fff);
   color: var(--text-primary, #111);
   font-weight: 600;
 }
@@ -52,43 +57,43 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--color-primary, #6d28d9);
+  background: var(--brand-primary, #6d28d9);
+}
+
+.isDragging {
+  opacity: 0.3;
+  background: var(--bg-muted);
 }
 
 .tabIcon {
   display: flex;
   align-items: center;
-  color: var(--text-muted, #aaa);
-  flex-shrink: 0;
-}
-
-.tabActive .tabIcon {
-  color: var(--color-primary, #6d28d9);
+  opacity: 0.7;
+  pointer-events: none;
 }
 
 .tabLabel {
-  flex: 1;
+  pointer-events: none;
 }
 
 .tabClose {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 16px;
-  height: 16px;
-  border-radius: 3px;
-  color: transparent;
-  flex-shrink: 0;
-  transition: background 100ms ease, color 100ms ease;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
   margin-left: 4px;
-}
-
-.tab:hover .tabClose,
-.tabActive .tabClose {
-  color: var(--text-muted, #aaa);
+  transition: background 120ms ease;
+  cursor: pointer;
 }
 
 .tabClose:hover {
-  background: rgba(0, 0, 0, 0.08);
-  color: var(--text-primary, #111) !important;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.tabClose svg {
+  width: 12px;
+  height: 12px;
 }
