@@ -7,14 +7,18 @@ import { TasksCard } from "./TasksCard";
 import { AttendanceTable } from "./AttendanceTable";
 import styles from "./StudentAttendance.module.css";
 
-export function StudentAttendance() {
+interface StudentAttendanceProps {
+  selectedDate: Date | null;
+}
+
+export function StudentAttendance({ selectedDate }: StudentAttendanceProps) {
   return (
     <div className={styles.grid}>
-      <div className={styles.spanRadar}><RadarCard /></div>
-      <div className={styles.spanBar}><BarCard /></div>
-      <div className={styles.spanHeat}><HeatmapCard /></div>
-      <div className={styles.spanTasks}><TasksCard /></div>
-      <div className={styles.spanTable}><AttendanceTable /></div>
+      <div className={styles.spanRadar}><RadarCard selectedDate={selectedDate} /></div>
+      <div className={styles.spanBar}><BarCard selectedDate={selectedDate} /></div>
+      <div className={styles.spanHeat}><HeatmapCard selectedDate={selectedDate} /></div>
+      <div className={styles.spanTasks}><TasksCard selectedDate={selectedDate} /></div>
+      <div className={styles.spanTable}><AttendanceTable selectedDate={selectedDate} /></div>
     </div>
   );
 }

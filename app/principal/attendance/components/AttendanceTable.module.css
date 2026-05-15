@@ -65,7 +65,7 @@
   background: var(--bg-purple-tint);
 }
 
-.idCell {
+.lrnCell {
   font-family: var(--font-mono);
   font-size: var(--text-xs) !important;
   color: var(--text-muted) !important;
@@ -92,23 +92,30 @@
   border-radius: 50%;
 }
 
+/* Added Present and Late styles */
 .badgePresent {
-  background: #ecfdf5;
-  color: #059669;
+  background: #f0fdf4;
+  color: #16a34a;
 }
-.badgePresent .badgeDot { background: #10b981; }
+.badgePresent .badgeDot {
+  background: #22c55e;
+}
 
 .badgeLate {
-  background: #fff7ed;
-  color: #ea580c;
+  background: #fffbeb;
+  color: #d97706;
 }
-.badgeLate .badgeDot { background: #f97316; }
+.badgeLate .badgeDot {
+  background: #f59e0b;
+}
 
 .badgeAbsent {
   background: #fef2f2;
   color: #dc2626;
 }
-.badgeAbsent .badgeDot { background: #ef4444; }
+.badgeAbsent .badgeDot {
+  background: #ef4444;
+}
 
 .tabGroup {
   display: flex;
@@ -154,5 +161,25 @@
 .actionBtn:hover {
   border-color: var(--brand-primary);
   color: var(--brand-primary);
+  background: var(--bg-purple-tint);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-8) 0;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.clickableRow {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.clickableRow:hover td {
   background: var(--bg-purple-tint);
 }

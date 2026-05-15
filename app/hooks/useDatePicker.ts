@@ -15,6 +15,17 @@ export function useDatePicker({ selectedDate, onChange }: UseDatePickerProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (selectedDate) {
+      setViewYear(selectedDate.getFullYear());
+      setViewMonth(selectedDate.getMonth());
+    } else {
+      const now = new Date();
+      setViewYear(now.getFullYear());
+      setViewMonth(now.getMonth());
+    }
+  }, [selectedDate]);
+
+  useEffect(() => {
     function handleOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false);
@@ -73,14 +84,15 @@ export function useDatePicker({ selectedDate, onChange }: UseDatePickerProps) {
 
   function isToday(day: number, month: "prev" | "curr" | "next") {
     if (month !== "curr") return false;
-    return today.getFullYear() === viewYear && today.getMonth() === viewMonth && today.getDate() === day;
+    const now = new Date();
+    return now.getFullYear() === viewYear && now.getMonth() === viewMonth && now.getDate() === day;
   }
 
   function goToday() {
     const t = new Date();
     setViewYear(t.getFullYear());
     setViewMonth(t.getMonth());
-    onChange(t);
+    onChange(new Date(t.getFullYear(), t.getMonth(), t.getDate()));
     setOpen(false);
   }
 
