@@ -1,0 +1,238 @@
+.content {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Header container alignment layout rules */
+.timelineHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--border-base, #e4e4e7);
+}
+
+.timelineTitle {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary, #111827);
+}
+
+/* Wraps range text and button side-by-side */
+.headerMetaGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rangeIndicator {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted, #71717a);
+  background: var(--bg-hover, #f4f4f5);
+  padding: 4px 10px;
+  border-radius: var(--radius-md, 6px);
+  border: 1px solid var(--border-base, #e4e4e7);
+}
+
+/* Clean interactive View All link styled trigger action button */
+.viewAllBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--brand-primary, #6366f1);
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity var(--transition-fast, 0.15s) ease;
+}
+
+.viewAllBtn:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+/* Rest of the original code variables below */
+.timelineList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.daySection {
+  border-bottom: 1px solid var(--border-base);
+  padding: 14px 0;
+}
+
+.daySection:last-child {
+  border-bottom: none;
+}
+
+.dayHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.dayLabel {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.approvedBadge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #16a34a;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-full);
+  padding: 2px 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.clockRow {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px 70px;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.clockLabel {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.timelineTicks {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.barRow {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px 70px;
+  gap: 12px;
+  align-items: center;
+}
+
+.clockValue {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lateTag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fee2e2;
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.durationValue {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.visualBar {
+  height: 24px;
+  display: flex;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg-muted);
+  gap: 1px;
+}
+
+.barWrap {
+  position: relative;
+}
+
+.barPresent {
+  background: var(--brand-primary);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.barLate {
+  background: #f59e0b;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.barAbsent {
+  background: #ef4444;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.barBreak {
+  background: #d1d5db;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.barLabel {
+  font-size: 0.6rem;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 0 4px;
+  pointer-events: none;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  white-space: nowrap;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px;
+  border-style: solid;
+  border-color: #1f2937 transparent transparent transparent;
+}

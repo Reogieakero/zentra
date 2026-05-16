@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import styles from "./AttendanceTable.module.css";
-// Import the Drawer component
-import { StudentDrawer } from "./StudentDrawer";
+import { StudentDrawer } from "./studentDrawer/StudentDrawer";
 
 interface Student {
   lrn: string;
