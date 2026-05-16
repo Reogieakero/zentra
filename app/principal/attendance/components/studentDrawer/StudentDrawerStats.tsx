@@ -102,7 +102,7 @@ export function StudentDrawerStats({
                 </svg>
               </div>
               <div className={styles.statCardBody}>
-                <span className={styles.statLabel}>Enrolled in ADM Program</span>
+                <span className={styles.statLabel}>Enrolled in ADM</span>
                 {enrolledAdm ? (
                   <div className={styles.admBadgeYes}>
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
