@@ -5,6 +5,10 @@
   padding: var(--space-5);
   box-shadow: var(--shadow-card);
   transition: box-shadow var(--transition-base);
+  /* Added to enable uniform stretching */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .card:hover {
@@ -52,6 +56,9 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  /* Added to fill and center vertically within the stretched card layout */
+  flex: 1;
+  justify-content: center;
 }
 
 .heatDays {

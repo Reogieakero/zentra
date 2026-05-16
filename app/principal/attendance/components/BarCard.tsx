@@ -77,18 +77,21 @@ export function BarCard({ selectedDate }: BarCardProps) {
         <span className={styles.legendDot} style={{ background: "#c4b5fd", marginLeft: "1rem" }} />
         Absent
       </div>
-      <ResponsiveContainer width="100%" height={110}>
-        <BarChart data={data} barGap={2}>
-          <XAxis dataKey="grade" tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
-          <YAxis hide />
-          <Tooltip
-            cursor={{ fill: "rgba(124,58,237,0.06)" }}
-            contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 12 }}
-          />
-          <Bar dataKey="present" radius={[4, 4, 0, 0]} fill="#7c3aed" />
-          <Bar dataKey="absent"  radius={[4, 4, 0, 0]} fill="#c4b5fd" />
-        </BarChart>
-      </ResponsiveContainer>
+      {/* Wrapped in a responsive layout container with height updated to 100% */}
+      <div className={styles.chartWrapper}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data} barGap={2}>
+            <XAxis dataKey="grade" tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
+            <YAxis hide />
+            <Tooltip
+              cursor={{ fill: "rgba(124,58,237,0.06)" }}
+              contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 12 }}
+            />
+            <Bar dataKey="present" radius={[4, 4, 0, 0]} fill="#7c3aed" />
+            <Bar dataKey="absent"  radius={[4, 4, 0, 0]} fill="#c4b5fd" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }

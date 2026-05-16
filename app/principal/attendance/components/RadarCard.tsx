@@ -66,20 +66,23 @@ export function RadarCard({ selectedDate }: RadarCardProps) {
         </div>
         <button className={styles.moreBtn}>···</button>
       </div>
-      <ResponsiveContainer width="100%" height={200}>
-        <RadarChart data={data} outerRadius={80}>
-          <PolarGrid stroke="#e5e7eb" />
-          <PolarAngleAxis dataKey="subject" tick={{ fontSize: 11, fill: "#9ca3af" }} />
-          <Radar
-            dataKey="value"
-            stroke="#7c3aed"
-            fill="#7c3aed"
-            fillOpacity={0.18}
-            strokeWidth={2}
-            dot={{ r: 4, fill: "#7c3aed" }}
-          />
-        </RadarChart>
-      </ResponsiveContainer>
+      {/* Wrapped in a responsive layout container with height updated to 100% */}
+      <div className={styles.chartWrapper}>
+        <ResponsiveContainer width="100%" height="100%">
+          <RadarChart data={data} outerRadius={80}>
+            <PolarGrid stroke="#e5e7eb" />
+            <PolarAngleAxis dataKey="subject" tick={{ fontSize: 11, fill: "#9ca3af" }} />
+            <Radar
+              dataKey="value"
+              stroke="#7c3aed"
+              fill="#7c3aed"
+              fillOpacity={0.18}
+              strokeWidth={2}
+              dot={{ r: 4, fill: "#7c3aed" }}
+            />
+          </RadarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
