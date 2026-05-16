@@ -52,7 +52,7 @@ function generatePDFHTML(
   const dayRows = days.map((day) => {
     const getShortLabel = (type: AttendanceBar["type"], label: string): string => {
       if (type === "break") return "Break";
-      if (type === "absent") return label.includes("AM") ? "AM" : "PM";
+      if (type === "absent") return label.includes("AM") ? "Absent AM" : "Absent PM";
       if (label.includes("AM")) return "AM";
       if (label.includes("PM")) return "PM";
       return label;
@@ -308,15 +308,22 @@ function generatePDFHTML(
     .footer-note { font-size: 10px; color: #9ca3af; }
     .footer-brand { font-size: 10px; color: #c4b5fd; font-weight: 700; letter-spacing: 0.06em; }
 
+    @page {
+      margin: 0;
+      size: A4;
+    }
+
     @media print {
       body {
         background: #fff;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
+        margin: 0;
       }
       .page {
         box-shadow: none;
         max-width: 100%;
+        margin: 0;
       }
       .btn-print,
       .btn-download,
@@ -360,7 +367,6 @@ function generatePDFHTML(
     <div class="report-title">Student <em>Attendance</em><br>Timeline Record</div>
 
     <div class="student-meta-band">
-      <div class="student-avatar">${initials}</div>
       <div class="meta-grid">
         <div class="meta-item">
           <span class="meta-key">Full Name</span>
@@ -477,11 +483,12 @@ export function StudentDrawerTimeline({
 
   function handleViewAll() {
     const html = generatePDFHTML(days, studentName, studentLRN, studentGrade);
-    const blob = new Blob([html], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    const tab = window.open(url, "_blank");
+    const tab = window.open("", "_blank");
     if (tab) {
-      tab.addEventListener("load", () => URL.revokeObjectURL(url), { once: true });
+      tab.document.open();
+      tab.document.write(html);
+      tab.document.close();
+      tab.history.replaceState(null, "", " ");
     }
   }
 
