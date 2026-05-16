@@ -98,6 +98,12 @@
   white-space: nowrap;
 }
 
+/* ── Date picker slot — pushed to the far right of the filter row ── */
+.datePickerWrap {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 .sectionRow {
   display: flex;
   align-items: center;

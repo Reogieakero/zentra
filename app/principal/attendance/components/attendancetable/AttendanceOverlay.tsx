@@ -2,6 +2,7 @@
 
 import styles from "./AttendanceOverlay.module.css";
 import { StatusBadge } from "./StatusBadge";
+import { DatePicker } from "../../../overview/components/DatePicker";
 import {
   type Student,
   GRADE_ORDER,
@@ -25,10 +26,12 @@ interface AttendanceOverlayProps {
   fsTab: string;
   fsGrade: string;
   fsSection: string;
+  fsDate: Date | null;
   availableSections: string[];
   onFsTabChange: (tab: string) => void;
   onFsGradeChange: (grade: string) => void;
   onFsSectionChange: (section: string) => void;
+  onFsDateChange: (date: Date | null) => void;
   fsGrouped: GradeGroup[];
   fsStats: OverlayStats;
   onClose: () => void;
@@ -39,10 +42,12 @@ export function AttendanceOverlay({
   fsTab,
   fsGrade,
   fsSection,
+  fsDate,
   availableSections,
   onFsTabChange,
   onFsGradeChange,
   onFsSectionChange,
+  onFsDateChange,
   fsGrouped,
   fsStats,
   onClose,
@@ -57,6 +62,7 @@ export function AttendanceOverlay({
     >
       <div className={styles.panel}>
 
+        {/* ── Header ── */}
         <div className={styles.header}>
           <div>
             <div className={styles.title}>Attendance Overview</div>
@@ -72,6 +78,7 @@ export function AttendanceOverlay({
           </button>
         </div>
 
+        {/* ── Filter row: Grade + Status + Date picker ── */}
         <div className={styles.filterRow}>
           <span className={styles.filterLabel}>Grade</span>
           <div className={styles.tabGroup}>
@@ -99,8 +106,14 @@ export function AttendanceOverlay({
               </button>
             ))}
           </div>
+
+          {/* Date picker — far right of the filter row */}
+          <div className={styles.datePickerWrap}>
+            <DatePicker selectedDate={fsDate} onChange={onFsDateChange} />
+          </div>
         </div>
 
+        {/* ── Section row ── */}
         {fsGrade !== "All" && availableSections.length > 0 && (
           <div className={styles.sectionRow}>
             <span className={styles.sectionLabel}>Section</span>
@@ -119,6 +132,7 @@ export function AttendanceOverlay({
           </div>
         )}
 
+        {/* ── Body ── */}
         <div className={styles.body}>
 
           <div className={styles.statsRow}>
@@ -146,16 +160,7 @@ export function AttendanceOverlay({
 
           {fsGrouped.length === 0 ? (
             <div className={styles.empty}>
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="10" />
                 <line x1="12" y1="8" x2="12" y2="12" />
                 <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -166,16 +171,7 @@ export function AttendanceOverlay({
             fsGrouped.map(({ grade, rows }) => (
               <div key={grade}>
                 <div className={styles.gradeLabel}>
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                     <circle cx="9" cy="7" r="4" />
                     <path d="M23 21v-2a4 4 0 0 0-3-3.87" />

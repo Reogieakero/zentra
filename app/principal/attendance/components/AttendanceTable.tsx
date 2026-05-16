@@ -25,6 +25,7 @@ export function AttendanceTable({ selectedDate }: AttendanceTableProps) {
   const [fsTab, setFsTab] = useState("All");
   const [fsGrade, setFsGrade] = useState("All");
   const [fsSection, setFsSection] = useState("All");
+  const [fsDate, setFsDate] = useState<Date | null>(null); // ← new
 
   const handleRowClick = (student: (typeof STUDENTS)[number]) => {
     setSelectedStudent(student);
@@ -43,6 +44,7 @@ export function AttendanceTable({ selectedDate }: AttendanceTableProps) {
 
   const dateStr = toDateStrFromDate(selectedDate);
 
+  // Main card filter (uses the outer selectedDate prop)
   const filtered = useMemo(
     () =>
       STUDENTS.filter((s) => {
@@ -53,15 +55,18 @@ export function AttendanceTable({ selectedDate }: AttendanceTableProps) {
     [dateStr, activeTab],
   );
 
+  // Overlay filter — fsDate picker takes priority; falls back to parent’s selectedDate
+  const fsDateStr = toDateStrFromDate(fsDate) ?? dateStr;
   const fsFiltered = useMemo(
     () =>
       STUDENTS.filter((s) => {
         const matchStatus  = fsTab     === "All" ? true : s.status  === fsTab;
         const matchGrade   = fsGrade   === "All" ? true : s.grade   === fsGrade;
         const matchSection = fsSection === "All" ? true : s.section === fsSection;
-        return matchStatus && matchGrade && matchSection;
+        const matchDate    = fsDateStr            ? s.date === fsDateStr : true;
+        return matchStatus && matchGrade && matchSection && matchDate;
       }),
-    [fsTab, fsGrade, fsSection],
+    [fsTab, fsGrade, fsSection, fsDateStr],
   );
 
   const fsGrouped = useMemo(() => {
@@ -103,10 +108,12 @@ export function AttendanceTable({ selectedDate }: AttendanceTableProps) {
           fsTab={fsTab}
           fsGrade={fsGrade}
           fsSection={fsSection}
+          fsDate={fsDate}                    
           availableSections={availableSections}
           onFsTabChange={setFsTab}
           onFsGradeChange={handleFsGradeChange}
           onFsSectionChange={setFsSection}
+          onFsDateChange={setFsDate}         
           fsGrouped={fsGrouped}
           fsStats={fsStats}
           onClose={() => setIsFullscreen(false)}
