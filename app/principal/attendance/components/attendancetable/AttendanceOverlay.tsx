@@ -188,6 +188,14 @@ export function AttendanceOverlay({
                 </div>
 
                 <table className={styles.table}>
+                  <colgroup>
+                    <col style={{ width: "12%" }} />
+                    <col style={{ width: "26%" }} />
+                    <col style={{ width: "16%" }} />
+                    <col style={{ width: "18%" }} />
+                    <col style={{ width: "14%" }} />
+                    <col style={{ width: "14%" }} />
+                  </colgroup>
                   <thead>
                     <tr>
                       <th>LRN</th>
