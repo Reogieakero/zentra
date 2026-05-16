@@ -5,6 +5,11 @@
   padding: var(--space-5);
   box-shadow: var(--shadow-card);
   transition: box-shadow var(--transition-base);
+  
+  /* Force the card to support filling parent height */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .card:hover {
@@ -14,7 +19,11 @@
 .tasksGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  /* Make the 2 rows stretch equally to fill available space */
+  grid-template-rows: 1fr 1fr; 
   gap: var(--space-4);
+  /* Expand to fill the full height of the card shell */
+  flex: 1;
 }
 
 .taskItem {
@@ -25,6 +34,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  /* Make internal card space distribute cleanly */
+  justify-content: space-between; 
 }
 
 .taskLabel {
@@ -37,6 +48,7 @@
 .taskSub {
   font-size: var(--text-xs);
   color: var(--text-muted);
+  margin-bottom: auto; /* Pushes footer to the bottom of the item */
 }
 
 .taskFooter {

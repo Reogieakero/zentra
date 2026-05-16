@@ -6,6 +6,11 @@
   padding: var(--space-5);
   box-shadow: var(--shadow-card);
   transition: box-shadow var(--transition-base);
+  
+  /* Force the card to support filling parent height */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .card:hover {
@@ -64,7 +69,9 @@
 /* ── Table Container & Custom Scrollbar ──────────────────────────────────── */
 .tableContainer {
   width: 100%;
-  max-height: 306px; /* Optimized to perfectly showcase exactly 6 rows + headers */
+  /* Flexibly fill available card height and enable scrolling properly */
+  flex: 1;
+  min-height: 0; 
   overflow-y: auto;
   overflow-x: auto;
   border-radius: var(--radius-md);
@@ -186,4 +193,6 @@
   padding: var(--space-8) 0;
   color: var(--text-muted);
   font-size: var(--text-sm);
+  /* Center cleanly inside stretched container */
+  flex: 1;
 }
