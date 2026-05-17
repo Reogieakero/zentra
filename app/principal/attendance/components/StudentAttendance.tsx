@@ -14,11 +14,12 @@ interface StudentAttendanceProps {
 export function StudentAttendance({ selectedDate }: StudentAttendanceProps) {
   return (
     <div className={styles.grid}>
+      <div className={styles.spanHeat}><HeatmapCard selectedDate={selectedDate} /></div>
+      <div className={styles.spanTable}><AttendanceTable selectedDate={selectedDate} /></div>
+      
       <div className={styles.spanRadar}><RadarCard selectedDate={selectedDate} /></div>
       <div className={styles.spanBar}><BarCard selectedDate={selectedDate} /></div>
-      <div className={styles.spanHeat}><HeatmapCard selectedDate={selectedDate} /></div>
       <div className={styles.spanTasks}><TasksCard selectedDate={selectedDate} /></div>
-      <div className={styles.spanTable}><AttendanceTable selectedDate={selectedDate} /></div>
     </div>
   );
 }

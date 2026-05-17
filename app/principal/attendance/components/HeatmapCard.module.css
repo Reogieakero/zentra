@@ -5,7 +5,6 @@
   padding: var(--space-5);
   box-shadow: var(--shadow-card);
   transition: box-shadow var(--transition-base);
-  /* Added to enable uniform stretching */
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -52,47 +51,57 @@
   color: var(--text-secondary);
 }
 
-.heatmap {
+.chartWrap {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  /* Added to fill and center vertically within the stretched card layout */
-  flex: 1;
-  justify-content: center;
+  gap: 10px;
+  min-height: 0;
 }
 
-.heatDays {
-  display: grid;
-  grid-template-columns: 3rem repeat(5, 1fr);
-  gap: 4px;
-  margin-bottom: 2px;
+/* Legend row */
+.legend {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.heatDayLabel {
-  font-size: var(--text-xs);
-  color: var(--text-muted);
-  text-align: center;
-}
-
-.heatRow {
-  display: grid;
-  grid-template-columns: 3rem repeat(5, 1fr);
-  gap: 4px;
+.legendItem {
+  display: flex;
   align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-secondary, #52525b);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.2s;
 }
 
-.heatTimeLabel {
-  font-size: 10px;
-  color: var(--text-muted);
+.legendDim {
+  opacity: 0.35;
 }
 
-.heatCell {
-  height: 28px;
-  border-radius: var(--radius-sm);
-  transition: opacity 0.15s;
-  cursor: default;
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
-.heatCell:hover {
-  opacity: 0.75;
+/* SVG container */
+.svgWrap {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+  min-height: 140px;
+  display: block;
+  overflow: visible;
 }
