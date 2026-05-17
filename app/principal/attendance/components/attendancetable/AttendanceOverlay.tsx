@@ -62,12 +62,82 @@ export function AttendanceOverlay({
     >
       <div className={styles.panel}>
 
-        {/* ── Header ── */}
+        {/* ── Header with Title Left, Stats Right + URL Address Bar ── */}
         <div className={styles.header}>
-          <div>
+          <div className={styles.titleGroup}>
             <div className={styles.title}>Attendance Overview</div>
             <div className={styles.sub}>All students grouped by grade level</div>
           </div>
+
+          {/* Stats section aligned to the right side with miniature browser chrome layout */}
+          <div className={styles.miniStatsGrid}>
+            
+            {/* Total Card */}
+            <div className={`${styles.miniCard} ${styles.cardTotal}`}>
+              <div className={styles.chromeHeader}>
+                <span className={`${styles.chromeDot} ${styles.chromeDotRed}`} />
+                <span className={`${styles.chromeDot} ${styles.chromeDotYellow}`} />
+                <span className={`${styles.chromeDot} ${styles.chromeDotGreen}`} />
+                <div className={styles.chromeAddressBar}>
+                  <span className={styles.chromeAddressText}>zentra.app/total</span>
+                </div>
+              </div>
+              <div className={styles.cardBody}>
+                <span className={styles.statLabel}>Total Students</span>
+                <span className={`${styles.statValue} ${styles.statIndigo}`}>{fsStats.total}</span>
+              </div>
+            </div>
+
+            {/* Present Card */}
+            <div className={`${styles.miniCard} ${styles.cardPresent}`}>
+              <div className={styles.chromeHeader}>
+                <span className={`${styles.chromeDot} ${styles.chromeDotRed}`} />
+                <span className={`${styles.chromeDot} ${styles.chromeDotYellow}`} />
+                <span className={`${styles.chromeDot} ${styles.chromeDotGreen}`} />
+                <div className={styles.chromeAddressBar}>
+                  <span className={styles.chromeAddressText}>zentra.app/present</span>
+                </div>
+              </div>
+              <div className={styles.cardBody}>
+                <span className={styles.statLabel}>Present</span>
+                <span className={`${styles.statValue} ${styles.statGreen}`}>{fsStats.present}</span>
+              </div>
+            </div>
+
+            {/* Late Card */}
+            <div className={`${styles.miniCard} ${styles.cardLate}`}>
+              <div className={styles.chromeHeader}>
+                <span className={`${styles.chromeDot} ${styles.chromeDotRed}`} />
+                <span className={`${styles.chromeDot} ${styles.chromeDotYellow}`} />
+                <span className={`${styles.chromeDot} ${styles.chromeDotGreen}`} />
+                <div className={styles.chromeAddressBar}>
+                  <span className={styles.chromeAddressText}>zentra.app/late</span>
+                </div>
+              </div>
+              <div className={styles.cardBody}>
+                <span className={styles.statLabel}>Late</span>
+                <span className={`${styles.statValue} ${styles.statAmber}`}>{fsStats.late}</span>
+              </div>
+            </div>
+
+            {/* Absent Card */}
+            <div className={`${styles.miniCard} ${styles.cardAbsent}`}>
+              <div className={styles.chromeHeader}>
+                <span className={`${styles.chromeDot} ${styles.chromeDotRed}`} />
+                <span className={`${styles.chromeDot} ${styles.chromeDotYellow}`} />
+                <span className={`${styles.chromeDot} ${styles.chromeDotGreen}`} />
+                <div className={styles.chromeAddressBar}>
+                  <span className={styles.chromeAddressText}>zentra.app/absent</span>
+                </div>
+              </div>
+              <div className={styles.cardBody}>
+                <span className={styles.statLabel}>Absent</span>
+                <span className={`${styles.statValue} ${styles.statRed}`}>{fsStats.absent}</span>
+              </div>
+            </div>
+
+          </div>
+
           <button
             type="button"
             className={styles.closeBtn}
@@ -78,18 +148,19 @@ export function AttendanceOverlay({
           </button>
         </div>
 
-        {/* ── Filter row: Grade + Status + Date picker ── */}
+        {/* ── Filters Bar ── */}
         <div className={styles.filterRow}>
           <span className={styles.filterLabel}>Grade</span>
           <div className={styles.tabGroup}>
-            {(["All", ...GRADE_ORDER] as string[]).map((g) => (
+            {/* Directly map actual grades - "All Grades" is fully removed */}
+            {GRADE_ORDER.map((g) => (
               <button
                 key={g}
                 type="button"
                 className={`${styles.tab} ${fsGrade === g ? styles.tabActive : ""}`}
                 onClick={() => onFsGradeChange(g)}
               >
-                {g === "All" ? "All Grades" : g}
+                {g}
               </button>
             ))}
           </div>
@@ -107,57 +178,33 @@ export function AttendanceOverlay({
             ))}
           </div>
 
-          {/* Date picker — far right of the filter row */}
           <div className={styles.datePickerWrap}>
             <DatePicker selectedDate={fsDate} onChange={onFsDateChange} />
           </div>
         </div>
 
-        {/* ── Section row ── */}
-        {fsGrade !== "All" && availableSections.length > 0 && (
+        {/* ── Section Filters Row ── */}
+        {availableSections.length > 0 && (
           <div className={styles.sectionRow}>
             <span className={styles.sectionLabel}>Section</span>
             <div className={styles.tabGroup}>
-              {(["All", ...availableSections] as string[]).map((sec) => (
+              {/* Directly map available sections - "All Sections" is fully removed */}
+              {availableSections.map((sec) => (
                 <button
                   key={sec}
                   type="button"
                   className={`${styles.tab} ${styles.tabSection} ${fsSection === sec ? styles.tabSectionActive : ""}`}
                   onClick={() => onFsSectionChange(sec)}
                 >
-                  {sec === "All" ? "All Sections" : sec}
+                  {sec}
                 </button>
               ))}
             </div>
           </div>
         )}
 
-        {/* ── Body ── */}
+        {/* ── Data Body Container ── */}
         <div className={styles.body}>
-
-          <div className={styles.statsRow}>
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>Total Students</span>
-              <span className={`${styles.statValue} ${styles.statIndigo}`}>{fsStats.total}</span>
-              <span className={styles.statSub}>in current filter</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>Present</span>
-              <span className={`${styles.statValue} ${styles.statGreen}`}>{fsStats.present}</span>
-              <span className={styles.statSub}>students today</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>Late</span>
-              <span className={`${styles.statValue} ${styles.statAmber}`}>{fsStats.late}</span>
-              <span className={styles.statSub}>late arrivals</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>Absent</span>
-              <span className={`${styles.statValue} ${styles.statRed}`}>{fsStats.absent}</span>
-              <span className={styles.statSub}>days missed</span>
-            </div>
-          </div>
-
           {fsGrouped.length === 0 ? (
             <div className={styles.empty}>
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
