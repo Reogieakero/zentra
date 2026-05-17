@@ -152,7 +152,6 @@ export function AttendanceOverlay({
         <div className={styles.filterRow}>
           <span className={styles.filterLabel}>Grade</span>
           <div className={styles.tabGroup}>
-            {/* Directly map actual grades - "All Grades" is fully removed */}
             {GRADE_ORDER.map((g) => (
               <button
                 key={g}
@@ -165,21 +164,24 @@ export function AttendanceOverlay({
             ))}
           </div>
 
-          <div className={`${styles.tabGroup} ${styles.tabGroupRight}`}>
-            {STATUS_TABS.map((t) => (
-              <button
-                key={t}
-                type="button"
-                className={`${styles.tab} ${fsTab === t ? styles.tabActive : ""}`}
-                onClick={() => onFsTabChange(t)}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
+          {/* Right actions container pushing everything following it to the right */}
+          <div className={styles.rightActionsWrap}>
+            <div className={styles.tabGroup}>
+              {STATUS_TABS.map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  className={`${styles.tab} ${fsTab === t ? styles.tabActive : ""}`}
+                  onClick={() => onFsTabChange(t)}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
 
-          <div className={styles.datePickerWrap}>
-            <DatePicker selectedDate={fsDate} onChange={onFsDateChange} />
+            <div className={styles.datePickerWrap}>
+              <DatePicker selectedDate={fsDate} onChange={onFsDateChange} />
+            </div>
           </div>
         </div>
 
@@ -188,7 +190,6 @@ export function AttendanceOverlay({
           <div className={styles.sectionRow}>
             <span className={styles.sectionLabel}>Section</span>
             <div className={styles.tabGroup}>
-              {/* Directly map available sections - "All Sections" is fully removed */}
               {availableSections.map((sec) => (
                 <button
                   key={sec}
