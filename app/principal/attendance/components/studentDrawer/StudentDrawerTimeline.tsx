@@ -77,10 +77,10 @@ export function StudentDrawerTimeline({
             <div className={styles.clockRow}>
               <span className={styles.clockLabel}>Clock-in</span>
               <div className={styles.timelineTicks}>
-                <span>7:30</span>
-                <span>9:45</span>
-                <span>12:00</span>
-                <span style={{ textAlign: "right" }}>1:00 – 4:30</span>
+                {/* Centered over each bar segment based on flex ratios: AM=4, Break=1, PM=3.5, total=8.5 */}
+                <span style={{ left: `${(2 / 8.5) * 100}%` }}>7:30 – 12:00</span>
+                <span style={{ left: `${(4.5 / 8.5) * 100}%` }}>Break</span>
+                <span style={{ left: `${(6.75 / 8.5) * 100}%` }}>1:00 – 4:30</span>
               </div>
               <span className={styles.clockLabel}>Clock-out</span>
               <span className={styles.clockLabel}>Duration</span>

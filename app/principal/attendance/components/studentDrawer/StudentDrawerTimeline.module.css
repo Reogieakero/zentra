@@ -115,10 +115,16 @@
 }
 
 .timelineTicks {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  position: relative;
+  height: 16px;
   font-size: 0.65rem;
   color: var(--text-muted);
+}
+
+.timelineTicks span {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 .barRow {
