@@ -1,10 +1,35 @@
+.pageContainer {
+  width: 100%;
+}
+
 .pageHeader {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: var(--space-8);
   flex-wrap: wrap;
   gap: var(--space-4);
+  
+  /* Smooth Animation setup */
+  opacity: 1;
+  visibility: visible;
+  max-height: 200px; /* Adjust slightly above typical header size */
+  margin-bottom: var(--space-8);
+  transform: translateY(0);
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              margin-bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.4s;
+  overflow: hidden;
+}
+
+/* Smooth Vanishing State */
+.pageHeader.headerHidden {
+  opacity: 0;
+  visibility: hidden;
+  max-height: 0;
+  margin-bottom: 0;
+  transform: translateY(-15px);
 }
 
 .headerLeft {}
@@ -43,24 +68,28 @@
   transition: all 0.15s ease;
 }
 
-.actionSecondary:hover {
-  border-color: var(--brand-primary);
-  color: var(--brand-primary);
-  background: var(--bg-purple-tint);
-}
-
 .actionPrimary {
   padding: var(--space-2) var(--space-5);
-  border: none;
-  background: var(--brand-primary);
+  border: 1px solid transparent;
+  background: var(--brand-primary, #7c3aed);
   border-radius: var(--radius-lg);
   font-size: var(--text-sm);
-  font-weight: 600;
-  color: #fff;
+  font-weight: 500;
+  color: #ffffff;
   cursor: pointer;
-  transition: background 0.15s ease;
+  transition: all 0.15s ease;
 }
 
-.actionPrimary:hover {
-  background: var(--brand-secondary);
+/* Smooth adjustment wrapper for the underlying content cards */
+.mainContentLayout {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+}
+
+.shiftUpNormal {
+  transform: translateY(0);
+}
+
+.shiftUpReport {
+  transform: translateY(0);
 }

@@ -7,15 +7,22 @@ import { DatePicker } from "../overview/components/DatePicker";
 
 export default function AttendancePage() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [activeTab, setActiveTab] = useState<"dashboard" | "report">("dashboard");
 
   const formatHeader = (date: Date | null) => {
     if (!date) return "All Dates";
     return date.toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   };
 
+  const isDashboard = activeTab === "dashboard";
+
   return (
-    <>
-      <div className={styles.pageHeader}>
+    <div className={styles.pageContainer}>
+      <div 
+        className={`${styles.pageHeader} ${
+          isDashboard ? styles.headerVisible : styles.headerHidden
+        }`}
+      >
         <div className={styles.headerLeft}>
           <h1 className={styles.pageTitle}>Hello, Principal Reyes</h1>
           <p className={styles.pageSubtitle}>It&apos;s {formatHeader(selectedDate)}</p>
@@ -27,7 +34,18 @@ export default function AttendancePage() {
           <button className={styles.actionPrimary}>Add Record</button>
         </div>
       </div>
-      <StudentAttendance selectedDate={selectedDate} />
-    </>
+      
+      <div 
+        className={`${styles.mainContentLayout} ${
+          isDashboard ? styles.shiftUpNormal : styles.shiftUpReport
+        }`}
+      >
+        <StudentAttendance 
+          selectedDate={selectedDate} 
+          activeTab={activeTab} 
+          onTabChange={setActiveTab} 
+        />
+      </div>
+    </div>
   );
 }
