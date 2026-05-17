@@ -2,7 +2,7 @@
 
 import { RadarCard } from "./RadarCard";
 import { BarCard } from "./BarCard";
-import { HeatmapCard } from "./HeatmapCard";
+import { HeatmapCard } from "./AttendanceLine";
 import { TasksCard } from "./TasksCard";
 import { AttendanceTable } from "./AttendanceTable";
 import styles from "./StudentAttendance.module.css";

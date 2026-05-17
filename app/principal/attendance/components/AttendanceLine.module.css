@@ -34,21 +34,40 @@
   margin-top: 2px;
 }
 
-.moreBtn {
+/* ── View Report button (replaces the ··· more button) ── */
+.viewReportBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   background: none;
-  border: none;
+  border: 1px solid var(--border-base);
   cursor: pointer;
-  color: var(--text-muted);
-  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   line-height: 1;
-  padding: 2px 4px;
+  padding: 5px 10px;
   border-radius: var(--radius-sm);
   flex-shrink: 0;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
 }
 
-.moreBtn:hover {
+.viewReportBtn::after {
+  content: "↗";
+  font-size: 0.65rem;
+  opacity: 0.6;
+}
+
+.viewReportBtn:hover {
   background: var(--bg-muted);
-  color: var(--text-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-strong, var(--border-base));
+}
+
+.viewReportBtn:active {
+  background: var(--bg-subtle, var(--bg-muted));
 }
 
 .chartWrap {
@@ -59,39 +78,38 @@
   min-height: 0;
 }
 
-/* Legend row */
 .legend {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .legendItem {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.72rem;
-  font-weight: 500;
+  font-size: 0.7rem;
+  font-weight: 600;
   color: var(--text-secondary, #52525b);
   background: none;
   border: none;
-  padding: 0;
+  padding: 2px 0;
   cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.legendDim {
-  opacity: 0.35;
+  letter-spacing: 0.03em;
 }
 
 .legendDot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
-/* SVG container */
+.legendShort {
+  color: var(--text-secondary);
+}
+
 .svgWrap {
   flex: 1;
   min-height: 0;
