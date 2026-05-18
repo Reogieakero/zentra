@@ -91,4 +91,5 @@
 .chartWrapper {
   flex: 1;
   min-height: 140px; 
+  width: 100%;
 }

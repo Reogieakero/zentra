@@ -79,7 +79,7 @@ export function BarCard({ selectedDate }: BarCardProps) {
       </div>
       {/* Wrapped in a responsive layout container with height updated to 100% */}
       <div className={styles.chartWrapper}>
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height={200}>
           <BarChart data={data} barGap={2}>
             <XAxis dataKey="grade" tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
             <YAxis hide />

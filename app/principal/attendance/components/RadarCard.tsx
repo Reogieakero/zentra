@@ -68,7 +68,7 @@ export function RadarCard({ selectedDate }: RadarCardProps) {
       </div>
       {/* Wrapped in a responsive layout container with height updated to 100% */}
       <div className={styles.chartWrapper}>
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height={200}>
           <RadarChart data={data} outerRadius={80}>
             <PolarGrid stroke="#e5e7eb" />
             <PolarAngleAxis dataKey="subject" tick={{ fontSize: 11, fill: "#9ca3af" }} />
