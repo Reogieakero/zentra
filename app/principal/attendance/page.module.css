@@ -8,15 +8,13 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--space-4);
-  
-  /* Smooth Animation setup */
+
+  /* Smooth Animation — uses margin/opacity only, NO transform (would break fixed children) */
   opacity: 1;
   visibility: visible;
-  max-height: 200px; /* Adjust slightly above typical header size */
+  max-height: 200px;
   margin-bottom: var(--space-8);
-  transform: translateY(0);
   transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
               max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
               margin-bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1),
               visibility 0.4s;
@@ -29,7 +27,6 @@
   visibility: hidden;
   max-height: 0;
   margin-bottom: 0;
-  transform: translateY(-15px);
 }
 
 .headerLeft {}
@@ -81,15 +78,8 @@
 }
 
 /* Smooth adjustment wrapper for the underlying content cards */
+/* NOTE: Do NOT use transform or will-change: transform here — it creates a
+   stacking context that breaks position:fixed on children (drawer, overlays). */
 .mainContentLayout {
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
-}
-
-.shiftUpNormal {
-  transform: translateY(0);
-}
-
-.shiftUpReport {
-  transform: translateY(0);
 }

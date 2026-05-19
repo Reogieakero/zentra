@@ -1,6 +1,7 @@
 "use client";
 
-import { RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer } from "recharts";
+// 1. Added Tooltip to the recharts import
+import { RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer, Tooltip } from "recharts";
 import styles from "./RadarCard.module.css";
 
 interface RadarRow { subject: string; value: number; }
@@ -66,13 +67,28 @@ export function RadarCard({ selectedDate }: RadarCardProps) {
         </div>
         <button className={styles.moreBtn}>···</button>
       </div>
-      {/* Wrapped in a responsive layout container with height updated to 100% */}
       <div className={styles.chartWrapper}>
         <ResponsiveContainer width="100%" height={200}>
           <RadarChart data={data} outerRadius={80}>
             <PolarGrid stroke="#e5e7eb" />
             <PolarAngleAxis dataKey="subject" tick={{ fontSize: 11, fill: "#9ca3af" }} />
+            
+            {/* 2. Added the Tooltip component with clean inline styling */}
+            <Tooltip 
+              contentStyle={{
+                backgroundColor: "var(--bg-base, #ffffff)",
+                borderColor: "var(--border-base, #e5e7eb)",
+                borderRadius: "var(--radius-sm, 6px)",
+                fontSize: "12px",
+                boxShadow: "var(--shadow-card, 0 2px 8px rgba(0,0,0,0.08))"
+              }}
+              itemStyle={{ color: "var(--text-primary, #111827)" }}
+              labelStyle={{ fontWeight: 600, color: "var(--text-secondary, #4b5563)" }}
+              formatter={(value: any) => [`${value}%`, "Attendance"]}
+            />
+
             <Radar
+              name="Attendance"
               dataKey="value"
               stroke="#7c3aed"
               fill="#7c3aed"

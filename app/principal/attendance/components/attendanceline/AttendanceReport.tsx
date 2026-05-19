@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   LineChart,
   Line,
@@ -28,11 +28,10 @@ interface AttendanceReportProps {
   onBack: () => void;
 }
 
-type PaperSize = "letter" | "legal" | "a4";
+type PaperSize = "letter" | "a4";
 
 const PAPER_CONFIG: Record<PaperSize, { label: string; width: string; height: string; cssSize: string }> = {
   letter: { label: "Letter (8.5 × 11 in)",  width: "816px",  height: "1056px", cssSize: "letter" },
-  legal:  { label: "Legal (8.5 × 14 in)",   width: "816px",  height: "1344px", cssSize: "legal"  },
   a4:     { label: "A4 (210 × 297 mm)",      width: "794px",  height: "1123px", cssSize: "a4"     },
 };
 
@@ -141,11 +140,11 @@ function generateAttendancePDFHTML(params: {
 
   // ── Line Chart (SVG polyline, mirrors Recharts line chart) ──────────────────
   const svgW = 820;
-  const svgH = 220;
+  const svgH = 190;
   const padL = 36;
   const padR = 12;
-  const padT = 12;
-  const padB = 32;
+  const padT = 10;
+  const padB = 28;
   const chartW = svgW - padL - padR;
   const chartH = svgH - padT - padB;
   const valRange = (maxVal - minVal) || 1;
@@ -278,203 +277,158 @@ function generateAttendancePDFHTML(params: {
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { -webkit-font-smoothing: antialiased; }
 
-    /* ── Screen: gray desktop, paper card centered ── */
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: #e5e7eb;
       color: #111827;
       min-height: 100vh;
-      padding: 40px 24px 80px;
+      padding: 40px 24px 60px;
     }
 
-    /* ── Toolbar at the top ── */
+    /* ── Toolbar ── */
     .toolbar {
-      max-width: ${paper.width};
-      margin: 0 auto 20px;
+      width: ${paper.width};
+      margin: 0 auto 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
     }
-    .toolbar-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .paper-badge {
-      font-size: 11px;
-      font-weight: 600;
-      color: #6b7280;
-      background: #fff;
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-      padding: 5px 10px;
-      letter-spacing: 0.02em;
-    }
-    .toolbar-title {
-      font-size: 12px;
-      font-weight: 600;
-      color: #9ca3af;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
+    .toolbar-left { display: flex; align-items: center; gap: 10px; }
+    .paper-badge { font-size: 11px; font-weight: 600; color: #6b7280; background: #fff; border: 1px solid #d1d5db; border-radius: 6px; padding: 4px 10px; }
+    .toolbar-title { font-size: 11px; font-weight: 600; color: #9ca3af; letter-spacing: 0.04em; text-transform: uppercase; }
     .btn-print {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      background: #111827;
-      border: none;
-      border-radius: 7px;
-      padding: 9px 18px;
-      color: #fff;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      letter-spacing: 0.01em;
-      transition: background 0.15s;
+      display: inline-flex; align-items: center; gap: 7px;
+      background: #111827; border: none; border-radius: 7px;
+      padding: 8px 16px; color: #fff; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: background 0.15s;
     }
     .btn-print:hover { background: #374151; }
 
-    /* ── Bond paper sheet ── */
+    /* ── Paper: exact canvas, clips nothing, contains the inner layout ── */
     .paper {
       width: ${paper.width};
-      min-height: ${paper.height};
+      height: ${paper.height};
       margin: 0 auto;
       background: #fff;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.07), 0 10px 40px rgba(0,0,0,0.12);
-      padding: 56px 64px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.10);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── Paper inner: fills the page with equal gutters on all sides ── */
+    /* Gutter: 54px top, 54px bottom, 64px left, 64px right (standard print margins) */
+    .paper-inner {
+      position: absolute;
+      top: 54px; bottom: 54px; left: 64px; right: 64px;
       display: flex;
       flex-direction: column;
-      gap: 28px;
-      position: relative;
+      gap: 0;
     }
+
+    /* ── Section spacing tokens ── */
+    .sec { flex-shrink: 0; padding-bottom: 14px; }
+    .sec-grow { flex: 1; display: flex; flex-direction: column; min-height: 0; padding-bottom: 14px; }
 
     /* ── Report header ── */
     .report-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      border-bottom: 2px solid #111827;
-      padding-bottom: 16px;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      border-bottom: 2px solid #111827; padding-bottom: 12px; margin-bottom: 14px;
+      flex-shrink: 0;
     }
-    .report-school { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #6b7280; margin-bottom: 4px; }
-    .report-title { font-size: 22px; font-weight: 800; color: #111827; line-height: 1.2; }
-    .report-sub { font-size: 12px; color: #6b7280; margin-top: 3px; }
-    .report-meta { text-align: right; font-size: 10px; color: #9ca3af; line-height: 1.8; }
+    .report-school { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #6b7280; margin-bottom: 3px; }
+    .report-title { font-size: 20px; font-weight: 800; color: #111827; line-height: 1.15; }
+    .report-sub { font-size: 11px; color: #6b7280; margin-top: 3px; }
+    .report-meta { text-align: right; font-size: 9.5px; color: #9ca3af; line-height: 1.8; }
     .report-meta strong { color: #374151; }
 
     /* ── Section label ── */
     .section-label {
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #9ca3af;
-      font-weight: 700;
-      border-bottom: 1px solid #e5e7eb;
-      padding-bottom: 6px;
-      margin-bottom: 12px;
+      font-size: 8.5px; text-transform: uppercase; letter-spacing: 0.12em;
+      color: #9ca3af; font-weight: 700;
+      border-bottom: 1px solid #e5e7eb; padding-bottom: 5px; margin-bottom: 9px;
     }
 
     /* ── KPI row ── */
     .kpi-row { display: flex; gap: 10px; }
-    .kpi-card {
-      flex: 1;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .kpi-chrome {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 5px 8px;
-      border-bottom: 1px solid #e5e7eb;
-    }
+    .kpi-card { flex: 1; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; }
+    .kpi-chrome { display: flex; align-items: center; gap: 4px; padding: 5px 8px; border-bottom: 1px solid #e5e7eb; }
     .kpi-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .kpi-bar {
-      margin-left: 6px;
-      flex: 1;
-      height: 14px;
-      border-radius: 3px;
-      display: flex;
-      align-items: center;
-      padding: 0 6px;
-      overflow: hidden;
-    }
+    .kpi-bar { margin-left: 6px; flex: 1; height: 14px; border-radius: 3px; display: flex; align-items: center; padding: 0 6px; overflow: hidden; }
     .kpi-url { font-size: 8px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .kpi-body { padding: 10px 12px; }
-    .kpi-label { font-size: 9px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.04em; margin-bottom: 3px; }
-    .kpi-value { font-size: 20px; font-weight: 700; color: #111827; margin-bottom: 2px; line-height: 1.1; }
-    .kpi-note { font-size: 9px; color: #9ca3af; }
+    .kpi-label { font-size: 8.5px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 3px; }
+    .kpi-value { font-size: 22px; font-weight: 700; color: #111827; margin-bottom: 2px; line-height: 1.1; }
+    .kpi-note { font-size: 8.5px; color: #9ca3af; }
 
-    /* ── Chart box ── */
-    .chart-box {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 14px;
-    }
-    .chart-legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
-    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #4b5563; }
+    /* ── Chart: flex:1 so it fills leftover vertical space ── */
+    .chart-section { flex: 1; display: flex; flex-direction: column; min-height: 0; padding-bottom: 14px; }
+    .chart-box { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px 14px; flex: 1; display: flex; flex-direction: column; min-height: 0; }
+    .chart-legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; flex-shrink: 0; }
+    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 9.5px; color: #4b5563; }
     .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .chart-svg-wrap { flex: 1; min-height: 0; display: flex; }
+    .chart-svg-wrap svg { width: 100% !important; height: 100% !important; }
 
     /* ── Grade cards grid ── */
+    .grade-section { flex-shrink: 0; padding-bottom: 14px; }
     .grade-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .grade-card {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 6px;
-      padding: 12px 12px 10px;
-      border-left-width: 4px;
-      border-left-style: solid;
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
+      background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 7px;
+      padding: 12px 14px 10px; border-left-width: 4px; border-left-style: solid;
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
     }
-    .grade-name { font-size: 9px; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
-    .grade-avg { font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 6px; }
-    .grade-avg-suffix { font-size: 11px; color: #9ca3af; font-weight: 400; }
-    .grade-stats { display: flex; flex-direction: column; gap: 1px; font-size: 10px; color: #6b7280; margin-bottom: 8px; }
+    .grade-name { font-size: 8.5px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+    .grade-avg { font-size: 19px; font-weight: 800; color: #111827; margin-bottom: 4px; line-height: 1.1; }
+    .grade-avg-suffix { font-size: 10px; color: #9ca3af; font-weight: 400; }
+    .grade-stats { display: flex; flex-direction: column; gap: 2px; font-size: 9.5px; color: #6b7280; margin-bottom: 7px; }
 
     /* ── Table ── */
+    .table-section { flex-shrink: 0; padding-bottom: 14px; }
     table { width: 100%; border-collapse: collapse; }
     .table-wrap { border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; }
-    th { padding: 8px 10px; background: #f9fafb; font-size: 10px; font-weight: 600; color: #6b7280; border-bottom: 2px solid #e5e7eb; }
-    td { padding: 8px 10px; border-bottom: 1px solid #f3f4f6; font-size: 11px; }
-    .td-day { font-weight: 600; color: #111827; font-size: 11px; }
-    .td-date { font-size: 9px; color: #9ca3af; }
+    th { padding: 7px 10px; background: #f9fafb; font-size: 9.5px; font-weight: 600; color: #6b7280; border-bottom: 2px solid #e5e7eb; }
+    td { padding: 6px 10px; border-bottom: 1px solid #f3f4f6; font-size: 10.5px; }
+    .td-day { font-weight: 600; color: #111827; font-size: 10.5px; }
+    .td-date { font-size: 8.5px; color: #9ca3af; }
     .td-center { text-align: center; color: #374151; }
     .td-total { text-align: center; font-weight: 700; color: #111827; }
     .tr-total td { background: #f9fafb; font-weight: 700; border-top: 2px solid #e5e7eb; border-bottom: none; }
 
-    /* ── Note box ── */
+    /* ── Observation note ── */
     .note-box {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 12px 14px;
-      font-size: 11px;
-      color: #6b7280;
-      line-height: 1.6;
+      flex-shrink: 0; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px;
+      padding: 10px 14px; font-size: 9.5px; color: #6b7280; line-height: 1.6;
+      margin-bottom: 14px;
     }
-    .note-title { font-size: 9px; text-transform: uppercase; color: #9ca3af; font-weight: 700; display: block; margin-bottom: 3px; letter-spacing: 0.06em; }
+    .note-title { font-size: 8px; text-transform: uppercase; color: #9ca3af; font-weight: 700; display: block; margin-bottom: 3px; letter-spacing: 0.08em; }
 
-    /* ── Footer ── */
+    /* ── Footer: always at the bottom ── */
     .report-footer {
-      display: flex;
-      justify-content: space-between;
-      font-size: 9px;
-      color: #9ca3af;
-      border-top: 1px solid #e5e7eb;
-      padding-top: 12px;
-      margin-top: auto;
+      margin-top: auto; flex-shrink: 0;
+      display: flex; justify-content: space-between;
+      font-size: 8.5px; color: #9ca3af;
+      border-top: 1px solid #e5e7eb; padding-top: 10px;
     }
 
     /* ── Print ── */
     @page { size: ${paper.cssSize}; margin: 0; }
     @media print {
-      body { background: #fff; padding: 0; }
+      html, body { background: #fff !important; padding: 0 !important; margin: 0 !important; }
       .toolbar { display: none !important; }
-      .paper { box-shadow: none; width: 100%; min-height: 100vh; padding: 40px 48px; }
+      .paper {
+        box-shadow: none !important;
+        position: fixed !important;
+        top: 0 !important; left: 0 !important;
+        width: ${paper.width} !important;
+        height: ${paper.height} !important;
+        transform: none !important;
+        overflow: hidden !important;
+      }
+      .paper-inner {
+        top: 54px !important; bottom: 54px !important;
+        left: 64px !important; right: 64px !important;
+      }
     }
   </style>
 </head>
@@ -498,6 +452,7 @@ function generateAttendancePDFHTML(params: {
 
   <!-- Bond Paper -->
   <div class="paper">
+  <div class="paper-inner" id="paper-inner">
 
     <!-- Report Header -->
     <div class="report-header">
@@ -514,28 +469,22 @@ function generateAttendancePDFHTML(params: {
     </div>
 
     <!-- KPI Cards -->
-    <div>
+    <div class="sec">
       <div class="section-label">Key Metrics</div>
       <div class="kpi-row">${kpiCardsHTML}</div>
     </div>
 
-    <!-- Line Chart -->
-    <div>
+    <!-- Line Chart: flex:1, grows to fill remaining space -->
+    <div class="chart-section">
       <div class="section-label">Attendance Trend — By Grade</div>
       <div class="chart-box">
         <div class="chart-legend">${chartLegendHTML}</div>
-        ${chartSVG}
+        <div class="chart-svg-wrap">${chartSVG}</div>
       </div>
     </div>
 
-    <!-- Grade Breakdown -->
-    <div>
-      <div class="section-label">Per-Grade Breakdown</div>
-      <div class="grade-grid">${gradeCardsHTML}</div>
-    </div>
-
     <!-- Table -->
-    <div>
+    <div class="table-section">
       <div class="section-label">Daily Attendance by Grade</div>
       <div class="table-wrap">
         <table>
@@ -566,7 +515,33 @@ function generateAttendancePDFHTML(params: {
       <span>Generated by School Attendance System</span>
     </div>
 
+  </div><!-- /.paper-inner -->
   </div>
+
+  <script>
+    (function() {
+      // Only job of JS: scale the paper shell to fit the browser viewport for screen preview.
+      // The content layout (filling the page with equal gutters) is handled purely by CSS.
+      function fitToViewport() {
+        var shell = document.querySelector('.paper');
+        var toolbar = document.querySelector('.toolbar');
+        if (!shell) return;
+        var vw = window.innerWidth;
+        var vh = window.innerHeight;
+        var pw = shell.offsetWidth;
+        var ph = shell.offsetHeight;
+        var scale = Math.min((vw - 64) / pw, (vh - 120) / ph, 1);
+        shell.style.transformOrigin = 'top center';
+        shell.style.transform = scale < 1 ? 'scale(' + scale + ')' : 'none';
+        if (toolbar) {
+          toolbar.style.width = Math.round(pw * Math.min(scale, 1)) + 'px';
+        }
+        document.body.style.minHeight = (ph * Math.min(scale, 1) + 120) + 'px';
+      }
+      window.addEventListener('load', fitToViewport);
+      window.addEventListener('resize', fitToViewport);
+    })();
+  </script>
 </body>
 </html>`;
 }
@@ -591,7 +566,18 @@ export function AttendanceReport({
     days,
   } = useAttendanceAnalytics({ data, gradeStats, dayTotals });
 
-  const [showPaperModal, setShowPaperModal] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setShowDropdown(false);
+      }
+    }
+    if (showDropdown) document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showDropdown]);
 
   const themes = {
     total: "#6366f1",
@@ -601,7 +587,7 @@ export function AttendanceReport({
   };
 
   const handleOpenReport = (paperSize: PaperSize) => {
-    setShowPaperModal(false);
+    setShowDropdown(false);
     const html = generateAttendancePDFHTML({
       data,
       dayDateMap,
@@ -631,7 +617,6 @@ export function AttendanceReport({
     <div className={styles.container}>
       <div className={styles.header}>
         <div>
-          <button className={styles.backBtn} onClick={onBack}>← Back</button>
           <div className={styles.eyebrow}>Weekly Attendance Report</div>
           <div className={styles.title}>Grade Attendance Summary</div>
           <div className={styles.sub}>{weekLabel} · All Grade Levels</div>
@@ -642,23 +627,95 @@ export function AttendanceReport({
             <br />
             {new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
           </div>
-          <button className={styles.downloadBtn} onClick={() => setShowPaperModal(true)}>
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+          <div ref={dropdownRef} style={{ position: "relative" }}>
+            <button
+              className={styles.downloadBtn}
+              onClick={() => setShowDropdown((v) => !v)}
+              aria-expanded={showDropdown}
             >
-              <polyline points="6 9 6 2 18 2 18 9" />
-              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-              <rect x="6" y="14" width="12" height="8" />
-            </svg>
-            Download Report
-          </button>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="6 9 6 2 18 2 18 9" />
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                <rect x="6" y="14" width="12" height="8" />
+              </svg>
+              Download Report
+              <svg
+                width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                style={{ transition: "transform 0.18s", transform: showDropdown ? "rotate(180deg)" : "rotate(0deg)" }}
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+
+            {showDropdown && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "calc(100% + 6px)",
+                  right: 0,
+                  zIndex: 30,
+                  background: "var(--bg-base, #fff)",
+                  border: "1px solid var(--border-base, #e5e7eb)",
+                  borderRadius: 12,
+                  boxShadow: "0 8px 30px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
+                  padding: "8px",
+                  minWidth: 240,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 4,
+                }}
+              >
+                <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-muted, #9ca3af)", padding: "4px 8px 6px" }}>
+                  Select Paper Size
+                </div>
+                {(Object.entries(PAPER_CONFIG) as [PaperSize, typeof PAPER_CONFIG[PaperSize]][]).map(([key, cfg]) => (
+                  <button
+                    key={key}
+                    onClick={() => handleOpenReport(key)}
+                    style={{
+                      display: "flex", alignItems: "center", gap: 12,
+                      background: "none",
+                      border: "1px solid transparent",
+                      borderRadius: 8, padding: "8px 10px",
+                      cursor: "pointer", textAlign: "left", width: "100%",
+                      transition: "background 0.12s, border-color 0.12s",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLButtonElement).style.background = "var(--bg-muted, #f9fafb)";
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border-base, #e5e7eb)";
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLButtonElement).style.background = "none";
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = "transparent";
+                    }}
+                  >
+                    {/* Paper icon proportional to size */}
+                    <div style={{
+                      width: key === "letter" ? 22 : 26,
+                      height: key === "letter" ? 32 : key === "a4" ? 30 : 28,
+                      border: "1.5px solid #d1d5db",
+                      borderRadius: 2,
+                      background: "#fff",
+                      flexShrink: 0,
+                      boxShadow: "1px 1px 0 #e5e7eb",
+                    }} />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary, #111827)", lineHeight: 1.2 }}>
+                        {key === "letter" ? "Letter" : key === "a4" ? "A4" : "Legal"}
+                      </div>
+                      <div style={{ fontSize: 11, color: "var(--text-muted, #9ca3af)", marginTop: 1 }}>{cfg.label}</div>
+                    </div>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                      <polyline points="15 3 21 3 21 9" />
+                      <line x1="10" y1="14" x2="21" y2="3" />
+                    </svg>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -799,99 +856,6 @@ export function AttendanceReport({
         <span>Generated by Attendance System</span>
       </div>
 
-      {/* Paper Size Modal */}
-      {showPaperModal && (
-        <div
-          style={{
-            position: "fixed", inset: 0, zIndex: 50,
-            background: "rgba(0,0,0,0.4)", backdropFilter: "blur(4px)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-          }}
-          onClick={() => setShowPaperModal(false)}
-        >
-          <div
-            style={{
-              background: "var(--bg-base, #fff)",
-              border: "1px solid var(--border-base, #e5e7eb)",
-              borderRadius: 16,
-              padding: "28px 28px 24px",
-              width: 360,
-              display: "flex",
-              flexDirection: "column",
-              gap: 20,
-              boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Modal header */}
-            <div>
-              <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--text-muted, #9ca3af)", fontWeight: 700, marginBottom: 4 }}>
-                Print Preview
-              </div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: "var(--text-primary, #111827)", marginBottom: 2 }}>
-                Choose Paper Size
-              </div>
-              <div style={{ fontSize: 12, color: "var(--text-secondary, #6b7280)" }}>
-                The report preview will be sized to fit the selected format.
-              </div>
-            </div>
-
-            {/* Paper options */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {(Object.entries(PAPER_CONFIG) as [PaperSize, typeof PAPER_CONFIG[PaperSize]][]).map(([key, cfg]) => (
-                <button
-                  key={key}
-                  onClick={() => handleOpenReport(key)}
-                  style={{
-                    display: "flex", alignItems: "center", gap: 14,
-                    background: "var(--bg-muted, #f9fafb)",
-                    border: "1px solid var(--border-base, #e5e7eb)",
-                    borderRadius: 10, padding: "12px 16px",
-                    cursor: "pointer", textAlign: "left",
-                    transition: "border-color 0.15s, background 0.15s",
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = "#6366f1";
-                    (e.currentTarget as HTMLButtonElement).style.background = "#eef2ff";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border-base, #e5e7eb)";
-                    (e.currentTarget as HTMLButtonElement).style.background = "var(--bg-muted, #f9fafb)";
-                  }}
-                >
-                  {/* Paper icon */}
-                  <div style={{
-                    width: key === "legal" ? 28 : 32,
-                    height: key === "legal" ? 40 : key === "a4" ? 38 : 36,
-                    border: "1.5px solid #d1d5db", borderRadius: 3,
-                    background: "#fff", flexShrink: 0,
-                    boxShadow: "1px 1px 0 #e5e7eb",
-                  }} />
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-primary, #111827)", marginBottom: 2 }}>
-                      {key === "letter" ? "Letter" : key === "legal" ? "Legal" : "A4"}
-                    </div>
-                    <div style={{ fontSize: 11, color: "var(--text-muted, #9ca3af)" }}>{cfg.label}</div>
-                  </div>
-                  <div style={{ marginLeft: "auto", fontSize: 16, color: "#9ca3af" }}>↗</div>
-                </button>
-              ))}
-            </div>
-
-            {/* Cancel */}
-            <button
-              onClick={() => setShowPaperModal(false)}
-              style={{
-                background: "none", border: "none", cursor: "pointer",
-                fontSize: 12, color: "var(--text-muted, #9ca3af)",
-                alignSelf: "center", padding: "4px 8px",
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
