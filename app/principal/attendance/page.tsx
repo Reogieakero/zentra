@@ -13,11 +13,9 @@ export default function AttendancePage() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [activeTab, setActiveTab] = useState<"dashboard" | "report">("dashboard");
 
-  // --- Drawer state (lifted from AttendanceTable) ---
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<(typeof STUDENTS)[number] | null>(null);
 
-  // --- Fullscreen overlay state (lifted from AttendanceTable) ---
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [fsTab, setFsTab] = useState("All");
   const [fsGrade, setFsGrade] = useState("Grade 7");
@@ -85,12 +83,12 @@ export default function AttendancePage() {
 
   return (
     <div className={styles.pageContainer}>
-      <div
-        className={`${styles.pageHeader} ${
-          isDashboard ? styles.headerVisible : styles.headerHidden
-        }`}
-      >
-        <div className={styles.headerLeft}>
+      <div className={styles.pageHeader}>
+        <div
+          className={`${styles.headerLeft} ${
+            isDashboard ? styles.headerLeftVisible : styles.headerLeftHidden
+          }`}
+        >
           <h1 className={styles.pageTitle}>Hello, Principal Reyes</h1>
           <p className={styles.pageSubtitle}>It&apos;s {formatHeader(selectedDate)}</p>
         </div>
@@ -102,11 +100,7 @@ export default function AttendancePage() {
         </div>
       </div>
 
-      <div
-        className={`${styles.mainContentLayout} ${
-          isDashboard ? styles.shiftUpNormal : styles.shiftUpReport
-        }`}
-      >
+      <div className={styles.mainContentLayout}>
         <StudentAttendance
           selectedDate={selectedDate}
           activeTab={activeTab}
@@ -119,7 +113,6 @@ export default function AttendancePage() {
         />
       </div>
 
-      {/* Page-level fullscreen overlay — renders above everything */}
       {isFullscreen && (
         <AttendanceOverlay
           fsTab={fsTab}
@@ -138,13 +131,11 @@ export default function AttendancePage() {
         />
       )}
 
-      {/* Page-level student drawer — renders above everything */}
-      {isDrawerOpen && selectedStudent && (
-        <StudentDrawer
-          student={selectedStudent}
-          onClose={() => setIsDrawerOpen(false)}
-        />
-      )}
+      <StudentDrawer
+        isOpen={isDrawerOpen}
+        student={selectedStudent}
+        onClose={() => setIsDrawerOpen(false)}
+      />
     </div>
   );
 }

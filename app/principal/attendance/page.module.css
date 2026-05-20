@@ -8,28 +8,24 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
 
-  /* Smooth Animation — uses margin/opacity only, NO transform (would break fixed children) */
+.headerLeft {
   opacity: 1;
   visibility: visible;
   max-height: 200px;
-  margin-bottom: var(--space-8);
   transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
               max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              margin-bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1),
               visibility 0.4s;
   overflow: hidden;
 }
 
-/* Smooth Vanishing State */
-.pageHeader.headerHidden {
+.headerLeftHidden {
   opacity: 0;
   visibility: hidden;
   max-height: 0;
-  margin-bottom: 0;
 }
-
-.headerLeft {}
 
 .pageTitle {
   font-size: var(--text-3xl);
@@ -77,9 +73,6 @@
   transition: all 0.15s ease;
 }
 
-/* Smooth adjustment wrapper for the underlying content cards */
-/* NOTE: Do NOT use transform or will-change: transform here — it creates a
-   stacking context that breaks position:fixed on children (drawer, overlays). */
 .mainContentLayout {
   width: 100%;
 }
