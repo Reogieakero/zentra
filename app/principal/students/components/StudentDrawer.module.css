@@ -1,4 +1,3 @@
-/* ── Overlay Backdrop ── */
 .backdrop {
   position: fixed;
   inset: 0;
@@ -13,7 +12,6 @@
   to   { opacity: 1; }
 }
 
-/* ── Primary Right Hand Layout Drawer Container ── */
 .drawer {
   position: fixed;
   top: 0;
@@ -34,27 +32,29 @@
   to   { transform: translateX(0); }
 }
 
-/* ── Card Header Block ── */
 .drawerHeader {
-  padding: var(--space-8, 32px) var(--space-6, 24px) var(--space-6, 24px);
+  padding: var(--space-4, 16px) var(--space-5, 20px);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: var(--space-2, 8px);
-  position: relative;
-  text-align: center;
+  gap: var(--space-3, 12px);
+  border-bottom: 1px solid var(--border-subtle, #e5e7eb);
 }
 
-.headerDefault { background: linear-gradient(180deg, var(--bg-subtle, #f9fafb), #ffffff); border-bottom: 1px solid var(--border-subtle, #e5e7eb); }
-.headerHigh    { background: linear-gradient(180deg, #fef2f2, #ffffff); border-bottom: 1px solid #fecaca; }
-.headerMed     { background: linear-gradient(180deg, #fffbeb, #ffffff); border-bottom: 1px solid #fde68a; }
+.headerDefault { background: var(--bg-subtle, #f9fafb); }
+.headerHigh    { background: #fef2f2; border-bottom-color: #fecaca; }
+.headerMed     { background: #fffbeb; border-bottom-color: #fde68a; }
+
+.headerMeta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
 
 .closeBtn {
-  position: absolute;
-  top: var(--space-4, 16px);
-  right: var(--space-4, 16px);
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: 1px solid var(--border-subtle, #e5e7eb);
   background: var(--bg-base, #ffffff);
@@ -64,60 +64,59 @@
   cursor: pointer;
   color: var(--text-muted, #6b7280);
   transition: all 150ms ease;
+  flex-shrink: 0;
 }
 .closeBtn:hover { background: var(--bg-subtle, #f9fafb); color: var(--text-primary, #111827); }
 
 .drawerAvatar {
-  width: 64px;
-  height: 64px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--text-lg, 18px);
+  font-size: var(--text-base, 14px);
   font-weight: 800;
-  margin-bottom: var(--space-1, 4px);
+  flex-shrink: 0;
 }
 
-.avatarHigh    { background: #fef2f2; color: #dc2626; border: 2px solid #fecaca; }
-.avatarMed     { background: #fffbeb; color: #d97706; border: 2px solid #fde68a; }
-.avatarDefault { background: rgba(109, 40, 217, 0.06); color: var(--brand-primary, #7c3aed); border: 2px solid rgba(124, 58, 237, 0.15); }
+.avatarHigh    { background: #ffffff; color: #dc2626; border: 1.5px solid #fecaca; }
+.avatarMed     { background: #ffffff; color: #d97706; border: 1.5px solid #fde68a; }
+.avatarDefault { background: var(--bg-base, #ffffff); color: var(--brand-primary, #7c3aed); border: 1.5px solid rgba(124, 58, 237, 0.25); }
 
 .drawerName {
-  font-size: var(--text-xl, 20px);
-  font-weight: 800;
+  font-size: var(--text-base, 16px);
+  font-weight: 700;
   color: var(--text-primary, #111827);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .drawerBadges {
   display: flex;
-  gap: var(--space-2, 8px);
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 6px;
   align-items: center;
-  margin-top: var(--space-1, 4px);
 }
 
-/* ── Content Body Block ── */
 .drawerBody {
   flex: 1;
   overflow-y: auto;
-  padding: var(--space-2, 8px) var(--space-6, 24px) var(--space-6, 24px);
+  padding: var(--space-4, 16px) var(--space-5, 20px) var(--space-5, 20px);
   display: flex;
   flex-direction: column;
-  gap: var(--space-6, 24px);
+  gap: var(--space-5, 20px);
 }
 
-/* ── Unified Key Highlight Stats Row ── */
 .statsRow {
   display: flex;
   align-items: center;
   background: var(--bg-subtle, #f9fafb);
   border: 1px solid var(--border-subtle, #e5e7eb);
   border-radius: var(--radius-sm, 8px);
-  padding: var(--space-4, 16px) var(--space-2, 8px);
+  padding: var(--space-3, 12px) var(--space-2, 8px);
 }
 
 .statBox {
@@ -125,18 +124,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
 }
 
 .statVal {
-  font-size: var(--text-xl, 20px);
-  font-weight: 800;
+  font-size: var(--text-base, 16px);
+  font-weight: 700;
   line-height: 1;
   color: var(--text-primary, #111827);
 }
 
 .statLbl {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
   color: var(--text-muted, #6b7280);
   text-transform: uppercase;
@@ -145,24 +144,23 @@
 
 .statDivider {
   width: 1px;
-  height: 28px;
+  height: 20px;
   background: var(--border-subtle, #e5e7eb);
 }
 
-/* ── Segment Layout Sections ── */
 .section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3, 12px);
+  gap: var(--space-2, 8px);
 }
 
 .sectionTitle {
-  font-size: var(--text-xs, 12px);
+  font-size: var(--text-xs, 11px);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-muted, #6b7280);
-  padding-bottom: var(--space-2, 8px);
+  padding-bottom: 6px;
   border-bottom: 1px solid var(--border-subtle, #e5e7eb);
   margin: 0;
 }
@@ -170,13 +168,13 @@
 .infoGrid {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3, 12px);
+  gap: var(--space-2, 8px);
 }
 
 .infoRow {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-4, 16px);
 }
 
@@ -184,38 +182,39 @@
   font-size: var(--text-xs, 12px);
   color: var(--text-muted, #6b7280);
   flex-shrink: 0;
+  padding-top: 1px;
 }
 
 .infoValue {
-  font-size: var(--text-sm, 14px);
+  font-size: var(--text-sm, 13px);
   font-weight: 500;
   color: var(--text-primary, #111827);
-  font-family: inherit;
+  text-align: right;
+  word-break: break-word;
+  max-width: 70%;
 }
 
-/* Ensure LRN font weight stays clear when masked */
 .infoRow:first-child .infoValue {
   font-family: monospace;
   letter-spacing: 0.05em;
 }
 
-/* ── Action Form Control Interfaces ── */
 .actions {
   display: flex;
   flex-direction: column;
   gap: var(--space-2, 8px);
   margin-top: auto;
-  padding-top: var(--space-4, 16px);
+  padding-top: var(--space-2, 8px);
 }
 
 .actionBtn {
   width: 100%;
-  padding: var(--space-3, 12px);
+  padding: var(--space-2, 10px);
   border: 1px solid var(--border-base, #d1d5db);
   border-radius: var(--radius-sm, 8px);
   background: var(--bg-base, #ffffff);
   color: var(--text-secondary, #4b5563);
-  font-size: var(--text-sm, 14px);
+  font-size: var(--text-sm, 13px);
   font-weight: 600;
   cursor: pointer;
   transition: all 150ms ease;
@@ -228,23 +227,22 @@
 
 .actionBtnDanger {
   width: 100%;
-  padding: var(--space-3, 12px);
+  padding: var(--space-2, 10px);
   border: 1px solid #fecaca;
   border-radius: var(--radius-sm, 8px);
   background: #fef2f2;
   color: #dc2626;
-  font-size: var(--text-sm, 14px);
+  font-size: var(--text-sm, 13px);
   font-weight: 600;
   cursor: pointer;
   transition: background 150ms ease;
 }
 .actionBtnDanger:hover { background: #fee2e2; }
 
-/* ── Reusable Semantic Tokens ── */
 .statusChip {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
-  padding: 2px 10px;
+  padding: 1px 6px;
   border-radius: var(--radius-full, 9999px);
 }
 .statusEnrolled  { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
@@ -253,9 +251,9 @@
 .statusGraduated { background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; }
 
 .riskChip {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  padding: 2px 10px;
+  padding: 1px 6px;
   border-radius: var(--radius-full, 9999px);
 }
 .riskHigh { background: #fff5f5; color: #e11d48; border: 1px solid #fecaca; }
