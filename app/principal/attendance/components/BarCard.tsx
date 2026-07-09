@@ -1,45 +1,47 @@
 "use client";
 
+import { useState, useMemo } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { FilterSelector } from "./FilterSelector";
 import styles from "./BarCard.module.css";
 
-interface BarRow { grade: string; present: number; absent: number; }
+interface BarRow { 
+  grade: string; 
+  section: string; 
+  present: number; 
+  absent: number; 
+}
 
-const dataByDate: Record<string, BarRow[]> = {
+const comprehensiveData: Record<string, BarRow[]> = {
   "2025-05-16": [
-    { grade: "G7",  present: 210, absent: 18 },
-    { grade: "G8",  present: 195, absent: 27 },
-    { grade: "G9",  present: 228, absent: 12 },
-    { grade: "G10", present: 178, absent: 48 },
-    { grade: "G11", present: 202, absent: 30 },
-    { grade: "G12", present: 215, absent: 21 },
+    { grade: "G7", section: "Section A", present: 105, absent: 8 },
+    { grade: "G7", section: "Section B", present: 105, absent: 10 },
+    { grade: "G8", section: "Section A", present: 100, absent: 12 },
+    { grade: "G8", section: "Section B", present: 95, absent: 15 },
+    { grade: "G9", section: "Section A", present: 114, absent: 5 },
+    { grade: "G9", section: "Section B", present: 114, absent: 7 },
+    { grade: "G10", section: "Section A", present: 89, absent: 24 },
+    { grade: "G10", section: "Section B", present: 89, absent: 24 },
+    { grade: "G11", section: "Section A", present: 101, absent: 15 },
+    { grade: "G11", section: "Section B", present: 101, absent: 15 },
+    { grade: "G12", section: "Section A", present: 107, absent: 10 },
+    { grade: "G12", section: "Section B", present: 108, absent: 11 },
   ],
   "2025-05-15": [
-    { grade: "G7",  present: 205, absent: 23 },
-    { grade: "G8",  present: 188, absent: 34 },
-    { grade: "G9",  present: 220, absent: 20 },
-    { grade: "G10", present: 170, absent: 56 },
-    { grade: "G11", present: 198, absent: 34 },
-    { grade: "G12", present: 210, absent: 26 },
-  ],
-  "2025-05-14": [
-    { grade: "G7",  present: 218, absent: 10 },
-    { grade: "G8",  present: 200, absent: 22 },
-    { grade: "G9",  present: 232, absent: 8  },
-    { grade: "G10", present: 185, absent: 41 },
-    { grade: "G11", present: 208, absent: 24 },
-    { grade: "G12", present: 219, absent: 17 },
-  ],
+    { grade: "G7", section: "Section A", present: 100, absent: 11 },
+    { grade: "G7", section: "Section B", present: 105, absent: 12 },
+    { grade: "G8", section: "Section A", present: 94, absent: 17 },
+    { grade: "G8", section: "Section B", present: 94, absent: 17 },
+    { grade: "G9", section: "Section A", present: 110, absent: 10 },
+    { grade: "G9", section: "Section B", present: 110, absent: 10 },
+    { grade: "G10", section: "Section A", present: 85, absent: 28 },
+    { grade: "G10", section: "Section B", present: 85, absent: 28 },
+    { grade: "G11", section: "Section A", present: 99, absent: 17 },
+    { grade: "G11", section: "Section B", present: 99, absent: 17 },
+    { grade: "G12", section: "Section A", present: 105, absent: 13 },
+    { grade: "G12", section: "Section B", present: 105, absent: 13 },
+  ]
 };
-
-const fallback: BarRow[] = [
-  { grade: "G7",  present: 210, absent: 18 },
-  { grade: "G8",  present: 195, absent: 27 },
-  { grade: "G9",  present: 228, absent: 12 },
-  { grade: "G10", present: 178, absent: 48 },
-  { grade: "G11", present: 202, absent: 30 },
-  { grade: "G12", present: 215, absent: 21 },
-];
 
 const toDateStr = (date: Date | null) => {
   if (!date) return null;
@@ -54,9 +56,46 @@ interface BarCardProps {
 }
 
 export function BarCard({ selectedDate }: BarCardProps) {
-  const key = toDateStr(selectedDate);
-  const data = (key && dataByDate[key]) ? dataByDate[key] : fallback;
-  const total = data.reduce((s, r) => s + r.present + r.absent, 0);
+  const [activeFilters, setActiveFilters] = useState({
+    grade: "All Grades",
+    section: "All Sections",
+    timeframe: "today"
+  });
+
+  const computedChartData = useMemo(() => {
+    const targetKey = toDateStr(selectedDate) || "2025-05-16";
+    let basePool: BarRow[] = [];
+
+    if (activeFilters.timeframe === "today") {
+      basePool = comprehensiveData[targetKey] || comprehensiveData["2025-05-16"] || [];
+    } else {
+      basePool = Object.values(comprehensiveData).flat();
+    }
+
+    if (activeFilters.section !== "All Sections") {
+      basePool = basePool.filter(row => row.section === activeFilters.section);
+    }
+
+    if (activeFilters.grade !== "All Grades") {
+      basePool = basePool.filter(row => row.grade === activeFilters.grade);
+    }
+
+    const consolidationMap: Record<string, { grade: string; present: number; absent: number }> = {};
+    
+    basePool.forEach(row => {
+      if (!consolidationMap[row.grade]) {
+        consolidationMap[row.grade] = { grade: row.grade, present: 0, absent: 0 };
+      }
+      consolidationMap[row.grade].present += row.present;
+      consolidationMap[row.grade].absent += row.absent;
+    });
+
+    return Object.values(consolidationMap).sort((a, b) => 
+      a.grade.localeCompare(b.grade, undefined, { numeric: true })
+    );
+  }, [selectedDate, activeFilters]);
+
+  const totalStudents = computedChartData.reduce((s, r) => s + r.present + r.absent, 0);
 
   return (
     <div className={styles.card}>
@@ -65,22 +104,24 @@ export function BarCard({ selectedDate }: BarCardProps) {
           <div className={styles.cardTitle}>Grade Attendance Distribution</div>
           <div className={styles.cardSub}>Present vs absent per grade</div>
         </div>
-        <button className={styles.moreBtn}>···</button>
+        <FilterSelector onFilterChange={setActiveFilters} />
       </div>
+
       <div className={styles.totalRow}>
-        <span className={styles.totalCount}>{total.toLocaleString()}</span>
+        <span className={styles.totalCount}>{totalStudents.toLocaleString()}</span>
         <span className={styles.totalLabel}>Total enrolled students</span>
       </div>
+
       <div className={styles.legend}>
         <span className={styles.legendDot} style={{ background: "#7c3aed" }} />
         Present
         <span className={styles.legendDot} style={{ background: "#c4b5fd", marginLeft: "1rem" }} />
         Absent
       </div>
-      {/* Wrapped in a responsive layout container with height updated to 100% */}
+
       <div className={styles.chartWrapper}>
         <ResponsiveContainer width="100%" height={200}>
-          <BarChart data={data} barGap={2}>
+          <BarChart data={computedChartData} barGap={2}>
             <XAxis dataKey="grade" tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
             <YAxis hide />
             <Tooltip
@@ -88,7 +129,7 @@ export function BarCard({ selectedDate }: BarCardProps) {
               contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 12 }}
             />
             <Bar dataKey="present" radius={[4, 4, 0, 0]} fill="#7c3aed" />
-            <Bar dataKey="absent"  radius={[4, 4, 0, 0]} fill="#c4b5fd" />
+            <Bar dataKey="absent" radius={[4, 4, 0, 0]} fill="#c4b5fd" />
           </BarChart>
         </ResponsiveContainer>
       </div>

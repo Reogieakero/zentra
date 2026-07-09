@@ -6,18 +6,29 @@ export async function POST(request: Request) {
     const { email, password } = await request.json();
 
     const principalEmail = process.env.PRINCIPAL_EMAIL;
-    const principalHash = process.env.PRINCIPAL_PASSWORD_HASH;
+    const principalHashBase64 = process.env.PRINCIPAL_PASSWORD_HASH_BASE64;
 
-    if (!principalEmail || !principalHash) {
+    if (!principalEmail || !principalHashBase64) {
       return NextResponse.json(
-        { success: false, message: "Server misconfiguration: env vars missing." },
+        {
+          success: false,
+          message: "Server misconfiguration: env vars missing.",
+        },
         { status: 500 }
       );
     }
 
+    const principalHash = Buffer.from(
+      principalHashBase64,
+      "base64"
+    ).toString("utf8");
+
     if (email !== principalEmail) {
       return NextResponse.json(
-        { success: false, message: "Invalid credentials." },
+        {
+          success: false,
+          message: "Invalid credentials.",
+        },
         { status: 401 }
       );
     }
@@ -26,7 +37,10 @@ export async function POST(request: Request) {
 
     if (!isMatch) {
       return NextResponse.json(
-        { success: false, message: "Invalid credentials." },
+        {
+          success: false,
+          message: "Invalid credentials.",
+        },
         { status: 401 }
       );
     }
@@ -46,11 +60,14 @@ export async function POST(request: Request) {
     });
 
     return response;
-
   } catch (error) {
     console.error("Principal login error:", error);
+
     return NextResponse.json(
-      { success: false, message: "Server error." },
+      {
+        success: false,
+        message: "Server error.",
+      },
       { status: 500 }
     );
   }
