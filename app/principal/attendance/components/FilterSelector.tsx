@@ -4,11 +4,10 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./FilterSelector.module.css";
 
 interface FilterSelectorProps {
-  onFilterChange: (filters: { grade: string; section: string; timeframe: string }) => void;
+  onFilterChange: (filters: { grade: string; timeframe: string }) => void;
 }
 
-const GRADES = ["All Grades", "G7", "G8", "G9", "G10", "G11", "G12"];
-const SECTIONS = ["All Sections", "Section A", "Section B"];
+const GRADES = ["G7", "G8", "G9", "G10", "G11", "G12"];
 const TIMEFRAMES = [
   { value: "today", label: "Today" },
   { value: "weekly", label: "Weekly" },
@@ -17,10 +16,9 @@ const TIMEFRAMES = [
 
 export function FilterSelector({ onFilterChange }: FilterSelectorProps) {
   const [open, setOpen] = useState(false);
-  const [step, setStep] = useState<"grade" | "section" | "timeframe">("grade");
+  const [step, setStep] = useState<"grade" | "timeframe">("grade");
   
-  const [grade, setGrade] = useState("All Grades");
-  const [section, setSection] = useState("All Sections");
+  const [grade, setGrade] = useState("G7");
   const [timeframe, setTimeframe] = useState("today");
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -37,16 +35,11 @@ export function FilterSelector({ onFilterChange }: FilterSelectorProps) {
 
   const getTriggerLabel = () => {
     const timeLabel = TIMEFRAMES.find(t => t.value === timeframe)?.label || "Today";
-    return `${grade} • ${section} • ${timeLabel}`;
+    return `${grade} • ${timeLabel}`;
   };
 
   const handleSelectGrade = (selected: string) => {
     setGrade(selected);
-    setStep("section");
-  };
-
-  const handleSelectSection = (selected: string) => {
-    setSection(selected);
     setStep("timeframe");
   };
 
@@ -54,16 +47,15 @@ export function FilterSelector({ onFilterChange }: FilterSelectorProps) {
     setTimeframe(selected);
     setOpen(false);
     setStep("grade"); 
-    onFilterChange({ grade, section, timeframe: selected });
+    onFilterChange({ grade, timeframe: selected });
   };
 
   const handleReset = () => {
-    setGrade("All Grades");
-    setSection("All Sections");
+    setGrade("G7");
     setTimeframe("today");
     setStep("grade");
     setOpen(false);
-    onFilterChange({ grade: "All Grades", section: "All Sections", timeframe: "today" });
+    onFilterChange({ grade: "G7", timeframe: "today" });
   };
 
   return (
@@ -85,7 +77,7 @@ export function FilterSelector({ onFilterChange }: FilterSelectorProps) {
         <div className={styles.dropdownMenu}>
           <div className={styles.nav}>
             {step !== "grade" && (
-              <button className={styles.navBtn} onClick={() => setStep(step === "timeframe" ? "section" : "grade")}>
+              <button className={styles.navBtn} onClick={() => setStep("grade")}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="15 18 9 12 15 6"/>
                 </svg>
@@ -93,19 +85,14 @@ export function FilterSelector({ onFilterChange }: FilterSelectorProps) {
             )}
             <div className={styles.stepTitle}>
               {step === "grade" && "Select Grade"}
-              {step === "section" && "Select Section"}
               {step === "timeframe" && "Select Timeframe"}
             </div>
             <div style={{ width: 24 }} />
           </div>
 
-          <div className={styles.optionsGrid}>
+          <div className={`${styles.optionsGrid} ${step === "grade" ? styles.gridThreeColumns : styles.gridOneColumn}`}>
             {step === "grade" && GRADES.map((g) => (
               <button key={g} className={`${styles.optionItem} ${grade === g ? styles.optionSelected : ""}`} onClick={() => handleSelectGrade(g)}>{g}</button>
-            ))}
-
-            {step === "section" && SECTIONS.map((s) => (
-              <button key={s} className={`${styles.optionItem} ${section === s ? styles.optionSelected : ""}`} onClick={() => handleSelectSection(s)}>{s}</button>
             ))}
 
             {step === "timeframe" && TIMEFRAMES.map((t) => (
@@ -114,7 +101,7 @@ export function FilterSelector({ onFilterChange }: FilterSelectorProps) {
           </div>
 
           <div className={styles.footer}>
-            <span className={styles.footerNote}>Step {step === "grade" ? "1" : step === "section" ? "2" : "3"} of 3</span>
+            <span className={styles.footerNote}>Step {step === "grade" ? "1" : "2"} of 2</span>
             <button className={styles.btnClear} onClick={handleReset}>Reset</button>
           </div>
         </div>

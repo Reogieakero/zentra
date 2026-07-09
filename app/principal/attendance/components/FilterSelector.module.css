@@ -64,7 +64,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-3);
   border-bottom: 1px solid var(--border-subtle);
   padding-bottom: var(--space-2);
 }
@@ -94,18 +94,23 @@
 }
 
 .optionsGrid {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  max-height: 180px;
-  overflow-y: auto;
+  display: grid;
+  gap: 6px;
   padding: 2px 0;
 }
 
+.gridThreeColumns {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.gridOneColumn {
+  grid-template-columns: 1fr;
+}
+
 .optionItem {
-  text-align: left;
+  text-align: center;
   font-size: var(--text-xs);
-  padding: 6px var(--space-2);
+  padding: 8px var(--space-2);
   border-radius: var(--radius-md);
   cursor: pointer;
   color: var(--text-primary);
@@ -113,6 +118,10 @@
   background: none;
   width: 100%;
   transition: var(--transition-fast);
+}
+
+.gridOneColumn .optionItem {
+  text-align: left;
 }
 
 .optionItem:hover {
@@ -128,7 +137,7 @@
 
 .footer {
   border-top: 1px solid var(--border-subtle);
-  margin-top: var(--space-2);
+  margin-top: var(--space-3);
   padding-top: var(--space-2);
   display: flex;
   align-items: center;

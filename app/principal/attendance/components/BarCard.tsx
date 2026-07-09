@@ -14,32 +14,32 @@ interface BarRow {
 
 const comprehensiveData: Record<string, BarRow[]> = {
   "2025-05-16": [
-    { grade: "G7", section: "Section A", present: 105, absent: 8 },
-    { grade: "G7", section: "Section B", present: 105, absent: 10 },
-    { grade: "G8", section: "Section A", present: 100, absent: 12 },
-    { grade: "G8", section: "Section B", present: 95, absent: 15 },
-    { grade: "G9", section: "Section A", present: 114, absent: 5 },
-    { grade: "G9", section: "Section B", present: 114, absent: 7 },
-    { grade: "G10", section: "Section A", present: 89, absent: 24 },
-    { grade: "G10", section: "Section B", present: 89, absent: 24 },
-    { grade: "G11", section: "Section A", present: 101, absent: 15 },
-    { grade: "G11", section: "Section B", present: 101, absent: 15 },
-    { grade: "G12", section: "Section A", present: 107, absent: 10 },
-    { grade: "G12", section: "Section B", present: 108, absent: 11 },
+    { grade: "G7", section: "Section A", present: 98, absent: 5 },
+    { grade: "G7", section: "Section B", present: 112, absent: 13 },
+    { grade: "G7", section: "Section C", present: 85, absent: 8 },
+    { grade: "G8", section: "Section A", present: 102, absent: 12 },
+    { grade: "G8", section: "Section B", present: 93, absent: 15 },
+    { grade: "G8", section: "Section C", present: 110, absent: 6 },
+    { grade: "G9", section: "Section A", present: 115, absent: 4 },
+    { grade: "G9", section: "Section B", present: 113, absent: 8 },
+    { grade: "G9", section: "Section C", present: 95, absent: 14 },
+    { grade: "G10", section: "Section A", present: 88, absent: 22 },
+    { grade: "G10", section: "Section B", present: 90, absent: 26 },
+    { grade: "G10", section: "Section C", present: 104, absent: 10 },
   ],
   "2025-05-15": [
-    { grade: "G7", section: "Section A", present: 100, absent: 11 },
-    { grade: "G7", section: "Section B", present: 105, absent: 12 },
-    { grade: "G8", section: "Section A", present: 94, absent: 17 },
-    { grade: "G8", section: "Section B", present: 94, absent: 17 },
-    { grade: "G9", section: "Section A", present: 110, absent: 10 },
-    { grade: "G9", section: "Section B", present: 110, absent: 10 },
-    { grade: "G10", section: "Section A", present: 85, absent: 28 },
-    { grade: "G10", section: "Section B", present: 85, absent: 28 },
-    { grade: "G11", section: "Section A", present: 99, absent: 17 },
-    { grade: "G11", section: "Section B", present: 99, absent: 17 },
-    { grade: "G12", section: "Section A", present: 105, absent: 13 },
-    { grade: "G12", section: "Section B", present: 105, absent: 13 },
+    { grade: "G7", section: "Section A", present: 95, absent: 8 },
+    { grade: "G7", section: "Section B", present: 110, absent: 15 },
+    { grade: "G7", section: "Section C", present: 80, absent: 13 },
+    { grade: "G8", section: "Section A", present: 98, absent: 16 },
+    { grade: "G8", section: "Section B", present: 90, absent: 18 },
+    { grade: "G8", section: "Section C", present: 105, absent: 11 },
+    { grade: "G9", section: "Section A", present: 110, absent: 9 },
+    { grade: "G9", section: "Section B", present: 110, absent: 11 },
+    { grade: "G9", section: "Section C", present: 92, absent: 17 },
+    { grade: "G10", section: "Section A", present: 82, absent: 28 },
+    { grade: "G10", section: "Section B", present: 88, absent: 28 },
+    { grade: "G10", section: "Section C", present: 100, absent: 14 },
   ]
 };
 
@@ -57,8 +57,7 @@ interface BarCardProps {
 
 export function BarCard({ selectedDate }: BarCardProps) {
   const [activeFilters, setActiveFilters] = useState({
-    grade: "All Grades",
-    section: "All Sections",
+    grade: "G7",
     timeframe: "today"
   });
 
@@ -72,26 +71,20 @@ export function BarCard({ selectedDate }: BarCardProps) {
       basePool = Object.values(comprehensiveData).flat();
     }
 
-    if (activeFilters.section !== "All Sections") {
-      basePool = basePool.filter(row => row.section === activeFilters.section);
-    }
+    basePool = basePool.filter(row => row.grade === activeFilters.grade);
 
-    if (activeFilters.grade !== "All Grades") {
-      basePool = basePool.filter(row => row.grade === activeFilters.grade);
-    }
-
-    const consolidationMap: Record<string, { grade: string; present: number; absent: number }> = {};
+    const consolidationMap: Record<string, { section: string; present: number; absent: number }> = {};
     
     basePool.forEach(row => {
-      if (!consolidationMap[row.grade]) {
-        consolidationMap[row.grade] = { grade: row.grade, present: 0, absent: 0 };
+      if (!consolidationMap[row.section]) {
+        consolidationMap[row.section] = { section: row.section, present: 0, absent: 0 };
       }
-      consolidationMap[row.grade].present += row.present;
-      consolidationMap[row.grade].absent += row.absent;
+      consolidationMap[row.section].present += row.present;
+      consolidationMap[row.section].absent += row.absent;
     });
 
     return Object.values(consolidationMap).sort((a, b) => 
-      a.grade.localeCompare(b.grade, undefined, { numeric: true })
+      a.section.localeCompare(b.section)
     );
   }, [selectedDate, activeFilters]);
 
@@ -101,15 +94,15 @@ export function BarCard({ selectedDate }: BarCardProps) {
     <div className={styles.card}>
       <div className={styles.cardHeader}>
         <div>
-          <div className={styles.cardTitle}>Grade Attendance Distribution</div>
-          <div className={styles.cardSub}>Present vs absent per grade</div>
+          <div className={styles.cardTitle}>Section Attendance Breakdowns</div>
+          <div className={styles.cardSub}>Showing distribution mapped by section</div>
         </div>
         <FilterSelector onFilterChange={setActiveFilters} />
       </div>
 
       <div className={styles.totalRow}>
         <span className={styles.totalCount}>{totalStudents.toLocaleString()}</span>
-        <span className={styles.totalLabel}>Total enrolled students</span>
+        <span className={styles.totalLabel}>Total student records parsed</span>
       </div>
 
       <div className={styles.legend}>
@@ -122,7 +115,7 @@ export function BarCard({ selectedDate }: BarCardProps) {
       <div className={styles.chartWrapper}>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={computedChartData} barGap={2}>
-            <XAxis dataKey="grade" tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
+            <XAxis dataKey="section" tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
             <YAxis hide />
             <Tooltip
               cursor={{ fill: "rgba(124,58,237,0.06)" }}
