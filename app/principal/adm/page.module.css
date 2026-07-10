@@ -1,0 +1,32 @@
+.pageContainer {
+  width: 100%;
+}
+
+.mainContentLayout {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.mainSplitGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-6);
+  align-items: stretch;
+  margin-bottom: var(--space-2);
+}
+
+.sectionGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  justify-content: space-between;
+  height: 100%;
+}
+
+.placeholder {
+  text-align: center;
+  padding: var(--space-12) 0;
+  color: var(--text-muted);
+}

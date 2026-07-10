@@ -1,0 +1,78 @@
+.cardContainer {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: var(--radius-xl, 12px);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02),
+              0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+.cardContainer:hover {
+  border-color: rgba(124, 58, 237, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02),
+              0 10px 24px rgba(25, 15, 45, 0.08);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardTitle {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.chartsGridInline {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.chartBlockContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.chartBlockSubText {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.analyticsChart {
+  width: 100%;
+  height: 160px;
+  margin-top: var(--space-1);
+}
+
+.interactiveBar {
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+}
+.interactiveBar:hover {
+  opacity: 0.85;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeInUp {
+  animation: fadeInUp 0.4s cubic-bezier(0.215, 0.610, 0.355, 1) forwards;
+  opacity: 0;
+}
