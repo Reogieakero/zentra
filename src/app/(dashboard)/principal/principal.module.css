@@ -1,0 +1,34 @@
+.dashboardWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg-subtle);
+  overflow: hidden;
+}
+
+.bodyArea {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.mainArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  min-width: 0;
+  background: var(--bg-base);
+}
+
+.mainArea::-webkit-scrollbar {
+  display: none;
+}
+
+.pageContent {
+  width: 100%;
+  padding: var(--space-8);
+}

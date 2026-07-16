@@ -1,0 +1,27 @@
+.base {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--color-brand-100);
+  color: var(--color-brand-700);
+  font-weight: 600;
+}
+
+.sm {
+  height: 2rem;
+  width: 2rem;
+  font-size: var(--text-xs);
+}
+
+.md {
+  height: 2.5rem;
+  width: 2.5rem;
+  font-size: var(--text-sm);
+}
+
+.lg {
+  height: 3rem;
+  width: 3rem;
+  font-size: var(--text-base);
+}

@@ -1,0 +1,365 @@
+.pageWrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f0fdf4;
+  background-image: linear-gradient(160deg, #dcfce7 0%, #bbf7d0 30%, #ffffff 100%);
+  position: relative;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+}
+
+.blurCircle {
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: min(600px, 80vw);
+  height: min(600px, 80vw);
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.15);
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+.gridLines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -52deg,
+    transparent,
+    transparent 48px,
+    rgba(139, 92, 246, 0.03) 48px,
+    rgba(139, 92, 246, 0.03) 50px
+  );
+  pointer-events: none;
+}
+
+.logoWrapper {
+  position: absolute;
+  top: var(--space-6);
+  left: var(--space-6);
+  z-index: var(--z-overlay);
+}
+
+.mainContent {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 80px var(--space-4) var(--space-8);
+  z-index: var(--z-above);
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 440px;
+}
+
+.header h1 {
+  font-size: clamp(1.5rem, 5vw, var(--text-3xl));
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.header p {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-8);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.nameGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.nameGridAlt {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.inputField {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.4);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  appearance: none;
+}
+
+.input::placeholder {
+  color: transparent;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.08);
+}
+
+.floatingLabel {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: all 0.2s ease;
+  padding: 0 4px;
+}
+
+.input:focus ~ .floatingLabel,
+.input:not(:placeholder-shown) ~ .floatingLabel,
+.labelFloated {
+  top: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--brand-primary);
+  background: #dcfce7;
+  transform: translateY(-50%);
+}
+
+.passwordWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.eyeToggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.eyeToggle:hover {
+  color: var(--text-green);
+}
+
+.loginBtn {
+  background: var(--brand-gradient);
+  color: white;
+  border: none;
+  margin-top: var(--space-2);
+  width: 100%;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: var(--space-2) 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.divider:not(:empty)::before {
+  margin-right: var(--space-4);
+}
+
+.divider:not(:empty)::after {
+  margin-left: var(--space-4);
+}
+
+.googleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background: white;
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  width: 100%;
+}
+
+.footerText {
+  margin-top: var(--space-8);
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.link {
+  color: var(--brand-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* ── Custom select ── */
+
+.customSelect {
+  cursor: pointer;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.selectActive {
+  border-color: var(--brand-primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.08);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  padding: 4px;
+  list-style: none;
+  animation: slideDown 0.2s ease-out;
+}
+
+.dropdownOption {
+  padding: 10px 12px;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dropdownOption:hover {
+  background: #f0fdf4;
+  color: var(--brand-primary);
+}
+
+.selectArrow {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: transform 0.2s;
+  color: var(--text-muted);
+}
+
+.arrowRotate {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@media (max-width: 600px) {
+  .mainContent {
+    padding: 72px var(--space-5) var(--space-10);
+    align-items: flex-start;
+  }
+
+  .formContainer {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoWrapper {
+    top: var(--space-4);
+    left: var(--space-4);
+  }
+
+  .mainContent {
+    padding: 64px var(--space-4) var(--space-8);
+  }
+
+  .header h1 {
+    font-size: 1.6rem;
+  }
+
+  .header p {
+    margin-bottom: var(--space-6);
+  }
+
+  .nameGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .nameGridAlt {
+    flex-direction: column;
+  }
+
+  .inputField[style] {
+    flex: unset !important;
+    width: 100%;
+  }
+
+  .loginBtn,
+  .googleBtn {
+    padding: 13px;
+  }
+
+  .footerText {
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-4);
+  }
+}
+
+@media (max-width: 360px) {
+  .mainContent {
+    padding: 60px var(--space-3) var(--space-6);
+  }
+
+  .header h1 {
+    font-size: 1.4rem;
+  }
+
+  .input {
+    padding: 11px 12px;
+  }
+
+  .floatingLabel {
+    left: 12px;
+  }
+}

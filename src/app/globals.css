@@ -1,0 +1,156 @@
+:root {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+
+  /* ── Core backgrounds ── */
+  --bg-base:          #ffffff;
+  --bg-subtle:        #f9fafb;
+  --bg-muted:         #f3f4f6;
+  --bg-green-tint:   #f0fdf4;
+  --bg-green-soft:   #dcfce7;
+
+  /* ── Text ── */
+  --text-primary:     #111827;
+  --text-secondary:   #4b5563;
+  --text-muted:       #9ca3af;
+  --text-disabled:    #d1d5db;
+  --text-green:      #16a34a;
+  --text-green-dark: #15803d;
+  --text-green-light:#4ade80;
+  --text-white:       #ffffff;
+
+  /* ── Brand / accent ── */
+  --brand-primary:    #16a34a;
+  --brand-secondary:  #22c55e;
+  --brand-light:      #86efac;
+  --brand-gradient:   linear-gradient(135deg, #16a34a, #22c55e);
+
+  /* ── Brand color scale (used by button, badge, avatar, input, progress) ── */
+  --color-brand-50:  #f0fdf4;
+  --color-brand-100: #dcfce7;
+  --color-brand-200: #bbf7d0;
+  --color-brand-300: #86efac;
+  --color-brand-400: #4ade80;
+  --color-brand-500: #22c55e;
+  --color-brand-600: #16a34a;
+  --color-brand-700: #15803d;
+  --color-brand-800: #166534;
+  --color-brand-900: #14532d;
+
+  /* ── Feature accent colors ── */
+  --accent-green:    #16a34a;
+  --accent-sky:       #0ea5e9;
+  --accent-emerald:   #10b981;
+  --accent-amber:     #f59e0b;
+  --accent-pink:      #ec4899;
+  --accent-indigo:    #6366f1;
+  --accent-teal:      #14b8a6;
+  --accent-orange:    #f97316;
+
+  /* ── Borders ── */
+  --border-base:      #f3f4f6;
+  --border-subtle:    #e5e7eb;
+  --border-muted:     #d1d5db;
+
+  /* ── Shadows ── */
+  --shadow-card:      0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover:0 8px 32px rgba(0, 0, 0, 0.10);
+  --shadow-green:    0 30px 80px -10px rgba(22, 163, 74, 0.18),
+                      0 8px 24px -4px rgba(22, 163, 74, 0.10);
+  --shadow-dropdown:  0 10px 30px rgba(0, 0, 0, 0.12);
+
+  /* ── Border radius ── */
+  --radius-sm:        0.375rem;
+  --radius-md:        0.5rem;
+  --radius-lg:        0.75rem;
+  --radius-xl:        1rem;
+  --radius-2xl:       1.5rem;
+  --radius-full:      9999px;
+
+  /* ── Spacing ── */
+  --space-1:          0.25rem;
+  --space-2:          0.5rem;
+  --space-3:          0.75rem;
+  --space-4:          1rem;
+  --space-5:          1.25rem;
+  --space-6:          1.5rem;
+  --space-8:          2rem;
+  --space-10:         2.5rem;
+  --space-12:         3rem;
+  --space-16:         4rem;
+  --space-20:         5rem;
+  --space-24:         6rem;
+
+  /* ── Typography scale ── */
+  --text-xs:          0.75rem;
+  --text-sm:          0.875rem;
+  --text-base:        1rem;
+  --text-lg:          1.125rem;
+  --text-xl:          1.25rem;
+  --text-2xl:         1.5rem;
+  --text-3xl:         1.875rem;
+  --text-4xl:         2.25rem;
+  --text-5xl:         3rem;
+  --text-6xl:         3.75rem;
+
+  --leading-tight:    1.2;
+  --leading-snug:     1.4;
+  --leading-normal:   1.5;
+  --leading-relaxed:  1.7;
+
+  --tracking-tight:   -0.025em;
+  --tracking-wide:    0.1em;
+  --tracking-wider:   0.2em;
+  --tracking-widest:  0.25em;
+
+  /* ── Transitions ── */
+  --transition-fast:  0.15s ease;
+  --transition-base:  0.18s ease;
+  --transition-slow:  0.2s ease;
+
+  /* ── Z-index layers ── */
+  --z-base:           0;
+  --z-above:          1;
+  --z-dropdown:       10;
+  --z-overlay:        50;
+  --z-modal:          100;
+
+  /* ── Max widths ── */
+  --max-w-content:    80rem;
+  --max-w-prose:      36rem;
+  --max-w-narrow:     28rem;
+  --max-w-tight:      18rem;
+
+  /* ── Chrome card dots ── */
+  --chrome-dot-red:   #f87171;
+  --chrome-dot-yellow:#fbbf24;
+  --chrome-dot-green: #4ade80;
+
+  /* ── Dashboard hero ── */
+  --hero-fade-start:  rgba(240, 253, 244, 0.55);
+  --hero-fade-mid:    rgba(220, 252, 231, 0.85);
+  --hero-fade-end:    #f0fdf4;
+
+  /* ── Marquee ── */
+  --marquee-duration: 30s;
+  --marquee-fade-w:   8rem;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BASE STYLES
+───────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}
