@@ -35,7 +35,7 @@ export function StudentStats({
       label: "Total Students",
       value: stats.total,
       path: "stats/all-students",
-      color: "#7c3aed", // Purple
+      color: "#16a34a", // Green
       active: statusFilter === "All Status" && !riskFilter,
       onClick: onShowAll,
     },

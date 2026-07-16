@@ -11,3 +11,4 @@ export { Spinner } from "./spinner";
 export { Avatar } from "./avatar";
 export { Progress } from "./progress";
 export { Dialog } from "./dialog";
+export { Drawer } from "./drawer";

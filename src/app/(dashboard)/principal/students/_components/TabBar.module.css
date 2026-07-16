@@ -57,7 +57,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--brand-primary, #6d28d9);
+  background: var(--brand-primary, #16a34a);
 }
 
 .isDragging {

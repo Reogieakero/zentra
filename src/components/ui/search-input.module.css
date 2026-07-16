@@ -7,29 +7,35 @@
 
 .icon {
   position: absolute;
-  left: 10px;
+  left: 12px;
   color: var(--text-muted);
   pointer-events: none;
   flex-shrink: 0;
 }
 
 .input {
-  height: 32px;
   width: 100%;
-  border-radius: 6px;
+  padding: 6px 12px 6px 36px;
   border: 1px solid var(--border-subtle);
+  border-radius: 9999px;
+  font-size: var(--text-xs);
   background: var(--bg-base);
-  padding: 0 10px 0 32px;
-  font-size: 13px;
   color: var(--text-primary);
   outline: none;
+  transition: all var(--transition-fast);
 }
 
 .input::placeholder {
   color: var(--text-muted);
 }
 
+.input:hover {
+  border-color: var(--border-muted);
+  background: var(--bg-muted);
+}
+
 .input:focus {
   border-color: var(--brand-primary);
+  background: var(--bg-base);
   box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
 }

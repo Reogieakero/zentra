@@ -82,7 +82,7 @@
 
 .avatarHigh    { background: #ffffff; color: #dc2626; border: 1.5px solid #fecaca; }
 .avatarMed     { background: #ffffff; color: #d97706; border: 1.5px solid #fde68a; }
-.avatarDefault { background: var(--bg-base, #ffffff); color: var(--brand-primary, #7c3aed); border: 1.5px solid rgba(124, 58, 237, 0.25); }
+.avatarDefault { background: var(--bg-base, #ffffff); color: var(--brand-primary, #16a34a); border: 1.5px solid rgba(22, 163, 74, 0.25); }
 
 .drawerName {
   font-size: var(--text-base, 16px);
@@ -215,8 +215,8 @@
 }
 .actionBtn:hover {
   background: var(--bg-subtle, #f9fafb);
-  border-color: var(--brand-primary, #7c3aed);
-  color: var(--brand-primary, #7c3aed);
+  border-color: var(--brand-primary, #16a34a);
+  color: var(--brand-primary, #16a34a);
 }
 
 .actionBtnDanger {

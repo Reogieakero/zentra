@@ -62,13 +62,13 @@
 }
 
 .item:hover {
-  background: rgba(109, 40, 217, 0.06);
+  background: rgba(22, 163, 74, 0.06);
   color: var(--text-primary, #111);
 }
 
 .itemActive {
-  background: rgba(109, 40, 217, 0.10);
-  color: var(--color-primary, #6d28d9);
+  background: rgba(22, 163, 74, 0.10);
+  color: var(--brand-primary, #16a34a);
   font-weight: 600;
 }
 
@@ -78,7 +78,7 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--color-primary, #6d28d9);
+  background: var(--brand-primary, #16a34a);
   margin-left: 6px;
   vertical-align: middle;
   opacity: 0.4;
@@ -92,7 +92,7 @@
 }
 
 .itemActive .itemIcon {
-  color: var(--color-primary, #6d28d9);
+  color: var(--brand-primary, #16a34a);
 }
 
 .itemLabel {
@@ -116,6 +116,6 @@
 }
 
 .itemActive .itemCount {
-  background: rgba(109, 40, 217, 0.15);
-  color: var(--color-primary, #6d28d9);
+  background: rgba(22, 163, 74, 0.15);
+  color: var(--brand-primary, #16a34a);
 }

@@ -52,9 +52,9 @@
 }
 
 .searchInput:focus {
-  border-color: var(--color-primary, #6d28d9);
+  border-color: var(--brand-primary);
   background: var(--bg-base);
-  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.08);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
 }
 
 /* ── Kbd Shortcut ── */

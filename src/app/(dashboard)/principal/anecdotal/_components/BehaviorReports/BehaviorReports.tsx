@@ -12,19 +12,6 @@ import { SearchInput, FilterSelect } from "@/components/ui";
 import { Badge } from "@/components/ui/badge";
 import styles from "./BehaviorReports.module.css";
 
-const mockData = [
-  { id: 1, student: "Miguel Santos", grade: "Grade 10 - Section A", type: "Classroom Disruption", severity: "Moderate", reportedBy: "Ms. Reyes", date: "2026-07-15", status: "pending" },
-  { id: 2, student: "Isabella Cruz", grade: "Grade 9 - Section B", type: "Bullying", severity: "High", reportedBy: "Mr. Lopez", date: "2026-07-14", status: "under-review" },
-  { id: 3, student: "Juan Dela Cruz", grade: "Grade 11 - Section C", type: "Tardiness", severity: "Low", reportedBy: "Ms. Santos", date: "2026-07-14", status: "resolved" },
-  { id: 4, student: "Maria Reyes", grade: "Grade 8 - Section A", type: "Cheating", severity: "High", reportedBy: "Mr. Garcia", date: "2026-07-13", status: "under-review" },
-  { id: 5, student: "Jose Garcia", grade: "Grade 12 - Section B", type: "Vandalism", severity: "Critical", reportedBy: "Ms. Torres", date: "2026-07-12", status: "pending" },
-  { id: 6, student: "Ana Lopez", grade: "Grade 7 - Section C", type: "Classroom Disruption", severity: "Low", reportedBy: "Mr. Cruz", date: "2026-07-11", status: "resolved" },
-  { id: 7, student: "Carlos Rivera", grade: "Grade 10 - Section B", type: "Fighting", severity: "Critical", reportedBy: "Ms. Mendoza", date: "2026-07-10", status: "under-review" },
-  { id: 8, student: "Sofia Martinez", grade: "Grade 9 - Section A", type: "Defiance", severity: "Moderate", reportedBy: "Mr. Reyes", date: "2026-07-09", status: "pending" },
-  { id: 9, student: "Luis Tan", grade: "Grade 11 - Section A", type: "Bullying", severity: "High", reportedBy: "Ms. Lopez", date: "2026-07-08", status: "resolved" },
-  { id: 10, student: "Emma Gonzales", grade: "Grade 8 - Section B", type: "Tardiness", severity: "Low", reportedBy: "Mr. Santos", date: "2026-07-07", status: "resolved" },
-];
-
 const severityVariant: Record<string, "danger" | "warning" | "info" | "default"> = {
   Critical: "danger",
   High: "warning",
@@ -38,14 +25,32 @@ const statusVariant: Record<string, "warning" | "info" | "success"> = {
   resolved: "success",
 };
 
+const mockAttachments = [
+  { name: "Behavior_Report_Form.pdf", size: "1.8 MB" },
+  { name: "Teacher_Statement_Lopez.docx", size: "856 KB" },
+];
+
 export function BehaviorReports() {
   const [search, setSearch] = useState("");
   const [severityFilter, setSeverityFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [data, setData] = useState([
+    { id: 1, student: "Miguel Santos", grade: "Grade 10 - Section A", type: "Classroom Disruption", severity: "Moderate", reportedBy: "Ms. Reyes", date: "2026-07-15", status: "pending" },
+    { id: 2, student: "Isabella Cruz", grade: "Grade 9 - Section B", type: "Bullying", severity: "High", reportedBy: "Mr. Lopez", date: "2026-07-14", status: "under-review" },
+    { id: 3, student: "Juan Dela Cruz", grade: "Grade 11 - Section C", type: "Tardiness", severity: "Low", reportedBy: "Ms. Santos", date: "2026-07-14", status: "resolved" },
+    { id: 4, student: "Maria Reyes", grade: "Grade 8 - Section A", type: "Cheating", severity: "High", reportedBy: "Mr. Garcia", date: "2026-07-13", status: "under-review" },
+    { id: 5, student: "Jose Garcia", grade: "Grade 12 - Section B", type: "Vandalism", severity: "Critical", reportedBy: "Ms. Torres", date: "2026-07-12", status: "pending" },
+    { id: 6, student: "Ana Lopez", grade: "Grade 7 - Section C", type: "Classroom Disruption", severity: "Low", reportedBy: "Mr. Cruz", date: "2026-07-11", status: "resolved" },
+    { id: 7, student: "Carlos Rivera", grade: "Grade 10 - Section B", type: "Fighting", severity: "Critical", reportedBy: "Ms. Mendoza", date: "2026-07-10", status: "under-review" },
+    { id: 8, student: "Sofia Martinez", grade: "Grade 9 - Section A", type: "Defiance", severity: "Moderate", reportedBy: "Mr. Reyes", date: "2026-07-09", status: "pending" },
+    { id: 9, student: "Luis Tan", grade: "Grade 11 - Section A", type: "Bullying", severity: "High", reportedBy: "Ms. Lopez", date: "2026-07-08", status: "resolved" },
+    { id: 10, student: "Emma Gonzales", grade: "Grade 8 - Section B", type: "Tardiness", severity: "Low", reportedBy: "Mr. Santos", date: "2026-07-07", status: "resolved" },
+  ]);
+  const [selectedRecord, setSelectedRecord] = useState<typeof data[number] | null>(null);
   const perPage = 15;
 
-  const filtered = mockData.filter((r) => {
+  const filtered = data.filter((r) => {
     const matchSearch =
       r.student.toLowerCase().includes(search.toLowerCase()) ||
       r.type.toLowerCase().includes(search.toLowerCase());
@@ -56,6 +61,62 @@ export function BehaviorReports() {
 
   const totalPages = Math.ceil(filtered.length / perPage);
   const pageData = filtered.slice((currentPage - 1) * perPage, currentPage * perPage);
+
+  if (selectedRecord) {
+    return (
+      <div className={styles.container}>
+        <Card>
+          <CardHeader>
+            <div className={styles.detailHeader}>
+              <button className={styles.backBtn} onClick={() => setSelectedRecord(null)}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 12H5" /><polyline points="12 19 5 12 12 5" />
+                </svg>
+              </button>
+              <CardTitle>Behavior Report</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className={styles.detailContent}>
+              <div className={styles.detailStudent}>{selectedRecord.student}</div>
+
+              <div className={styles.detailGrid}>
+                <Field label="Grade & Section" value={selectedRecord.grade} />
+                <Field label="Behavior Type" value={selectedRecord.type} />
+                <Field label="Severity" value={selectedRecord.severity} />
+                <Field label="Reported By" value={selectedRecord.reportedBy} />
+                <Field label="Date" value={selectedRecord.date} />
+                <Field label="Status" value={selectedRecord.status.replace("-", " ")} />
+              </div>
+
+              <div className={styles.detailSection}>
+                <h3 className={styles.detailSectionTitle}>Attachments</h3>
+                <div className={styles.detailAttachments}>
+                  {mockAttachments.map((file) => (
+                    <div key={file.name} className={styles.detailAttachment}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
+                      </svg>
+                      <div className={styles.detailAttachmentInfo}>
+                        <span className={styles.detailAttachmentName}>{file.name}</span>
+                        <span className={styles.detailAttachmentSize}>{file.size}</span>
+                      </div>
+                      <button className={styles.detailAttachmentBtn}>View</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className={styles.detailActions}>
+                <Button variant="outline" size="sm" onClick={() => setSelectedRecord(null)}>Close</Button>
+                <Button variant="primary" size="sm">Export Report</Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -124,9 +185,8 @@ export function BehaviorReports() {
                     </td>
                     <td>
 <div className={styles.actions}>
-  <button className={styles.actionBtn}>View</button>
-  <button className={styles.actionBtn}>Edit</button>
-  <button className={styles.actionBtn}>Archive</button>
+  <button className={styles.actionBtn} onClick={() => setSelectedRecord(row)}>View</button>
+  <button className={styles.actionBtn} onClick={() => setData((prev) => prev.filter((r) => r.id !== row.id))}>Archive</button>
 </div>
                     </td>
                   </tr>
@@ -165,6 +225,15 @@ export function BehaviorReports() {
           )}
         </CardContent>
       </Card>
+    </div>
+  );
+}
+
+function Field({ label, value }: { label: string; value: string }) {
+  return (
+    <div className={styles.detailField}>
+      <span className={styles.detailLabel}>{label}</span>
+      <span className={styles.detailValue}>{value}</span>
     </div>
   );
 }
