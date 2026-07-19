@@ -128,5 +128,5 @@
 }
 
 .dropdown:focus {
-  border-color: #7c3aed;
+  border-color: var(--brand-primary);
 }

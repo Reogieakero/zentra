@@ -90,11 +90,11 @@ export function RadarCard({ selectedDate }: RadarCardProps) {
             <Radar
               name="Attendance"
               dataKey="value"
-              stroke="#7c3aed"
-              fill="#7c3aed"
+              stroke="#16a34a"
+              fill="#16a34a"
               fillOpacity={0.18}
               strokeWidth={2}
-              dot={{ r: 4, fill: "#7c3aed" }}
+              dot={{ r: 4, fill: "#16a34a" }}
             />
           </RadarChart>
         </ResponsiveContainer>

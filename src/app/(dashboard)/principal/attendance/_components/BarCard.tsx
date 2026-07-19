@@ -106,9 +106,9 @@ export function BarCard({ selectedDate }: BarCardProps) {
       </div>
 
       <div className={styles.legend}>
-        <span className={styles.legendDot} style={{ background: "#7c3aed" }} />
+        <span className={styles.legendDot} style={{ background: "var(--color-brand-600)" }} />
         Present
-        <span className={styles.legendDot} style={{ background: "#c4b5fd", marginLeft: "1rem" }} />
+        <span className={styles.legendDot} style={{ background: "var(--color-brand-300)", marginLeft: "1rem" }} />
         Absent
       </div>
 
@@ -118,11 +118,11 @@ export function BarCard({ selectedDate }: BarCardProps) {
             <XAxis dataKey="section" tick={{ fontSize: 11, fill: "#9ca3af" }} axisLine={false} tickLine={false} />
             <YAxis hide />
             <Tooltip
-              cursor={{ fill: "rgba(124,58,237,0.06)" }}
+              cursor={{ fill: "rgba(22,163,74,0.06)" }}
               contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb", fontSize: 12 }}
             />
-            <Bar dataKey="present" radius={[4, 4, 0, 0]} fill="#7c3aed" />
-            <Bar dataKey="absent" radius={[4, 4, 0, 0]} fill="#c4b5fd" />
+            <Bar dataKey="present" radius={[4, 4, 0, 0]} fill="#16a34a" />
+            <Bar dataKey="absent" radius={[4, 4, 0, 0]} fill="#86efac" />
           </BarChart>
         </ResponsiveContainer>
       </div>

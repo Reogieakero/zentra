@@ -59,7 +59,7 @@
 }
 
 .plainTable td {
-  padding: var(--space-3) var(--space-1);
+  padding: var(--space-3) var(--space-1) var(--space-3) 0;
   color: var(--text-secondary);
   border-bottom: 1px solid var(--border-subtle);
   transition: background-color 0.15s ease;
@@ -67,7 +67,6 @@
 }
 
 .tableRowHover td {
-  padding-left: var(--space-2);
   padding-right: var(--space-2);
 }
 .tableRowHover:hover td {

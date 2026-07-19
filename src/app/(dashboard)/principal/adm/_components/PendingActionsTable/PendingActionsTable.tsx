@@ -19,7 +19,7 @@ export default function PendingActionsTable() {
               <th>Adviser</th>
               <th>Reason for ADM</th>
               <th>Date Referred</th>
-              <th style={{ textAlign: "right" }}>Actions</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -32,13 +32,13 @@ export default function PendingActionsTable() {
                   <span className={styles.reasonTextBadge}>{act.reason}</span>
                 </td>
                 <td>{act.date}</td>
-<td style={{ textAlign: "right" }}>
-  <div className={styles.tableActionGroup}>
-    <button className={styles.textActionBtn}>View Details</button>
-    <button className={`${styles.textActionBtn} ${styles.actionApprove}`}>Approve</button>
-    <button className={`${styles.textActionBtn} ${styles.actionDecline}`}>Decline</button>
-  </div>
-</td>
+                <td>
+                  <div className={styles.tableActionGroup}>
+                    <button className={styles.textActionBtn}>View Details</button>
+                    <button className={`${styles.textActionBtn} ${styles.actionApprove}`}>Approve</button>
+                    <button className={`${styles.textActionBtn} ${styles.actionDecline}`}>Decline</button>
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>

@@ -52,7 +52,6 @@
   color: var(--text-secondary);
 }
 
-/* Added to allow Recharts to fill remaining height smoothly */
 .chartWrapper {
   flex: 1;
   min-height: 200px;
